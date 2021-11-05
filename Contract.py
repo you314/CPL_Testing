@@ -13,6 +13,7 @@ class ContractDTO:
         reader = FileReader(pfad)
         self.ContractNR = reader.readColumnFromCSV("ContractNr", type=int)
         self.Tariff = reader.readColumnFromCSV("Tariff", type=str)
+        self.Tariff_Name = reader.readColumnFromCSV("Tariff_Name", type=str)
         self.Age = reader.readColumnFromCSV("Age", type=int)
         self.TG = reader.readColumnFromCSV("TG", type=int)
         self.Birthyear = reader.readColumnFromCSV("Birthyear", type=int)
@@ -39,11 +40,13 @@ class ContractDTO:
         Age=self.TG[self.ContractIndex(Contractnr=Contractnr)]
         return Age
 
-
-
     def tariff(self, Contractnr: int):
         tariff = self.Tariff[self.ContractIndex(Contractnr=Contractnr)]
         return tariff
+
+    def tariff_name(self, Contractnr: int):
+        tariff_name = self.Tariff_Name[self.ContractIndex(Contractnr=Contractnr)]
+        return tariff_name
 
     def birthyear(self, Contractnr: int):
         Birthyear = self.Birthyear[self.ContractIndex(Contractnr=Contractnr)]

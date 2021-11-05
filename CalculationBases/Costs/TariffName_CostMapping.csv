@@ -1,16 +1,3 @@
-TariffName; AcquisitionCostGroup; Type; AmortizationCostGroup; Type; AdministrationCostGroup; Type; UnitCostGroup; Type
-HA/2004; AK_1; H; ; ; ; ; ;
-A/2004; AK_1; N; ; ; ; ; ;
-HA/07/2004; AK_1;; H; ; ; ; ; ;
-A/2005; AK_1; N; ; ; ; ; ;
-HA/2005; AK_1; H; ; ; ; ; ;
-A/96; AK_1; N; ; ; ; ; ;
-HA/96; AK_1; H; ; ; ; ; ;
-HA/2000; AK_1; H; ; ; ; ; ;
-HA/72008; AK_1; H; ; ; ; ; ;
-HA/2007; AK_1; H; ; ; ; ; ;
-HA/2008; AK_1; H; ; ; ; ; ;
-HA/99; AK_1; H; ; ; ; ; ;
-A/90; AK_2; N; ; ; ; ; ;
-A/84; AK_5; N; ; ; ; ; ;
-A/94; AK_7; N; ; ; ; ; ;
+TariffNames;AcquisitionCostGroup;ACType;AmortizationCostGroup;AMType;AdministrationCostGroup;ADType;UnitCostGroup;UCType
+HA/2004;AK_1;H;;;;;;
+A/2004;AK_1;N;;;;;;
