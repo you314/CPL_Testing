@@ -1,3 +1,3 @@
-TariffNames;AcquisitionCostGroup;ACType;AmortizationCostGroup;AMType;AdministrationCostGroup;ADType;UnitCostGroup;UCType
-HA/2004;AK_1;H;;;;;;
-A/2004;AK_1;N;;;;;;
+TariffNames;AcquisitionCostGroup;AmortizationCostGroup;AdministrationCostGroup;UnitCostGroup
+HA/2004;AK_1_H;;;
+A/2004;AK_1_N;;;
