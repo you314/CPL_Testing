@@ -15,14 +15,30 @@ class CostMapping:
         self.TN = list(reader.readColumnFromCSV("TariffNames", type=str).values())
         self.ACG = list(reader.readColumnFromCSV("AcquisitionCostGroup", type=str).values())
         self.ACT = list(reader.readColumnFromCSV("ACType", type=str).values())
-        self.Test = reader.readCSV(type=str)
+        self.AMG = list(reader.readColumnFromCSV("AmortizationCostGroup", type=str).values())
+        self.AMT = list(reader.readColumnFromCSV("AMType", type=str).values())
+        self.ADG = list(reader.readColumnFromCSV("AdministrationCostGroup", type=str).values())
+        self.ADT = list(reader.readColumnFromCSV("ADType", type=str).values())
+        self.UCG = list(reader.readColumnFromCSV("UnitCostGroup", type=str).values())
+        self.UCT = list(reader.readColumnFromCSV("UCType", type=str).values())
         self.Index = self.TN.index(self.TariffName)
-        print(self.Index)
-        #print(new_val)
 
-    def AcquisitionCostGroup(self): #Todo improve to take one value of interest rate
+    def AcquisitionCostGroup(self):
         return self.ACG[self.Index]
-
+    def AcquisitionCostType(self):
+        return self.ACT[self.Index]
+    def AmortizationCostGroup(self):
+        return self.AMG[self.Index]
+    def AmortizationCostType(self):
+        return self.AMT[self.Index]
+    def AdministrationCostGroup(self):
+        return self.ADG[self.Index]
+    def AdminstrationCostType(self):
+        return self.ADT[self.Index]
+    def AdministrationCostGroup(self):
+        return self.ADG[self.Index]
+    def AdminstrationCostType(self):
+        return self.ADT[self.Index]
 
 print(CostMapping(Contractnr=123).AcquisitionCostGroup())
-
+print(CostMapping(Contractnr=123).AcquisitionCostType())
