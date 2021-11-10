@@ -45,3 +45,20 @@ class FileReader:
     def mapDict(dict, func):
         result = {k: func(v) for k, v in dict.items()}
         return result
+
+    def create_mapping_by_key(self, key_name):
+        """
+        This function creates a dictionary for each row of the csv with the a specified column as key
+        :param key_name: Determines, which column of the csv is used as key
+        :return: dictionary with specified key
+        """
+        with open(self.path, newline='') as csvfile:
+            reader = DictReader(csvfile, delimiter=';')
+            mapping = dict()
+            for row in reader:
+                key = row[key_name]
+                value = row.copy()
+                mapping[key] = value
+        return mapping
+
+
