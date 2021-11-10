@@ -33,14 +33,13 @@ class AcquisitionRate:
         value = self.Mapping_dictionary[self.CostGroup]["alpha_3"]
         return float(value)
 
-    def get_alpha_by_name(self, cost_type):
+    def get_acqui_cost_by_name(self, cost_type):
         value = self.Mapping_dictionary[self.CostGroup][cost_type]
         return float(value)
 
 
-print("Alpha_z cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_z()*100) + "%")
-print("Alpha cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha()*100) + "%")
-print("Alpha_1 cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_1()*100) + "%")
-print("Alpha_2 cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_2()*100) + "%")
-print("Alpha_3 cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_3()*100) + "%")
-print("Cost rate is: " + str(AcquisitionRate(contract_nr=124).get_alpha_by_name("alpha_z")*100) + "%")
+print("Alpha_z rate is: " + str(AcquisitionRate(contract_nr=124).get_acqui_cost_by_name("alpha_z")*100) + "%")
+print("Alpha rate is: " + str(AcquisitionRate(contract_nr=124).get_acqui_cost_by_name("alpha")*100) + "%")
+print("Alpha_1 rate is: " + str(AcquisitionRate(contract_nr=124).get_acqui_cost_by_name("alpha_1")*100) + "%")
+print("Alpha_2 rate is: " + str(AcquisitionRate(contract_nr=124).get_acqui_cost_by_name("alpha_2")*100) + "%")
+print("Alpha_3 rate is: " + str(AcquisitionRate(contract_nr=124).get_acqui_cost_by_name("alpha_3")*100) + "%")
