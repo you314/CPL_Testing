@@ -31,6 +31,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\CalculationBases\Costs\UnitCosts\UnitCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\CalculationBases\Interest\Interest.csv">
           <value>
             <Attribute>
