@@ -3,49 +3,44 @@ from CPL_Prep import FileReader
 from CalculationBases.Costs.CostMapping import CostMapping
 
 
-class AcquisitionRate():
+class AcquisitionRate:
 
-    def __init__(self,Contractnr): # ToDo: Logic for CostGroups needs to be included, or part of the IL
+    def __init__(self, contract_nr):  # ToDo: Logic for CostGroups needs to be included, or be part of the IL
         relative_path = "/"
-        csvFilename = "AcquisitionCostRates.csv"
-        pfad = path.dirname(__file__) + relative_path + csvFilename
-        self.reader = FileReader(pfad)
-        self.CostGroup = CostMapping(Contractnr=Contractnr).acquisition_cost_group()
-        self.CG_Index = list(self.reader.readColumnFromCSV("AcquisitionCostGroups", type=str).values()).index(self.CostGroup)
-        self.CV = list(self.reader.readColumnFromCSV("CostVariables", type=str).values())
+        csv_filename = "AcquisitionCostRates.csv"
+        file_path = path.dirname(__file__) + relative_path + csv_filename
+        self.reader = FileReader(file_path)
+        self.Mapping_dictionary = self.reader.create_mapping_by_key("AcquisitionCostGroups")
+        self.CostGroup = CostMapping(contract_nr=contract_nr).acquisition_cost_group()
 
     def alpha_z(self):
-        if "alpha_z" == self.CV[self.CG_Index]:
-            return float(list(self.reader.readColumnFromCSV("Rates", type=str).values())[self.CG_Index])
-        else:
-            return 0
+        value = self.Mapping_dictionary[self.CostGroup]["alpha_z"]
+        return float(value)
 
     def alpha(self):
-        if "alpha" == self.CV[self.CG_Index]:
-            return float(list(self.reader.readColumnFromCSV("Rates", type=str).values())[self.CG_Index])
-        else:
-            return 0
+        value = self.Mapping_dictionary[self.CostGroup]["alpha"]
+        return float(value)
 
     def alpha_1(self):
-        if "alpha_1" == self.CV[self.CG_Index]:
-            return float(list(self.reader.readColumnFromCSV("Rates", type=str).values())[self.CG_Index])
-        else:
-            return 0
+        value = self.Mapping_dictionary[self.CostGroup]["alpha_1"]
+        return float(value)
 
     def alpha_2(self):
-        if "alpha_2" == self.CV[self.CG_Index]:
-            return float(list(self.reader.readColumnFromCSV("Rates", type=str).values())[self.CG_Index])
-        else:
-            return 0
+        value = self.Mapping_dictionary[self.CostGroup]["alpha_2"]
+        return float(value)
 
     def alpha_3(self):
-        if "alpha_3" == self.CV[self.CG_Index]:
-            return float(list(self.reader.readColumnFromCSV("Rates", type=str).values())[self.CG_Index])
-        else:
-            return 0
+        value = self.Mapping_dictionary[self.CostGroup]["alpha_3"]
+        return float(value)
 
-print("Alpha_z cost rate is: " + str(AcquisitionRate(Contractnr=124).alpha_z()*100) + "%")
-print("Alpha cost rate is: " + str(AcquisitionRate(Contractnr=124).alpha()*100) + "%")
-print("Alpha_1 cost rate is: " + str(AcquisitionRate(Contractnr=124).alpha_1()*100) + "%")
-print("Alpha_2 cost rate is: " + str(AcquisitionRate(Contractnr=124).alpha_2()*100) + "%")
-print("Alpha_3 cost rate is: " + str(AcquisitionRate(Contractnr=124).alpha_3()*100) + "%")
+    def get_alpha_by_name(self, cost_type):
+        value = self.Mapping_dictionary[self.CostGroup][cost_type]
+        return float(value)
+
+
+print("Alpha_z cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_z()*100) + "%")
+print("Alpha cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha()*100) + "%")
+print("Alpha_1 cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_1()*100) + "%")
+print("Alpha_2 cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_2()*100) + "%")
+print("Alpha_3 cost rate is: " + str(AcquisitionRate(contract_nr=124).alpha_3()*100) + "%")
+print("Cost rate is: " + str(AcquisitionRate(contract_nr=124).get_alpha_by_name("alpha_z")*100) + "%")
