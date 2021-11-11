@@ -16,7 +16,7 @@ class Presentvalues():
         i= self.Interest.Interest_Vector(Tariffgeneration=Tariffgeneration)
         V=[]
         for j in range(0,len(i)):
-            v= 1/1+i[j]
+            v= 1/(1+i[j])
             V.append(v)
 
         return V
@@ -53,7 +53,7 @@ class Presentvalues():
 
         return result
 
-    def n_m_a_x(self, Defermentperiod, m, age, birthDate, sex,Tariffgeneration):
+    def n_m_a_x(self, Defermentperiod, m, age, birthDate, sex, Tariffgeneration):
         outerProd = 1
         summand = 0
         if sex == "male":
@@ -68,6 +68,28 @@ class Presentvalues():
                 summand = summand + innerProd * innerProbability
             result = outerProbability * summand
             return result
+
+    def F(self, k: int, Tariffgeneration: int) -> float:
+        """
+        Computes the surcharge for different payment frequencies
+        :param k: The payment frequncy
+        :param Tariffgeneration: The tariffgeneration that determines the interest rate
+        :return: The surcharge factor
+        """
+        summand1 = (k - 1) / (2 * k)
+        i = self.Interest.Interest_Vector(Tariffgeneration=Tariffgeneration)[0]
+        factor1 = (k * k - 1) / (6 * k * k)
+        factor2 = i * (1 - i / 2)
+        summand2 = factor1 * factor2
+        result = summand1 + summand2
+        return result
+
+    def c0_n_a_x_k(self, Defermentperiod, age, birthDate, sex, Tariffgeneration, paymentContributionsFrequency):
+        for counter in range(Defermentperiod,121-age):
+            sum1 = self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**counter
+        factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = Tariffgeneration)
+        factor2 = self.n_p_x(sex = sex, n = Defermentperiod, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**Defermentperiod
+        return sum1 - factor1 * factor2
 
 
 
