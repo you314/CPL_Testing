@@ -9,8 +9,8 @@ class Tariff():
 
     def __init__(self,Contractnr):
         self.ContractDTO = ContractDTO()
-        self.Presentvalues= Presentvalues(Contractnr=Contractnr)
-        self.Flags= Flags()
+        self.Presentvalues = Presentvalues(Contractnr=Contractnr)
+        self.Flags = Flags()
         self.Tariff = self.ContractDTO.tariff(Contractnr=Contractnr)
         self.Tariffgeneration = self.ContractDTO.Tg(Contractnr=Contractnr)
         self.Defermentperiod = self.ContractDTO.defermentperiod(Contractnr=Contractnr)
@@ -21,16 +21,24 @@ class Tariff():
         self.Age = self.ContractDTO.actuarialAge(Contractnr)
         self.sex = self.ContractDTO.sex(Contractnr)
 
-
     def NetPremiumRente(self):
         gamma =0.1
         netPremium =(1+gamma)*self.flagsVector[1]*self.Presentvalues.aeg(g=self.Garantietime,Tariffgeneration=self.Tariffgeneration) * \
                     self.flagsVector[2] +self.Presentvalues.aegk(g=self.Garantietime,k=self.m,Tariffgeneration=self.Tariffgeneration)*\
                     self.flagsVector[3] + self.Presentvalues.n_m_a_x(Defermentperiod= self.Defermentperiod,m=self.m,age=self.Age,birthDate=self.BirthDate,sex=self.sex,Tariffgeneration=self.Tariffgeneration)
-
-
         return netPremium
 
-print(Tariff(Contractnr=1234).NetPremiumRente())
+    def gross_premium(self):
+        CostFactor = 0.1
+        return Tariff.NetPremiumRente(self=self) * (1+CostFactor)
 
+    def prospective_reserves(self):
+        pr_aux = 0
+        while pr_aux < self.m:
+            pr_aux += 1
+        return pr_aux
+
+
+print(Tariff(Contractnr=1234).NetPremiumRente())
+print(Tariff(Contractnr=1234).prospective_reserves())
 
