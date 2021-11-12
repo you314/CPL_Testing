@@ -11,10 +11,10 @@ class CostMapping:
         self.TariffName = self.ContractDTO.tariff_name(Contractnr=contract_nr)
         self.isNonContributory = self.ContractDTO.is_non_contributory(Contractnr=contract_nr)
         relative_path = "/"
-        csv_tariff_name_cost_mapping = "TariffName_CostMapping.csv"
-        csv_tariff_name_cost_mapping_granular = "Tariff_CostMapping_granular.csv"
-        file_tariff_name_cost_mapping = path.dirname(__file__) + relative_path + csv_tariff_name_cost_mapping
-        file_tariff_name_cost_mapping_granular = path.dirname(__file__) + relative_path + csv_tariff_name_cost_mapping_granular
+        csv_cost_mapping = "TariffName_CostMapping.csv"
+        csv_cost_mapping_granular = "Tariff_CostMapping_granular.csv"
+        file_tariff_name_cost_mapping = path.dirname(__file__) + relative_path + csv_cost_mapping
+        file_tariff_name_cost_mapping_granular = path.dirname(__file__) + relative_path + csv_cost_mapping_granular
         self.reader_layer1 = FileReader(file_tariff_name_cost_mapping)
         self.reader_layer2 = FileReader(file_tariff_name_cost_mapping_granular)
         self.Mapping_dictionary1 = self.reader_layer1.create_mapping_by_key("TariffNames")
@@ -27,25 +27,6 @@ class CostMapping:
             return self.CostGroup + CostGroup_granular
         else:
             return self.CostGroup
-
-    def amortization_cost_group(self):
-        self.CostGroup = self.Mapping_dictionary1[self.TariffName]["AmortizationCostGroup"]
-        if self.CostGroup in self.Mapping_dictionary2.keys():
-            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.amortization_cost_group_granular()]
-            return self.CostGroup + CostGroup_granular
-        else:
-            return self.CostGroup
-
-    def administration_cost_group(self):
-        self.CostGroup = self.Mapping_dictionary1[self.TariffName]["AdministrationCostGroup"]
-        if self.CostGroup in self.Mapping_dictionary2.keys():
-            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.administration_cost_group_granular()]
-            return self.CostGroup + CostGroup_granular
-        else:
-            return self.CostGroup
-
-    def unit_cost_group(self):
-        return self.Mapping_dictionary1[self.TariffName]["UnitCostGroup"]
 
     def acquisition_cost_group_granular(self):
         if self.CostGroup == "AK_4":
@@ -61,6 +42,14 @@ class CostMapping:
             else:
                 return "Variant3"
 
+    def amortization_cost_group(self):
+        self.CostGroup = self.Mapping_dictionary1[self.TariffName]["AmortizationCostGroup"]
+        if self.CostGroup in self.Mapping_dictionary2.keys():
+            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.amortization_cost_group_granular()]
+            return self.CostGroup + CostGroup_granular
+        else:
+            return self.CostGroup
+
     def amortization_cost_group_granular(self):
         if self.CostGroup == "AMK5":
             if self.DefermentPeriod <= 21:
@@ -70,6 +59,14 @@ class CostMapping:
             else:
                 return "Variant3"
 
+    def administration_cost_group(self):
+        self.CostGroup = self.Mapping_dictionary1[self.TariffName]["AdministrationCostGroup"]
+        if self.CostGroup in self.Mapping_dictionary2.keys():
+            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.administration_cost_group_granular()]
+            return self.CostGroup + CostGroup_granular
+        else:
+            return self.CostGroup
+
     def administration_cost_group_granular(self):
         if self.CostGroup == "LVK11":
             if self.isNonContributory == 1:
@@ -77,7 +74,11 @@ class CostMapping:
             else:
                 return "Variant2"
 
+    def unit_cost_group(self):
+        return self.Mapping_dictionary1[self.TariffName]["UnitCostGroup"]
+
+
 print("acquisition_cost_group name is: " + CostMapping(contract_nr=123).acquisition_cost_group())
-#print("amortization_cost_group name is: " + CostMapping(contract_nr=124).amortization_cost_group())
-#print("administration_cost_group name is: " + CostMapping(contract_nr=124).administration_cost_group())
-#print("unit_cost_group name is: " + CostMapping(contract_nr=124).unit_cost_group())
+print("amortization_cost_group name is: " + CostMapping(contract_nr=124).amortization_cost_group())
+print("administration_cost_group name is: " + CostMapping(contract_nr=124).administration_cost_group())
+print("unit_cost_group name is: " + CostMapping(contract_nr=124).unit_cost_group())
