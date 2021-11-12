@@ -9,8 +9,8 @@ class Tariff():
 
     def __init__(self,Contractnr):
         self.ContractDTO = ContractDTO()
-        self.Presentvalues= Presentvalues(Contractnr=Contractnr)
-        self.Flags= Flags()
+        self.Presentvalues = Presentvalues(Contractnr=Contractnr)
+        self.Flags = Flags()
         self.Tariff = self.ContractDTO.tariff(Contractnr=Contractnr)
         self.Tariffgeneration = self.ContractDTO.Tg(Contractnr=Contractnr)
         self.Defermentperiod = self.ContractDTO.defermentperiod(Contractnr=Contractnr)
