@@ -21,12 +21,12 @@ class ContractDTO:
         self.M = reader.readColumnFromCSV("m", type=int)
         self.Garantietime = reader.readColumnFromCSV("Garantie time", type=int)
         self.Sex= reader.readColumnFromCSV("Sex", type=str)
+        self.isNonContributory = reader.readColumnFromCSV("isNonContributory", type=int)
 
     def bedan(self):
         B= self.ContractNR
         c= list(B.values())
         return c
-
 
     def ContractIndex(self,Contractnr:int):
          Index= self.bedan().index(Contractnr)
@@ -68,8 +68,9 @@ class ContractDTO:
         Sex = self.Sex[self.ContractIndex(Contractnr=Contractnr)]
         return Sex
 
-
-
+    def is_non_contributory(self, Contractnr: int):
+        isNonContributory = self.isNonContributory[self.ContractIndex(Contractnr=Contractnr)]
+        return isNonContributory
 
     coinsuredActuarialAge: int = None
     actuarialAgeAtRetirement: int = None
@@ -90,7 +91,7 @@ class ContractDTO:
     paymentAnnuityFrequency: int = None
     typeOfBrokerCortage: str = None
     numberPaymentsContributionsBeforeNonContributory: int = None
-    isNonContributory: bool = None
+    #isNonContributory: bool = None
     isAlive: bool = None
     isInRetirementStartingPhase: bool = None
     isDisabled: Union[bool,None] = None
