@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\CalculationBases\Biometrie\DAV2004R_1O.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\CalculationBases\Costs\AcquisitionCosts\AcquisitionCostRates.csv">
           <value>
             <Attribute>
@@ -10,7 +17,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\CalculationBases\Costs\AdministationCosts\AcquisitionCostRates.csv">
+        <entry key="\CalculationBases\Costs\AdministationCosts\AdministrationCostRates.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
@@ -28,6 +35,13 @@
           <value>
             <Attribute>
               <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\CalculationBases\Costs\Tariff_CostMapping_granular.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
             </Attribute>
           </value>
         </entry>
