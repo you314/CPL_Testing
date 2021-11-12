@@ -29,10 +29,20 @@ class CostMapping:
             return self.CostGroup
 
     def amortization_cost_group(self):
-        return self.Mapping_dictionary1[self.TariffName]["AmortizationCostGroup"]
+        self.CostGroup = self.Mapping_dictionary1[self.TariffName]["AmortizationCostGroup"]
+        if self.CostGroup in self.Mapping_dictionary2.keys():
+            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.amortization_cost_group_granular()]
+            return self.CostGroup + CostGroup_granular
+        else:
+            return self.CostGroup
 
     def administration_cost_group(self):
-        return self.Mapping_dictionary1[self.TariffName]["AdministrationCostGroup"]
+        self.CostGroup = self.Mapping_dictionary1[self.TariffName]["AdministrationCostGroup"]
+        if self.CostGroup in self.Mapping_dictionary2.keys():
+            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.administration_cost_group_granular()]
+            return self.CostGroup + CostGroup_granular
+        else:
+            return self.CostGroup
 
     def unit_cost_group(self):
         return self.Mapping_dictionary1[self.TariffName]["UnitCostGroup"]
@@ -50,14 +60,18 @@ class CostMapping:
                 return "Variant2"
             else:
                 return "Variant3"
-        elif self.CostGroup == "AMK5":
+
+    def amortization_cost_group_granular(self):
+        if self.CostGroup == "AMK5":
             if self.DefermentPeriod <= 21:
                 return "Variant1"
             elif 21 < self.DefermentPeriod <= 30:
                 return "Variant2"
             else:
                 return "Variant3"
-        else:
+
+    def administration_cost_group_granular(self):
+        if self.CostGroup == "LVK11":
             if self.isNonContributory == 1:
                 return "Variant1"
             else:
