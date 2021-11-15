@@ -112,9 +112,15 @@ class Presentvalues():
 
     def c3_ag_k(self, Garantietime, Tariffgeneration, paymentContributionsFrequency):
         nominator = 1 - self.v(Tariffgeneration = Tariffgeneration)[0] ** Garantietime
-        factor1 = paymentContributionsFrequency
-        factor2 = 1 - self.v(Tariffgeneration = Tariffgeneration)[0] ** (1 / paymentContributionsFrequency)
-        return nominator / (factor1 * factor2)
+        denominator = paymentContributionsFrequency * (1 - self.v(Tariffgeneration = Tariffgeneration)[0] ** (1 / paymentContributionsFrequency))
+        return nominator / denominator
+
+    def c4_nag_k(self, age, birthDate, sex, Defermentperiod, Garantietime, Tariffgeneration, paymentContributionsFrequency):
+        nominator = 1 - self.v(Tariffgeneration = Tariffgeneration)[0] ** Garantietime
+        denominator = paymentContributionsFrequency * (1 - self.v(Tariffgeneration = Tariffgeneration)[0] ** (1 / paymentContributionsFrequency))
+        factor = self.n_p_x(sex = sex, n = Defermentperiod, age = age, birthDate = birthDate) * self.v(Tariffgeneration = Tariffgeneration)[0] ** Defermentperiod
+        return factor * nominator / denominator
+
 
 
 
