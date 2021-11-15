@@ -11,14 +11,12 @@ class Presentvalues():
         self.BiometrieCpl= BiometrieCpl(Tariffgeneration=Tariffgeneration)
         self.Interest= Interest()
 
-
     def v(self,Tariffgeneration):
         i= self.Interest.Interest_Vector(Tariffgeneration=Tariffgeneration)
         V=[]
         for j in range(0,len(i)):
-            v= 1/1+i[j]
+            v= 1/(1+i[j])
             V.append(v)
-
         return V
 
 

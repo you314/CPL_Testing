@@ -14,8 +14,8 @@ class PremiumDecomposition():
         self.v = self.Presentvalues.v(Tariffgeneration=self.tariffgeneration)[self.m]
 
     def savings_premium(self):
-        pr_x_1 = self.Tariff.prospective_reserves()
-        pr_x_2 = self.Tariff.prospective_reserves()
+        pr_x_1 = self.Tariff.prospective_reserves(delta_m=0)
+        pr_x_2 = self.Tariff.prospective_reserves(delta_m=1)
         return self.v * pr_x_2 - pr_x_1
 
     def risk_premium(self):

@@ -32,13 +32,13 @@ class Tariff():
         CostFactor = 0.1
         return Tariff.NetPremiumRente(self=self) * (1+CostFactor)
 
-    def prospective_reserves(self):
+    def prospective_reserves(self, delta_m):
         pr_aux = 0
-        while pr_aux < self.m:
+        while pr_aux < self.m+delta_m:
             pr_aux += 1
         return pr_aux
 
 
 print(Tariff(Contractnr=1234).NetPremiumRente())
-print(Tariff(Contractnr=1234).prospective_reserves())
+print(Tariff(Contractnr=1234).prospective_reserves(delta_m=0))
 
