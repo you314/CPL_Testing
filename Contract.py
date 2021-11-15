@@ -108,6 +108,7 @@ class ContractDTO:
     incrementOfGuaranteeOfYearlyIncreaseOfAnnuity: float = None
     professionSpecificFactor: float = None
     sumOfPayedPremiums: float = None
+    pensionPaymentPeriod:  int = None
 
 
 

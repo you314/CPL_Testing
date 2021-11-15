@@ -84,12 +84,28 @@ class Presentvalues():
         result = summand1 + summand2
         return result
 
-    def c0_n_a_x_k(self, Defermentperiod, age, birthDate, sex, Tariffgeneration, paymentContributionsFrequency):
+    def c0_nax_k(self, Defermentperiod, age, birthDate, sex, Tariffgeneration, paymentContributionsFrequency):
         for counter in range(Defermentperiod,121-age):
             sum1 = self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**counter
         factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = Tariffgeneration)
         factor2 = self.n_p_x(sex = sex, n = Defermentperiod, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**Defermentperiod
         return sum1 - factor1 * factor2
+
+    def c1_naxl_k(self, Defermentperiod, age, birthDate, sex, Tariffgeneration, paymentContributionsFrequency, pensionPaymentPeriod):
+        '''
+        :param pensionPaymentPeriod: stands for 'l' in the formula
+        '''
+        for counter in range(Defermentperiod, Defermentperiod + pensionPaymentPeriod - 1):
+            sum1 = self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**counter
+        factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = Tariffgeneration)
+        factor2 = self.n_p_x(sex = sex, n = Defermentperiod + pensionPaymentPeriod, age = Defermentperiod, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**Defermentperiod
+        factor3 = 1 / self.n_p_x(sex = sex, n = Defermentperiod + pensionPaymentPeriod, age = age, birthDate = birthDate)
+        factor4 = self.v(Tariffgeneration=Tariffgeneration)[0]**pensionPaymentPeriod
+        return sum1 - factor1 * factor2 * (factor3 - factor4)
+
+
+
+
 
 
 
