@@ -103,6 +103,13 @@ class Presentvalues():
         factor4 = self.v(Tariffgeneration=Tariffgeneration)[0]**pensionPaymentPeriod
         return sum1 - factor1 * factor2 * (factor3 - factor4)
 
+    def c2_gax_k(self, Garantietime, age, birthDate, sex, Tariffgeneration, paymentContributionsFrequency):
+        for counter in range(Garantietime,121-age):
+            sum1 = self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**counter
+        factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = Tariffgeneration)
+        factor2 = self.n_p_x(sex = sex, n = Garantietime, age = age, birthDate = birthDate) * self.v(Tariffgeneration=Tariffgeneration)[0]**Garantietime
+        return sum1 - factor1 * factor2
+
 
 
 
