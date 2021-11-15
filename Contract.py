@@ -19,13 +19,14 @@ class ContractDTO:
         self.Defermentperiod = reader.readColumnFromCSV("Deferment period", type=int)
         self.M = reader.readColumnFromCSV("m", type=int)
         self.Garantietime = reader.readColumnFromCSV("Garantie time", type=int)
-        self.Sex= reader.readColumnFromCSV("Sex", type=str)
+        self.Sex = reader.readColumnFromCSV("Sex", type=str)
+        self.paymentContributionsFrequency = reader.readColumnFromCSV("paymentContributionsFrequency", type=str)
+        self.pensionPaymentPeriod = reader.readColumnFromCSV("pensionPaymentPeriod", type=str)
 
     def bedan(self):
         B= self.ContractNR
         c= list(B.values())
         return c
-
 
     def ContractIndex(self,Contractnr:int):
          Index= self.bedan().index(Contractnr)
@@ -38,8 +39,6 @@ class ContractDTO:
     def Tg(self,Contractnr:int):
         Age=self.TG[self.ContractIndex(Contractnr=Contractnr)]
         return Age
-
-
 
     def tariff(self, Contractnr: int):
         tariff = self.Tariff[self.ContractIndex(Contractnr=Contractnr)]
@@ -65,6 +64,15 @@ class ContractDTO:
         Sex = self.Sex[self.ContractIndex(Contractnr=Contractnr)]
         return Sex
 
+    def paymentContributionsFrequency(self, Contractnr: int):
+        paymentContributionsFrequency = self.paymentContributionsFrequency[self.ContractIndex(Contractnr=Contractnr)]
+        return paymentContributionsFrequency
+
+    def pensionPaymentPeriod(self, Contractnr: int):
+        pensionPaymentPeriod = self.pensionPaymentPeriod[self.ContractIndex(Contractnr=Contractnr)]
+        return pensionPaymentPeriod
+
+
 
 
 
@@ -83,7 +91,6 @@ class ContractDTO:
     birthDate: date = None
     contractClosureDate: date = None
     coinsuredBirthDate: date = None
-    paymentContributionsFrequency: int = None
     paymentAnnuityFrequency: int = None
     typeOfBrokerCortage: str = None
     numberPaymentsContributionsBeforeNonContributory: int = None
