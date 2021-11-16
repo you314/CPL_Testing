@@ -6,8 +6,8 @@ from Contract import ContractDTO
 class Presentvalues():
 
     def __init__(self,Contractnr):
-        self.ContractDTO= ContractDTO()
-        Tariffgeneration=self.ContractDTO.tg(contract_nr=Contractnr)
+        self.ContractDTO= ContractDTO(contract_nr=Contractnr)
+        Tariffgeneration=self.ContractDTO.tg()
         print(Tariffgeneration)
         self.BiometrieCpl= BiometrieCpl(tariff_generation=Tariffgeneration)
         self.Interest= Interest()

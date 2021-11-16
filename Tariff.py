@@ -4,22 +4,21 @@ from Contract import ContractDTO
 from FLags.Flags import Flags
 
 
-
 class Tariff():
 
-    def __init__(self,Contractnr):
-        self.ContractDTO = ContractDTO()
+    def __init__(self, Contractnr):
+        self.ContractDTO = ContractDTO(contract_nr=Contractnr)
         self.Presentvalues = Presentvalues(Contractnr=Contractnr)
         self.Flags = Flags()
-        self.Tariff = self.ContractDTO.tariff(contract_nr=Contractnr)
-        self.Tariffgeneration = self.ContractDTO.tg(contract_nr=Contractnr)
-        self.Defermentperiod = self.ContractDTO.defermentperiod(contract_nr=Contractnr)
-        self.BirthDate = self.ContractDTO.birthyear(contract_nr=Contractnr)
-        self.Garantietime = self.ContractDTO.garantietime(contract_nr=Contractnr)
-        self.m = self.ContractDTO.m(contract_nr=Contractnr)
+        self.Tariff = self.ContractDTO.tariff()
+        self.Tariffgeneration = self.ContractDTO.tg()
+        self.Defermentperiod = self.ContractDTO.defermentperiod()
+        self.BirthDate = self.ContractDTO.birthyear()
+        self.Garantietime = self.ContractDTO.garantietime()
+        self.m = self.ContractDTO.m()
         self.flagsVector = self.Flags.FlagsVector(Tariffgeneration=self.Tariffgeneration, Tariff=self.Tariff)
-        self.Age = self.ContractDTO.actuarial_age(Contractnr)
-        self.sex = self.ContractDTO.sex(Contractnr)
+        self.Age = self.ContractDTO.actuarial_age()
+        self.sex = self.ContractDTO.sex()
 
 
     def NetPremiumRente(self):
