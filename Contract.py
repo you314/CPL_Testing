@@ -13,14 +13,14 @@ class ContractDTO:
         reader = FileReader(pfad)
         self.contract_nr = reader.readColumnFromCSV("ContractNr", type=int)
         self.Tariff = reader.readColumnFromCSV("tariff", type=str)
-        self.tariff_name = reader.readColumnFromCSV("tariff_name", type=str)
+        self.Tariff_name = reader.readColumnFromCSV("tariff_name", type=str)
         self.age = reader.readColumnFromCSV("age", type=int)
         self.Tg = reader.readColumnFromCSV("tg", type=int)
         self.birth_year = reader.readColumnFromCSV("birth_year", type=int)
         self.deferment_period = reader.readColumnFromCSV("deferment_period", type=int)
         self.M = reader.readColumnFromCSV("m", type=int)
         self.garantie_time = reader.readColumnFromCSV("garantie_time", type=int)
-        self.is_non_contributory = reader.readColumnFromCSV("is_non_contributory", type=int)
+        self.Is_non_contributory = reader.readColumnFromCSV("is_non_contributory", type=int)
         self.Sex = reader.readColumnFromCSV("sex", type=str)
         self.payment_contributions_frequency = reader.readColumnFromCSV("payment_contributions_frequency", type=str)
         self.pension_payment_period = reader.readColumnFromCSV("pension_payment_period", type=str)
@@ -47,7 +47,7 @@ class ContractDTO:
         return tariff
 
     def tariff_name(self, contract_nr: int):
-        tariff_name = self.tariff_name[self.contract_index(contract_nr=contract_nr)]
+        tariff_name = self.Tariff_name[self.contract_index(contract_nr=contract_nr)]
         return tariff_name
 
     def birthyear(self, contract_nr: int):
@@ -71,7 +71,7 @@ class ContractDTO:
         return Sex
 
     def is_non_contributory(self, contract_nr: int):
-        isNonContributory = self.is_non_contributory[self.contract_index(contract_nr=contract_nr)]
+        isNonContributory = self.Is_non_contributory[self.contract_index(contract_nr=contract_nr)]
         return isNonContributory
 
     def paymentContributionsFrequency(self, contract_nr: int):
