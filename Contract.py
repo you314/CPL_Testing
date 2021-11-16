@@ -20,8 +20,10 @@ class ContractDTO:
         self.Defermentperiod = reader.readColumnFromCSV("Deferment period", type=int)
         self.M = reader.readColumnFromCSV("m", type=int)
         self.Garantietime = reader.readColumnFromCSV("Garantie time", type=int)
-        self.Sex= reader.readColumnFromCSV("Sex", type=str)
         self.isNonContributory = reader.readColumnFromCSV("isNonContributory", type=int)
+        self.Sex = reader.readColumnFromCSV("Sex", type=str)
+        self.paymentContributionsFrequency = reader.readColumnFromCSV("paymentContributionsFrequency", type=str)
+        self.pensionPaymentPeriod = reader.readColumnFromCSV("pensionPaymentPeriod", type=str)
 
     def bedan(self):
         B= self.ContractNR
@@ -72,6 +74,17 @@ class ContractDTO:
         isNonContributory = self.isNonContributory[self.ContractIndex(Contractnr=Contractnr)]
         return isNonContributory
 
+    def paymentContributionsFrequency(self, Contractnr: int):
+        paymentContributionsFrequency = self.paymentContributionsFrequency[self.ContractIndex(Contractnr=Contractnr)]
+        return paymentContributionsFrequency
+
+    def pensionPaymentPeriod(self, Contractnr: int):
+        pensionPaymentPeriod = self.pensionPaymentPeriod[self.ContractIndex(Contractnr=Contractnr)]
+        return pensionPaymentPeriod
+
+
+
+
     coinsuredActuarialAge: int = None
     actuarialAgeAtRetirement: int = None
     coinsuredActuarialAgeAtRetirement: int = None
@@ -87,11 +100,9 @@ class ContractDTO:
     birthDate: date = None
     contractClosureDate: date = None
     coinsuredBirthDate: date = None
-    paymentContributionsFrequency: int = None
     paymentAnnuityFrequency: int = None
     typeOfBrokerCortage: str = None
     numberPaymentsContributionsBeforeNonContributory: int = None
-    #isNonContributory: bool = None
     isAlive: bool = None
     isInRetirementStartingPhase: bool = None
     isDisabled: Union[bool,None] = None
@@ -112,6 +123,7 @@ class ContractDTO:
     incrementOfGuaranteeOfYearlyIncreaseOfAnnuity: float = None
     professionSpecificFactor: float = None
     sumOfPayedPremiums: float = None
+    pensionPaymentPeriod:  int = None
 
 
 

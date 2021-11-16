@@ -1,4 +1,3 @@
-ContractNr;Tariff;Tariff_Name;isNonContributory;Age;TG;Birthyear;Deferment period;m;Garantie time;Sex
-123;A;HA/2004;1;31;2003;1990;10;1;3;male
-124;A;A/2004;0;31;2003;1990;10;1;3;male
-1234;ARR;;1;61;2004;1960;5;2;4;male
+ContractNr;Tariff;Tariff_Name;Age;TG;Birthyear;Deferment period;m;Garantie time;Sex;paymentContributionsFrequency;pensionPaymentPeriod;isNonContributory;
+123;A;HA/2004;31;2003;1990;10;1;3;male;12;pensionPaymentPeriod;1
+1234;ARR;A/2004;61;2004;1960;5;2;4;male;1;10;0;
