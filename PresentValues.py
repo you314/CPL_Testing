@@ -1,4 +1,4 @@
-from CalculationBases.Biometrie.CPL_BIO import BiometrieCpl
+from CalculationBases.Biometrie.CPL_BIO import BiometryCpl
 from CalculationBases.Interest.InterestRate import Interest
 from Contract import ContractDTO
 
@@ -7,7 +7,7 @@ class Presentvalues(ContractDTO):
 
     def __init__(self, contract_nr):
         super().__init__(contract_nr=contract_nr)
-        self.BiometrieCpl = BiometrieCpl(contract_nr=contract_nr)
+        self.BiometrieCpl = BiometryCpl(contract_nr=contract_nr)
         self.Interest = Interest()
 
     def v(self):
@@ -20,7 +20,7 @@ class Presentvalues(ContractDTO):
 
     def n_p_x(self,  n: int, age:int, birthDate: int):
 
-        prob = self.BiometrieCpl.nYearSurvivalProbability(n=n, age=age, birthDate=birthDate)
+        prob = self.BiometrieCpl.n_year_survival_probability(n=n, age=age, birth_date=birthDate)
 
         return prob
 
