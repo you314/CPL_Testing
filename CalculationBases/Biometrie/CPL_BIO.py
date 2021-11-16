@@ -28,6 +28,7 @@ class BiometrieCpl():
         elif self.sex == "female":
             self.q_x_dict = reader.readColumnFromCSV("q_xw", type=float)
             self.trend_dict = reader.readColumnFromCSV("trend_w", type=float)
+        print(self.q_x_dict)
         self.Age = reader.readColumnFromCSV("AGE", type=float)
         self.MAX_AGE = 121
 
@@ -54,7 +55,7 @@ class BiometrieCpl():
         :param age: the age of the insured person
         :return: one year death probability
                         """
-        Vector = self.q_x_dict(birthDate=birthDate)
+        Vector = self.q_x(birthDate=birthDate)
         #print(Vector[51])
         qX = Vector[age]
         return qX
@@ -78,7 +79,7 @@ class BiometrieCpl():
         :param n: the period in which the required probability is calculated
         :return: n year death probability
                                 """
-        Vector = self.q_x_dict(birthDate=birthDate)
+        Vector = self.q_x(birthDate=birthDate)
         if n <= 0:
             result = 1
         elif age >= len(Vector) - 1:
