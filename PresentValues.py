@@ -83,7 +83,7 @@ class Presentvalues(ContractDTO):
         sum = 0
         for counter in range (Defermentperiod, 121 - age):
             sum = sum + self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
-        factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = self.tg())
+        factor1 = self.F(k = paymentContributionsFrequency)
         factor2 = self.n_p_x(sex = sex, n = Defermentperiod, age = age, birthDate = birthDate) * self.v()[0] ** Defermentperiod
         return sum - factor1 * factor2
 
@@ -94,7 +94,7 @@ class Presentvalues(ContractDTO):
         sum = 0
         for counter in range (Defermentperiod, Defermentperiod + pensionPaymentPeriod - 1):
             sum = sum + self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
-        factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = self.tg())
+        factor1 = self.F(k = paymentContributionsFrequency)
         factor2 = self.n_p_x(sex = sex, n = Defermentperiod + pensionPaymentPeriod, age = Defermentperiod, birthDate = birthDate) * self.v()[0] ** Defermentperiod
         factor3 = 1 / self.n_p_x(sex = sex, n = Defermentperiod + pensionPaymentPeriod, age = age, birthDate = birthDate)
         factor4 = self.v()[0] ** pensionPaymentPeriod
@@ -104,7 +104,7 @@ class Presentvalues(ContractDTO):
         sum = 0
         for counter in range (Garantietime, 121 - age):
             sum = sum + self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
-        factor1 = self.F(k = paymentContributionsFrequency, Tariffgeneration = self.tg())
+        factor1 = self.F(k = paymentContributionsFrequency)
         factor2 = self.n_p_x(sex = sex, n = Garantietime, age = age, birthDate = birthDate) * self.v()[0] ** Garantietime
         return sum - factor1 * factor2
 
