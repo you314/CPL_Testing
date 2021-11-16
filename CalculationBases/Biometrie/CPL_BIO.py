@@ -15,7 +15,7 @@ class BiometryCpl(ContractDTO):
         :return: probability vectors
         """
         self.life_table = LifeTable(contract_nr=contract_nr)
-        self.life_table_name = self.life_table.LifetablecsvName
+        self.life_table_name = self.life_table.life_table_name
         relative_path = "/"
         csv_filename = self.life_table_name
         csv_path = path.dirname(__file__) + relative_path + csv_filename
