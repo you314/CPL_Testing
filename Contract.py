@@ -4,14 +4,16 @@ from os import path
 from datetime import date
 from typing import Union
 
+
 class ContractDTO:
 
-    def __init__(self):
+    def __init__(self, contract_nr):
         relative_path = "/"
         csvFilename = "Contract.csv"
         pfad = path.dirname(__file__) + relative_path + csvFilename
         reader = FileReader(pfad)
-        self.contract_nr = reader.readColumnFromCSV("ContractNr", type=int)
+        self.contract_nr = contract_nr
+        self.contract_nr_dict = reader.readColumnFromCSV("ContractNr", type=int)
         self.Tariff = reader.readColumnFromCSV("tariff", type=str)
         self.Tariff_name = reader.readColumnFromCSV("tariff_name", type=str)
         self.age = reader.readColumnFromCSV("age", type=int)
@@ -26,60 +28,60 @@ class ContractDTO:
         self.pension_payment_period = reader.readColumnFromCSV("pension_payment_period", type=str)
 
     def bedan(self):
-        B= self.contract_nr
-        c= list(B.values())
+        B = self.contract_nr_dict
+        c = list(B.values())
         return c
 
-    def contract_index(self, contract_nr:int):
-         Index= self.bedan().index(contract_nr)
+    def contract_index(self):
+         Index= self.bedan().index(self.contract_nr)
          return Index
 
-    def actuarial_age(self, contract_nr:int):
-        Age=self.age[self.contract_index(contract_nr=contract_nr)]
+    def actuarial_age(self):
+        Age=self.age[self.contract_index()]
         return Age
 
-    def tg(self, contract_nr:int):
-        Age=self.Tg[self.contract_index(contract_nr=contract_nr)]
+    def tg(self):
+        Age=self.Tg[self.contract_index()]
         return Age
 
-    def tariff(self, contract_nr: int):
-        tariff = self.Tariff[self.contract_index(contract_nr=contract_nr)]
+    def tariff(self):
+        tariff = self.Tariff[self.contract_index()]
         return tariff
 
-    def tariff_name(self, contract_nr: int):
-        tariff_name = self.Tariff_name[self.contract_index(contract_nr=contract_nr)]
+    def tariff_name(self):
+        tariff_name = self.Tariff_name[self.contract_index()]
         return tariff_name
 
-    def birthyear(self, contract_nr: int):
-        Birthyear = self.birth_year[self.contract_index(contract_nr=contract_nr)]
+    def birthyear(self):
+        Birthyear = self.birth_year[self.contract_index()]
         return Birthyear
 
-    def defermentperiod(self, contract_nr: int):
-        Defermentperiod = self.deferment_period[self.contract_index(contract_nr=contract_nr)]
+    def defermentperiod(self):
+        Defermentperiod = self.deferment_period[self.contract_index()]
         return Defermentperiod
 
-    def garantietime(self, contract_nr: int):
-        Garantietime = self.garantie_time[self.contract_index(contract_nr=contract_nr)]
+    def garantietime(self):
+        Garantietime = self.garantie_time[self.contract_index()]
         return Garantietime
 
-    def m(self, contract_nr: int):
-        m = self.M[self.contract_index(contract_nr=contract_nr)]
+    def m(self,):
+        m = self.M[self.contract_index()]
         return m
 
-    def sex(self, contract_nr: int):
-        Sex = self.Sex[self.contract_index(contract_nr=contract_nr)]
+    def sex(self):
+        Sex = self.Sex[self.contract_index()]
         return Sex
 
-    def is_non_contributory(self, contract_nr: int):
-        isNonContributory = self.Is_non_contributory[self.contract_index(contract_nr=contract_nr)]
+    def is_non_contributory(self):
+        isNonContributory = self.Is_non_contributory[self.contract_index()]
         return isNonContributory
 
-    def paymentContributionsFrequency(self, contract_nr: int):
-        paymentContributionsFrequency = self.payment_contributions_frequency[self.contract_index(contract_nr=contract_nr)]
+    def paymentContributionsFrequency(self):
+        paymentContributionsFrequency = self.payment_contributions_frequency[self.contract_index()]
         return paymentContributionsFrequency
 
-    def pensionPaymentPeriod(self, contract_nr: int):
-        pensionPaymentPeriod = self.pension_payment_period[self.contract_index(contract_nr=contract_nr)]
+    def pensionPaymentPeriod(self):
+        pensionPaymentPeriod = self.pension_payment_period[self.contract_index()]
         return pensionPaymentPeriod
 
 
@@ -126,4 +128,5 @@ class ContractDTO:
     pension_payment_period:  int = None
 
 
+print(ContractDTO(contract_nr=123).bedan())
 
