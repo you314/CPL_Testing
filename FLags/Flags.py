@@ -2,49 +2,38 @@ from CPL_Prep import FileReader
 from os import path
 
 
+class Flags:
 
-class Flags():
-
-
-    def createMatrix(self, Tariffgeneration,Tariff:str): # Todo Change the code to understandable one
+    def create_matrix(self, tariff_generation, tariff: str):  # Todo Change the code to understandable one
         relative_path = "/"
-        csvFilename = "formulas used.csv"
-        pfad = path.dirname(__file__) + relative_path + csvFilename
-        reader = FileReader(pfad)
-        NetPremium1 = reader.readColumnFromCSV("tg", type=int)
-        x0= list(NetPremium1.values())
-        rowCount = len(NetPremium1)
-        NetPremium2 = reader.read_row_from_csv(0, type=str)
-        x1 = list(NetPremium2.keys())
-        indexTG = x0.index(int(Tariffgeneration))
-        indexTariff = x1.index(Tariff)
-
-        colCount = len(NetPremium2)
+        csv_file = "formulas used.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_file
+        csv_reader = FileReader(csv_path)
+        tariff_generation_dict = csv_reader.readColumnFromCSV("tg", type=int)
+        x0 = list(tariff_generation_dict.values())
+        tariff_aux_dict = csv_reader.read_row_from_csv(0, type=str)
+        x1 = list(tariff_aux_dict.keys())
+        index_tg = x0.index(int(tariff_generation))
+        index_tariff = x1.index(tariff)
+        row_count = len(tariff_generation_dict)
+        col_count = len(tariff_aux_dict)
         mat = []
-        for i in range(rowCount):
-            X = reader.read_row_from_csv(i)
-            rowList = []
-            for j in range(colCount):
+        for i in range(row_count):
+            x = csv_reader.read_row_from_csv(i)
+            row_list = []
+            for j in range(col_count):
                 # you need to increment through dataList here, like this:
-                y = X[x1[j]]
-                rowList.append(y)
-            mat.append(rowList)
-        Matrixentry= mat[indexTG][indexTariff]
-        return Matrixentry
+                y = x[x1[j]]
+                row_list.append(y)
+            mat.append(row_list)
+        matrix_entry = mat[index_tg][index_tariff]
+        return matrix_entry
 
-    def FlagsVector(self,Tariffgeneration,Tariff:str):
+    def flags_vector(self, tariff_generation, tariff: str):
         relative_path = "/"
-        csvFilename = "Premium.Flags.csv"
-        pfad = path.dirname(__file__) + relative_path + csvFilename
-        reader = FileReader(pfad)
-        NetPremium1 = reader.readColumnFromCSV(self.createMatrix(Tariffgeneration=Tariffgeneration,Tariff=Tariff), type=str)
-        FlagsVector= list(NetPremium1)
-        return FlagsVector
-
-
-
-
-
-
-
-
+        csv_file = "Premium.Flags.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_file
+        csv_reader = FileReader(csv_path)
+        flags_dict = csv_reader.readColumnFromCSV(self.create_matrix(tariff_generation=tariff_generation, tariff=tariff), type=str)
+        flags_vector = list(flags_dict)
+        return flags_vector

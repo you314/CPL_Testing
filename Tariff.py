@@ -9,7 +9,7 @@ class Tariff(ContractDTO):
         super().__init__(contract_nr=contract_nr)
         self.Presentvalues = Presentvalues(contract_nr=contract_nr)
         self.Flags = Flags()
-        self.flagsVector = self.Flags.FlagsVector(Tariffgeneration=self.tg(), Tariff=self.tariff())
+        self.flagsVector = self.Flags.flags_vector(tariff_generation=self.tg(), tariff=self.tariff())
 
     def NetPremiumRente(self):
         gamma =0.1
