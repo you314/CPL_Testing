@@ -11,10 +11,10 @@ class Flags():
         csvFilename = "formulas used.csv"
         pfad = path.dirname(__file__) + relative_path + csvFilename
         reader = FileReader(pfad)
-        NetPremium1 = reader.readColumnFromCSV("TG", type=int)
+        NetPremium1 = reader.readColumnFromCSV("tg", type=int)
         x0= list(NetPremium1.values())
         rowCount = len(NetPremium1)
-        NetPremium2 = reader.readRowFromCSV(0,type=str)
+        NetPremium2 = reader.read_row_from_csv(0, type=str)
         x1 = list(NetPremium2.keys())
         indexTG = x0.index(int(Tariffgeneration))
         indexTariff = x1.index(Tariff)
@@ -22,7 +22,7 @@ class Flags():
         colCount = len(NetPremium2)
         mat = []
         for i in range(rowCount):
-            X = reader.readRowFromCSV(i)
+            X = reader.read_row_from_csv(i)
             rowList = []
             for j in range(colCount):
                 # you need to increment through dataList here, like this:

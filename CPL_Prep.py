@@ -6,10 +6,10 @@ class FileReader:
         self.path = path
         pass
 
-    def readRowFromCSV(self, rowNumber, type=None):
+    def read_row_from_csv(self, row_number, type=None):
         with open(self.path, newline='') as csvfile:
             reader = DictReader(csvfile, delimiter=';')
-            for i in range(0, rowNumber+1):
+            for i in range(0, row_number+1):
                 result = next(reader)
         if type is not None:
             result = self.mapDict(result, type)

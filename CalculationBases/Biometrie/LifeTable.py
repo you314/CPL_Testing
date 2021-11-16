@@ -13,7 +13,7 @@ class LifeTable():
         csvFilename = "LifeTables.csv"
         pfad = path.dirname(__file__) + relative_path + csvFilename
         reader = FileReader(pfad)
-        self.TG = reader.readColumnFromCSV("TG", type=int)
+        self.TG = reader.readColumnFromCSV("tg", type=int)
         self.LifeTablecsvName = reader.readColumnFromCSV("Life Table csv name", type=str)
         B = self.TG
         c = list(B.values())

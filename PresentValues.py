@@ -7,8 +7,9 @@ class Presentvalues():
 
     def __init__(self,Contractnr):
         self.ContractDTO= ContractDTO()
-        Tariffgeneration=self.ContractDTO.Tg(Contractnr=Contractnr)
-        self.BiometrieCpl= BiometrieCpl(Tariffgeneration=Tariffgeneration)
+        Tariffgeneration=self.ContractDTO.tg(contract_nr=Contractnr)
+        print(Tariffgeneration)
+        self.BiometrieCpl= BiometrieCpl(tariff_generation=Tariffgeneration)
         self.Interest= Interest()
 
 
@@ -144,8 +145,8 @@ class Presentvalues():
 
 
 
+print(Presentvalues(123))
 
-eg = Presentvalues(123)
 # print(eg.discountFactor(2001))
 # print(eg.n_p_x('male', 10, 30, 1990))
 # print(eg.aeg(4,2001))
