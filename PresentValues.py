@@ -11,7 +11,7 @@ class Presentvalues(ContractDTO):
         self.Interest = Interest()
 
     def v(self):
-        i = self.Interest.Interest_Vector(Tariffgeneration=self.tg())
+        i = self.Interest.interest_vector(tariff_generation=self.tg())
         V = []
         for j in range(0, len(i)):
             v = 1/(1+i[j])
@@ -70,7 +70,7 @@ class Presentvalues(ContractDTO):
         :return: The surcharge factor
         """
         summand1 = (k - 1) / (2 * k)
-        i = self.Interest.Interest_Vector(Tariffgeneration=self.tg())[0]
+        i = self.Interest.interest_vector(tariff_generation=self.tg())[0]
         factor1 = (k * k - 1) / (6 * k * k)
         factor2 = i * (1 - i / 2)
         summand2 = factor1 * factor2
