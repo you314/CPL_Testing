@@ -7,7 +7,7 @@ class Presentvalues(ContractDTO):
 
     def __init__(self, contract_nr):
         super().__init__(contract_nr=contract_nr)
-        self.BiometrieCpl = BiometrieCpl(tariff_generation=self.tg())
+        self.BiometrieCpl = BiometrieCpl(contract_nr=contract_nr)
         self.Interest = Interest()
 
     def v(self):
@@ -18,11 +18,10 @@ class Presentvalues(ContractDTO):
             V.append(v)
         return V
 
-    def n_p_x(self, sex: str, n: int, age:int, birthDate: int):
-        if sex == "female":
-            prob = self.BiometrieCpl.nYearSurvivalProbabilityWomen(n=n, age=age, birthDate=birthDate)
-        else:
-            prob = self.BiometrieCpl.nYearSurvivalProbabilityMen(n=n, age=age, birthDate=birthDate)
+    def n_p_x(self,  n: int, age:int, birthDate: int):
+
+        prob = self.BiometrieCpl.nYearSurvivalProbability(n=n, age=age, birthDate=birthDate)
+
         return prob
 
 
@@ -48,27 +47,26 @@ class Presentvalues(ContractDTO):
 
         return result
 
-    def n_m_a_x(self, Defermentperiod, m, age, birthDate, sex):
+    def n_m_a_x(self, Defermentperiod, m, age, birthDate):
         outerProd = 1
         summand = 0
-        if sex == "male":
-            outerProbability = self.n_p_x(sex="male", n=Defermentperiod, age=age, birthDate=birthDate)
-            for j in range(0, Defermentperiod):
-                outerProd = outerProd * self.v()[j]
-            for count in range(0, m):
-                innerProbability = self.n_p_x(sex="male", n=count, age=age + Defermentperiod, birthDate=birthDate)
-                innerProd = 1
-                for k in range(Defermentperiod, Defermentperiod + count):
-                    innerProd = innerProd * self.v()[k]
-                summand = summand + innerProd * innerProbability
-            result = outerProbability * summand
-            return result
+
+        outerProbability = self.n_p_x( n=Defermentperiod, age=age, birthDate=birthDate)
+        for j in range(0, Defermentperiod):
+            outerProd = outerProd * self.v()[j]
+        for count in range(0, m):
+            innerProbability = self.n_p_x( n=count, age=age + Defermentperiod, birthDate=birthDate)
+            innerProd = 1
+            for k in range(Defermentperiod, Defermentperiod + count):
+                innerProd = innerProd * self.v()[k]
+            summand = summand + innerProd * innerProbability
+        result = outerProbability * summand
+        return result
 
     def F(self, k: int) -> float:
         """
         Computes the surcharge for different payment frequencies
         :param k: The payment frequncy
-        :param Tariffgeneration: The tariffgeneration that determines the interest rate
         :return: The surcharge factor
         """
         summand1 = (k - 1) / (2 * k)
@@ -79,33 +77,33 @@ class Presentvalues(ContractDTO):
         result = summand1 + summand2
         return result
 
-    def c0_nax_k(self, Defermentperiod, age, birthDate, sex, paymentContributionsFrequency):
+    def c0_nax_k(self, Defermentperiod, age, birthDate, paymentContributionsFrequency):
         sum = 0
         for counter in range (Defermentperiod, 121 - age):
-            sum = sum + self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
+            sum = sum + self.n_p_x(n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
         factor1 = self.F(k = paymentContributionsFrequency)
-        factor2 = self.n_p_x(sex = sex, n = Defermentperiod, age = age, birthDate = birthDate) * self.v()[0] ** Defermentperiod
+        factor2 = self.n_p_x( n = Defermentperiod, age = age, birthDate = birthDate) * self.v()[0] ** Defermentperiod
         return sum - factor1 * factor2
 
-    def c1_naxl_k(self, Defermentperiod, age, birthDate, sex, paymentContributionsFrequency, pensionPaymentPeriod):
+    def c1_naxl_k(self, Defermentperiod, age, birthDate, paymentContributionsFrequency, pensionPaymentPeriod):
         '''
         :param pensionPaymentPeriod: stands for 'l' in the formula
         '''
         sum = 0
         for counter in range (Defermentperiod, Defermentperiod + pensionPaymentPeriod - 1):
-            sum = sum + self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
+            sum = sum + self.n_p_x( n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
         factor1 = self.F(k = paymentContributionsFrequency)
-        factor2 = self.n_p_x(sex = sex, n = Defermentperiod + pensionPaymentPeriod, age = Defermentperiod, birthDate = birthDate) * self.v()[0] ** Defermentperiod
-        factor3 = 1 / self.n_p_x(sex = sex, n = Defermentperiod + pensionPaymentPeriod, age = age, birthDate = birthDate)
+        factor2 = self.n_p_x( n = Defermentperiod + pensionPaymentPeriod, age = Defermentperiod, birthDate = birthDate) * self.v()[0] ** Defermentperiod
+        factor3 = 1 / self.n_p_x( n = Defermentperiod + pensionPaymentPeriod, age = age, birthDate = birthDate)
         factor4 = self.v()[0] ** pensionPaymentPeriod
         return sum - factor1 * factor2 * (factor3 - factor4)
 
-    def c2_gax_k(self, Garantietime, age, birthDate, sex, paymentContributionsFrequency):
+    def c2_gax_k(self, Garantietime, age, birthDate, paymentContributionsFrequency):
         sum = 0
         for counter in range (Garantietime, 121 - age):
-            sum = sum + self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
+            sum = sum + self.n_p_x( n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
         factor1 = self.F(k = paymentContributionsFrequency)
-        factor2 = self.n_p_x(sex = sex, n = Garantietime, age = age, birthDate = birthDate) * self.v()[0] ** Garantietime
+        factor2 = self.n_p_x( n = Garantietime, age = age, birthDate = birthDate) * self.v()[0] ** Garantietime
         return sum - factor1 * factor2
 
     def c3_ag_k(self, Garantietime, paymentContributionsFrequency):
@@ -113,22 +111,22 @@ class Presentvalues(ContractDTO):
         denominator = paymentContributionsFrequency * (1 - self.v()[0] ** (1 / paymentContributionsFrequency))
         return nominator / denominator
 
-    def c4_nag_k(self, age, birthDate, sex, Defermentperiod, Garantietime, paymentContributionsFrequency):
+    def c4_nag_k(self, age, birthDate, Defermentperiod, Garantietime, paymentContributionsFrequency):
         nominator = 1 - self.v()[0] ** Garantietime
         denominator = paymentContributionsFrequency * (1 - self.v()[0] ** (1 / paymentContributionsFrequency))
-        factor = self.n_p_x(sex = sex, n = Defermentperiod, age = age, birthDate = birthDate) * self.v()[0] ** Defermentperiod
+        factor = self.n_p_x( n = Defermentperiod, age = age, birthDate = birthDate) * self.v()[0] ** Defermentperiod
         return factor * nominator / denominator
 
-    def c5a_axn(self, age, birthDate, sex, Defermentperiod):
+    def c5a_axn(self, age, birthDate, Defermentperiod):
         sum = 0
         for counter in range (0, Defermentperiod - 1):
-            sum = self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
+            sum = self.n_p_x( n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
         return sum
 
-    def c5b_axn(self, age, birthDate, sex, Defermentperiod):
+    def c5b_axn(self, age, birthDate, Defermentperiod):
         sum = 0
         for counter in range (0, Defermentperiod - 1):
-            sum = self.n_p_x(sex = sex, n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
+            sum = self.n_p_x( n = counter, age = age, birthDate = birthDate) * self.v()[0] ** counter
         return sum
 
 
