@@ -13,12 +13,14 @@ class ContractDTO:
         reader = FileReader(pfad)
         self.ContractNR = reader.readColumnFromCSV("ContractNr", type=int)
         self.Tariff = reader.readColumnFromCSV("Tariff", type=str)
+        self.Tariff_Name = reader.readColumnFromCSV("Tariff_Name", type=str)
         self.Age = reader.readColumnFromCSV("Age", type=int)
         self.TG = reader.readColumnFromCSV("TG", type=int)
         self.Birthyear = reader.readColumnFromCSV("Birthyear", type=int)
         self.Defermentperiod = reader.readColumnFromCSV("Deferment period", type=int)
         self.M = reader.readColumnFromCSV("m", type=int)
         self.Garantietime = reader.readColumnFromCSV("Garantie time", type=int)
+        self.isNonContributory = reader.readColumnFromCSV("isNonContributory", type=int)
         self.Sex = reader.readColumnFromCSV("Sex", type=str)
         self.paymentContributionsFrequency = reader.readColumnFromCSV("paymentContributionsFrequency", type=str)
         self.pensionPaymentPeriod = reader.readColumnFromCSV("pensionPaymentPeriod", type=str)
@@ -44,6 +46,10 @@ class ContractDTO:
         tariff = self.Tariff[self.ContractIndex(Contractnr=Contractnr)]
         return tariff
 
+    def tariff_name(self, Contractnr: int):
+        tariff_name = self.Tariff_Name[self.ContractIndex(Contractnr=Contractnr)]
+        return tariff_name
+
     def birthyear(self, Contractnr: int):
         Birthyear = self.Birthyear[self.ContractIndex(Contractnr=Contractnr)]
         return Birthyear
@@ -64,6 +70,10 @@ class ContractDTO:
         Sex = self.Sex[self.ContractIndex(Contractnr=Contractnr)]
         return Sex
 
+    def is_non_contributory(self, Contractnr: int):
+        isNonContributory = self.isNonContributory[self.ContractIndex(Contractnr=Contractnr)]
+        return isNonContributory
+
     def paymentContributionsFrequency(self, Contractnr: int):
         paymentContributionsFrequency = self.paymentContributionsFrequency[self.ContractIndex(Contractnr=Contractnr)]
         return paymentContributionsFrequency
@@ -71,7 +81,6 @@ class ContractDTO:
     def pensionPaymentPeriod(self, Contractnr: int):
         pensionPaymentPeriod = self.pensionPaymentPeriod[self.ContractIndex(Contractnr=Contractnr)]
         return pensionPaymentPeriod
-
 
 
 
@@ -94,7 +103,6 @@ class ContractDTO:
     paymentAnnuityFrequency: int = None
     typeOfBrokerCortage: str = None
     numberPaymentsContributionsBeforeNonContributory: int = None
-    isNonContributory: bool = None
     isAlive: bool = None
     isInRetirementStartingPhase: bool = None
     isDisabled: Union[bool,None] = None
