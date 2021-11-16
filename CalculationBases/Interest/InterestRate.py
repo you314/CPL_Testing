@@ -4,6 +4,11 @@ from os import path
 class Interest:
 
     def Interest_Vector(self,Tariffgeneration): #Todo improve to take one value of interest rate
+            """
+               This function selects the required interest vector  that should be used in the calculations based on tariff generation from the LifeTables.CSV
+               :param Tariffgeneration: the interest vector is determined according to tariff generation
+               :return: the required interest vector
+              """
             relative_path = "/"
             csvFilename = "Interest.csv"
             pfad = path.dirname(__file__) + relative_path + csvFilename
