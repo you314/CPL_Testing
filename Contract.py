@@ -6,7 +6,7 @@ from typing import Union
 
 class ContractDTO:
 
-    def __init__(self):
+    def __init__(self, contract_nr):
         relative_path = "/"
         csvFilename = "Contract.csv"
         pfad = path.dirname(__file__) + relative_path + csvFilename
