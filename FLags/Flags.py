@@ -9,7 +9,7 @@ class Flags:
         csv_filename = "formulas used.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
-        tariff_generation_dict = csv_reader.readColumnFromCSV("tg", type=int)
+        tariff_generation_dict = csv_reader.read_column_from_csv("tg", type=int)
         x0 = list(tariff_generation_dict.values())
         tariff_aux_dict = csv_reader.read_row_from_csv(0, type=str)
         x1 = list(tariff_aux_dict.keys())
@@ -34,6 +34,6 @@ class Flags:
         csv_filename = "Premium.Flags.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
-        flags_dict = csv_reader.readColumnFromCSV(self.create_matrix(tariff_generation=tariff_generation, tariff=tariff), type=str)
+        flags_dict = csv_reader.read_column_from_csv(self.create_matrix(tariff_generation=tariff_generation, tariff=tariff), type=str)
         flags_vector = list(flags_dict)
         return flags_vector
