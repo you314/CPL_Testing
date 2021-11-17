@@ -11,8 +11,8 @@ class Interest:
         :return: the required interest vector
         """
         relative_path = "/"
-        csv_file = "Interest.csv"
-        csv_path = path.dirname(__file__) + relative_path + csv_file
+        csv_file_name = "Interest.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_file_name
         csv_reader = FileReader(csv_path)
         tariff_generation_string = str(tariff_generation)
         interest_vector_dict = csv_reader.readColumnFromCSV(tariff_generation_string, type=str)
