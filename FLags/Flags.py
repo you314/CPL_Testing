@@ -6,8 +6,8 @@ class Flags:
 
     def create_matrix(self, tariff_generation, tariff: str):  # Todo Change the code to understandable one
         relative_path = "/"
-        csv_file = "formulas used.csv"
-        csv_path = path.dirname(__file__) + relative_path + csv_file
+        csv_filename = "formulas used.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
         tariff_generation_dict = csv_reader.readColumnFromCSV("tg", type=int)
         x0 = list(tariff_generation_dict.values())
@@ -31,8 +31,8 @@ class Flags:
 
     def flags_vector(self, tariff_generation, tariff: str):
         relative_path = "/"
-        csv_file = "Premium.Flags.csv"
-        csv_path = path.dirname(__file__) + relative_path + csv_file
+        csv_filename = "Premium.Flags.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
         flags_dict = csv_reader.readColumnFromCSV(self.create_matrix(tariff_generation=tariff_generation, tariff=tariff), type=str)
         flags_vector = list(flags_dict)
