@@ -34,14 +34,14 @@ class CostMapping(ContractDTO):
 
     def acquisition_cost_group_granular(self):
         if self.acqui_cost_group == "AK_4":
-            if self.defermentperiod() < 55:
+            if self.deferment_period() < 55:
                 return "Variant1"
             else:
                 return "Variant2"
         elif self.acqui_cost_group == "AK_8_Courtagestufe2":
-            if self.defermentperiod() <= 21:
+            if self.deferment_period() <= 21:
                 return "Variant1"
-            elif 21 < self.defermentperiod() <= 30:
+            elif 21 < self.deferment_period() <= 30:
                 return "Variant2"
             else:
                 return "Variant3"
@@ -55,9 +55,9 @@ class CostMapping(ContractDTO):
 
     def amortization_cost_group_granular(self):
         if self.amort_cost_group == "AMK5":
-            if self.defermentperiod() <= 21:
+            if self.deferment_period() <= 21:
                 return "Variant1"
-            elif 21 < self.defermentperiod() <= 30:
+            elif 21 < self.deferment_period() <= 30:
                 return "Variant2"
             else:
                 return "Variant3"

@@ -1,4 +1,3 @@
-
 from CPL_Prep import FileReader
 from os import path
 from datetime import date
@@ -9,83 +8,79 @@ class ContractDTO:
 
     def __init__(self, contract_nr):
         relative_path = "/"
-        csvFilename = "Contract.csv"
-        pfad = path.dirname(__file__) + relative_path + csvFilename
-        reader = FileReader(pfad)
+        csv_filename = "Contract.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_filename
+        csv_reader = FileReader(csv_path)
         self.contract_nr = contract_nr
-        self.contract_nr_dict = reader.readColumnFromCSV("ContractNr", type=int)
-        self.Tariff = reader.readColumnFromCSV("tariff", type=str)
-        self.Tariff_name = reader.readColumnFromCSV("tariff_name", type=str)
-        self.age = reader.readColumnFromCSV("age", type=int)
-        self.Tg = reader.readColumnFromCSV("tg", type=int)
-        self.birth_year = reader.readColumnFromCSV("birth_year", type=int)
-        self.deferment_period = reader.readColumnFromCSV("deferment_period", type=int)
-        self.M = reader.readColumnFromCSV("m", type=int)
-        self.garantie_time = reader.readColumnFromCSV("garantie_time", type=int)
-        self.Is_non_contributory = reader.readColumnFromCSV("is_non_contributory", type=int)
-        self.Sex = reader.readColumnFromCSV("sex", type=str)
-        self.payment_contributions_frequency = reader.readColumnFromCSV("payment_contributions_frequency", type=str)
-        self.pension_payment_period = reader.readColumnFromCSV("pension_payment_period", type=str)
+        self.contract_nr_dict = csv_reader.readColumnFromCSV("ContractNr", type=int)
+        self.tariff_dict = csv_reader.readColumnFromCSV("tariff", type=str)
+        self.tariff_name_dict = csv_reader.readColumnFromCSV("tariff_name", type=str)
+        self.age_dict = csv_reader.readColumnFromCSV("age", type=int)
+        self.tg_dict = csv_reader.readColumnFromCSV("tg", type=int)
+        self.birth_year_dict = csv_reader.readColumnFromCSV("birth_year", type=int)
+        self.deferment_period_dict = csv_reader.readColumnFromCSV("deferment_period", type=int)
+        self.m_dict = csv_reader.readColumnFromCSV("m", type=int)
+        self.guarantee_time_dict = csv_reader.readColumnFromCSV("garantie_time", type=int)
+        self.is_non_contributory_dict = csv_reader.readColumnFromCSV("is_non_contributory", type=int)
+        self.sex_dict = csv_reader.readColumnFromCSV("sex", type=str)
+        self.payment_contributions_frequency_dict = csv_reader.readColumnFromCSV("payment_contributions_frequency", type=str)
+        self.pension_payment_period_dict = csv_reader.readColumnFromCSV("pension_payment_period", type=str)
 
-    def bedan(self):
-        B = self.contract_nr_dict
-        c = list(B.values())
-        return c
+    def contract_nr_auxiliary_function(self):
+        contract_nr_list = list(self.contract_nr_dict.values())
+        return contract_nr_list
 
     def contract_index(self):
-         Index= self.bedan().index(self.contract_nr)
-         return Index
+        index = self.contract_nr_auxiliary_function().index(self.contract_nr)
+        return index
 
     def actuarial_age(self):
-        Age=self.age[self.contract_index()]
-        return Age
+        age = self.age_dict[self.contract_index()]
+        return age
 
     def tg(self):
-        Age=self.Tg[self.contract_index()]
-        return Age
+        tg = self.tg_dict[self.contract_index()]
+        return tg
 
     def tariff(self):
-        tariff = self.Tariff[self.contract_index()]
+        tariff = self.tariff_dict[self.contract_index()]
         return tariff
 
     def tariff_name(self):
-        tariff_name = self.Tariff_name[self.contract_index()]
+        tariff_name = self.tariff_name_dict[self.contract_index()]
         return tariff_name
 
-    def birthyear(self):
-        Birthyear = self.birth_year[self.contract_index()]
-        return Birthyear
+    def birth_year(self):
+        birth_year = self.birth_year_dict[self.contract_index()]
+        return birth_year
 
-    def defermentperiod(self):
-        Defermentperiod = self.deferment_period[self.contract_index()]
-        return Defermentperiod
+    def deferment_period(self):
+        deferment_period = self.deferment_period_dict[self.contract_index()]
+        return deferment_period
 
-    def garantietime(self):
-        Garantietime = self.garantie_time[self.contract_index()]
-        return Garantietime
+    def guarantee_time(self):
+        guarantee_time = self.guarantee_time_dict[self.contract_index()]
+        return guarantee_time
 
     def m(self,):
-        m = self.M[self.contract_index()]
+        m = self.m_dict[self.contract_index()]
         return m
 
     def sex(self):
-        Sex = self.Sex[self.contract_index()]
-        return Sex
+        sex = self.sex_dict[self.contract_index()]
+        return sex
 
     def is_non_contributory(self):
-        isNonContributory = self.Is_non_contributory[self.contract_index()]
-        return isNonContributory
+        is_non_contributory = self.is_non_contributory_dict[self.contract_index()]
+        return is_non_contributory
 
-    def paymentContributionsFrequency(self):
-        paymentContributionsFrequency = self.payment_contributions_frequency[self.contract_index()]
-        return paymentContributionsFrequency
+    def payment_contributions_frequency(self):
+        payment_contributions_frequency = self.payment_contributions_frequency_dict[self.contract_index()]
+        return payment_contributions_frequency
 
-    def pensionPaymentPeriod(self):
-        pensionPaymentPeriod = self.pension_payment_period[self.contract_index()]
-        return pensionPaymentPeriod
-
-
-
+    def pension_payment_period(self):
+        pension_payment_period = self.pension_payment_period_dict[self.contract_index()]
+        return pension_payment_period
 
     coinsuredActuarialAge: int = None
     actuarialAgeAtRetirement: int = None
@@ -125,8 +120,8 @@ class ContractDTO:
     incrementOfGuaranteeOfYearlyIncreaseOfAnnuity: float = None
     professionSpecificFactor: float = None
     sumOfPayedPremiums: float = None
-    pension_payment_period:  int = None
+    pension_payment_period_dict:  int = None
 
 
-print(ContractDTO(contract_nr=123).bedan())
+print(ContractDTO(contract_nr=123).contract_nr_auxiliary_function())
 
