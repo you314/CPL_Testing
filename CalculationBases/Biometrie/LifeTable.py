@@ -16,8 +16,8 @@ class LifeTable(ContractDTO):
         csv_filename = "LifeTables.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
-        self.tg_dict = csv_reader.readColumnFromCSV("tg", type=int)
-        self.life_table_name_dict = csv_reader.readColumnFromCSV("Life Table csv name", type=str)
+        self.tg_dict = csv_reader.read_column_from_csv("tg", type=int)
+        self.life_table_name_dict = csv_reader.read_column_from_csv("Life Table csv name", type=str)
         self.tg_list = list(self.tg_dict.values())
         tg_index = self.tg_list.index(self.tg())  # gets the index of the required tariff generation
         self.life_table_name = self.life_table_name_dict[tg_index]  # gets the required life table based on the index number

@@ -7,29 +7,29 @@ class FileReader:
         pass
 
     def read_row_from_csv(self, row_number, type=None):
-        with open(self.path, newline='') as csvfile:
-            reader = DictReader(csvfile, delimiter=';')
+        with open(self.path, newline='') as csv_file:
+            reader = DictReader(csv_file, delimiter=';')
             for i in range(0, row_number+1):
                 result = next(reader)
         if type is not None:
-            result = self.mapDict(result, type)
+            result = self.map_dict(result, type)
         return result
 
-    def readColumnFromCSV(self, identifier, type=None):
-        with open(self.path, newline='') as csvfile:
-            reader = DictReader(csvfile, delimiter=';')
+    def read_column_from_csv(self, identifier, type=None):
+        with open(self.path, newline='') as csv_file:
+            reader = DictReader(csv_file, delimiter=';')
             result = {}
             i = 0
             for x in reader:
                 result[i] = x[identifier]
                 i += 1
         if type is not None:
-            result = self.mapDict(result, type)
+            result = self.map_dict(result, type)
         return result
 
-    def readCSV(self, type=None):
-        with open(self.path, newline='') as csvfile:
-            reader = DictReader(csvfile, delimiter=';')
+    def read_csv(self, type=None):
+        with open(self.path, newline='') as csv_file:
+            reader = DictReader(csv_file, delimiter=';')
             result = {}
             i = 0
             for x in reader:
@@ -37,12 +37,12 @@ class FileReader:
                 i += 1
         if type is not None:
             def helper(dict):
-                return self.mapDict(dict, type)
-            result = self.mapDict(result, helper)
+                return self.map_dict(dict, type)
+            result = self.map_dict(result, helper)
         return result
 
     @staticmethod
-    def mapDict(dict, func):
+    def map_dict(dict, func):
         result = {k: func(v) for k, v in dict.items()}
         return result
 

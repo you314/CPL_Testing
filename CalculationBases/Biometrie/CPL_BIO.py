@@ -20,13 +20,13 @@ class BiometryCpl(ContractDTO):
         csv_filename = self.life_table_name
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
-        self.age_dict = csv_reader.readColumnFromCSV("AGE", type=float)
+        self.age_dict = csv_reader.read_column_from_csv("AGE", type=float)
         if self.sex() == "male":
-            self.q_x_dict = csv_reader.readColumnFromCSV("q_xm", type=float)
-            self.trend_dict = csv_reader.readColumnFromCSV("trend_m", type=float)
+            self.q_x_dict = csv_reader.read_column_from_csv("q_xm", type=float)
+            self.trend_dict = csv_reader.read_column_from_csv("trend_m", type=float)
         elif self.sex() == "female":
-            self.q_x_dict = csv_reader.readColumnFromCSV("q_xw", type=float)
-            self.trend_dict = csv_reader.readColumnFromCSV("trend_w", type=float)
+            self.q_x_dict = csv_reader.read_column_from_csv("q_xw", type=float)
+            self.trend_dict = csv_reader.read_column_from_csv("trend_w", type=float)
         self.MAX_AGE = 121
 
     def q_x_vector(self, birth_date: int):
