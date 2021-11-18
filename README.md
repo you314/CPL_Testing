@@ -11,12 +11,10 @@ general software architecture.
 
 Three files build the core of the calculation:
 
-__1. Contract.py:__ Builds the contract instance which is relevant for the calculation base classes 
-
-__2. PresentValues.py:__ Here the present values are calculated incorporating the results from the 
+1. __Contract.py:__ Builds the contract instance which is relevant for the calculation base classes 
+2. __PresentValues.py:__ Here the present values are calculated incorporating the results from the 
 calculation base methods
-
-__3. Tariff.py:__ The methods in this file calculate the actuarial values like premiums or prospective reserves.
+3. __Tariff.py:__ The methods in this file calculate the actuarial values like premiums or prospective reserves.
 
 __OPEN:__ It is very likely that the PresentValues class and the tariff class are split up according to tariff groups
 to reflect the huge amount of methods that will be implemented.
@@ -25,10 +23,10 @@ to reflect the huge amount of methods that will be implemented.
 
 The biometry package involves two layers. 
 
-The first layer determines the life table based on the tariff generation.
+1. The first layer determines the life table based on the tariff generation.
 In case of several life tables for a single tariff generation the LifeTable class needs to reflect that logic.
 
-The second layer calculates the probabilities based on the previously determined tables. 
+2. The second layer calculates the probabilities based on the previously determined tables. 
 So far the BiometryCpl class only yields probabilities for annuity tariffs.
 
 ### Calculation Bases - Costs
