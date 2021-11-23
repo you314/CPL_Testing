@@ -13,74 +13,69 @@ class CostMapping(ContractDTO):
     def __init__(self, contract_nr):
         super().__init__(contract_nr=contract_nr)
         relative_path = "/"
-        csv_cost_mapping = "TariffName_CostMapping.csv"
-        csv_cost_mapping_granular = "Tariff_CostMapping_granular.csv"
-        file_tariff_name_cost_mapping = path.dirname(__file__) + relative_path + csv_cost_mapping
-        file_tariff_name_cost_mapping_granular = path.dirname(__file__) + relative_path + csv_cost_mapping_granular
-        self.reader_layer1 = FileReader(file_tariff_name_cost_mapping)
-        self.reader_layer2 = FileReader(file_tariff_name_cost_mapping_granular)
-        self.Mapping_dictionary1 = self.reader_layer1.create_mapping_by_key("TariffNames")
-        self.Mapping_dictionary2 = self.reader_layer2.create_mapping_by_key("CostGroup")
+        csv_filename = "TariffName_CostMapping.csv"
+        csv_filename_granular = "Tariff_CostMapping_granular.csv"
+        csv_path = path.dirname(__file__) + relative_path + csv_filename
+        csv_path_granular = path.dirname(__file__) + relative_path + csv_filename_granular
+        self.reader = FileReader(csv_path)
+        self.reader_granular = FileReader(csv_path_granular)
+        self.mapping_dictionary = self.reader.create_mapping_by_key("TariffNames")
+        self.mapping_dictionary_granular = self.reader_granular.create_mapping_by_key("CostGroup")
+        self.acqui_cost_group = self.mapping_dictionary[self.tariff_name()]["AcquisitionCostGroup"]
+        self.amort_cost_group = self.mapping_dictionary[self.tariff_name()]["AmortizationCostGroup"]
+        self.admin_cost_group = self.mapping_dictionary[self.tariff_name()]["AdministrationCostGroup"]
 
     def acquisition_cost_group(self):
-        self.CostGroup = self.Mapping_dictionary1[self.tariff_name()]["AcquisitionCostGroup"]
-        if self.CostGroup in self.Mapping_dictionary2.keys():
-            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.acquisition_cost_group_granular()]
-            return self.CostGroup + CostGroup_granular
+        if self.acqui_cost_group in self.mapping_dictionary_granular.keys():
+            suffix = self.mapping_dictionary_granular[self.acqui_cost_group][self.acquisition_cost_group_granular()]
+            return self.acqui_cost_group + suffix
         else:
-            return self.CostGroup
+            return self.acqui_cost_group
 
     def acquisition_cost_group_granular(self):
-        if self.CostGroup == "AK_4":
-            if self.defermentperiod() < 55:
+        if self.acqui_cost_group == "AK_4":
+            if self.deferment_period() < 55:
                 return "Variant1"
             else:
                 return "Variant2"
-        elif self.CostGroup == "AK_8_Courtagestufe2":
-            if self.defermentperiod() <= 21:
+        elif self.acqui_cost_group == "AK_8_Courtagestufe2":
+            if self.deferment_period() <= 21:
                 return "Variant1"
-            elif 21 < self.defermentperiod() <= 30:
+            elif 21 < self.deferment_period() <= 30:
                 return "Variant2"
             else:
                 return "Variant3"
 
     def amortization_cost_group(self):
-        self.CostGroup = self.Mapping_dictionary1[self.tariff_name()]["AmortizationCostGroup"]
-        if self.CostGroup in self.Mapping_dictionary2.keys():
-            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.amortization_cost_group_granular()]
-            return self.CostGroup + CostGroup_granular
+        if self.amort_cost_group in self.mapping_dictionary_granular.keys():
+            suffix = self.mapping_dictionary_granular[self.amort_cost_group][self.amortization_cost_group_granular()]
+            return self.amort_cost_group + suffix
         else:
-            return self.CostGroup
+            return self.amort_cost_group
 
     def amortization_cost_group_granular(self):
-        if self.CostGroup == "AMK5":
-            if self.defermentperiod() <= 21:
+        if self.amort_cost_group == "AMK5":
+            if self.deferment_period() <= 21:
                 return "Variant1"
-            elif 21 < self.defermentperiod() <= 30:
+            elif 21 < self.deferment_period() <= 30:
                 return "Variant2"
             else:
                 return "Variant3"
 
     def administration_cost_group(self):
-        self.CostGroup = self.Mapping_dictionary1[self.tariff_name()]["AdministrationCostGroup"]
-        if self.CostGroup in self.Mapping_dictionary2.keys():
-            CostGroup_granular = self.Mapping_dictionary2[self.CostGroup][self.administration_cost_group_granular()]
-            return self.CostGroup + CostGroup_granular
+        self.admin_cost_group = self.mapping_dictionary[self.tariff_name()]["AdministrationCostGroup"]
+        if self.admin_cost_group in self.mapping_dictionary_granular.keys():
+            suffix = self.mapping_dictionary_granular[self.admin_cost_group][self.administration_cost_group_granular()]
+            return self.admin_cost_group + suffix
         else:
-            return self.CostGroup
+            return self.admin_cost_group
 
     def administration_cost_group_granular(self):
-        if self.CostGroup == "LVK11":
+        if self.admin_cost_group == "LVK11":
             if self.is_non_contributory() == 1:
                 return "Variant1"
             else:
                 return "Variant2"
 
     def unit_cost_group(self):
-        return self.Mapping_dictionary1[self.tariff_name()]["UnitCostGroup"]
-
-
-print("acquisition_cost_group name is: " + CostMapping(contract_nr=123).acquisition_cost_group())
-print("amortization_cost_group name is: " + CostMapping(contract_nr=123).amortization_cost_group())
-print("administration_cost_group name is: " + CostMapping(contract_nr=123).administration_cost_group())
-print("unit_cost_group name is: " + CostMapping(contract_nr=123).unit_cost_group())
+        return self.mapping_dictionary[self.tariff_name()]["UnitCostGroup"]

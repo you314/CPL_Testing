@@ -15,10 +15,10 @@ class AdministrationRate:
         """
         relative_path = "/"
         csv_filename = "AdministrationCostRates.csv"
-        file_path = path.dirname(__file__) + relative_path + csv_filename
-        self.reader = FileReader(file_path)
-        self.Mapping_dictionary = self.reader.create_mapping_by_key("AdministrationCostGroups")
-        self.CostGroup = CostMapping(contract_nr=contract_nr).administration_cost_group()
+        csv_path = path.dirname(__file__) + relative_path + csv_filename
+        csv_reader = FileReader(csv_path)
+        self.mapping_dictionary = csv_reader.create_mapping_by_key("AdministrationCostGroups")
+        self.cost_group = CostMapping(contract_nr=contract_nr).administration_cost_group()
 
     def get_administration_cost_by_name(self, cost_type):
         """
@@ -26,5 +26,5 @@ class AdministrationRate:
         :param cost_type: Needs to match the cost_type name in the csv
         :return: Administration cost rate
         """
-        value = self.Mapping_dictionary[self.CostGroup][cost_type]
+        value = self.mapping_dictionary[self.cost_group][cost_type]
         return float(value)

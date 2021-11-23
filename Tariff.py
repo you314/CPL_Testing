@@ -1,4 +1,4 @@
-from PresentValues import Presentvalues
+from PresentValues import PresentValues
 from Contract import ContractDTO
 from FLags.Flags import Flags
 
@@ -7,17 +7,16 @@ class Tariff(ContractDTO):
 
     def __init__(self, contract_nr):
         super().__init__(contract_nr=contract_nr)
-        self.Presentvalues = Presentvalues(contract_nr=contract_nr)
-        self.Flags = Flags()
-        self.flagsVector = self.Flags.FlagsVector(Tariffgeneration=self.tg(), Tariff=self.tariff())
+        self.present_values = PresentValues(contract_nr=contract_nr)
+        self.flags = Flags()
+        self.flags_vector = self.flags.flags_vector(tariff_generation=self.tg(), tariff=self.tariff())
 
-    def NetPremiumRente(self):
-        gamma =0.1
-        netPremium =(1+gamma)*self.flagsVector[1] \
-                    *self.Presentvalues.aeg(g=self.garantietime())  * \
-                    self.flagsVector[2] +self.Presentvalues.aegk(g=self.garantietime(),k=self.m())*\
-                    self.flagsVector[3] + self.Presentvalues.n_m_a_x(Defermentperiod= self.defermentperiod(),m=self.m(),age=self.actuarial_age(),birthDate=self.birthyear())
-        return netPremium
+    def net_premium_annuity(self):
+        gamma = 0.1
+        net_premium = (1+gamma) * self.flags_vector[1] * self.present_values.aeg(g=self.guarantee_time()) * \
+            self.flags_vector[2] + self.present_values.aegk(g=self.guarantee_time(), k=self.m()) * \
+            self.flags_vector[3] + self.present_values.n_m_a_x(deferment_period=self.deferment_period(), m=self.m(), age=self.actuarial_age(), birth_date=self.birth_year())
+        return net_premium
 
 
-print(Tariff(contract_nr=1234).NetPremiumRente())
+print(Tariff(contract_nr=1234).net_premium_annuity())
