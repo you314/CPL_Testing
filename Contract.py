@@ -25,6 +25,7 @@ class ContractDTO:
         self.sex_dict = csv_reader.read_column_from_csv("sex", type=str)
         self.payment_contributions_frequency_dict = csv_reader.read_column_from_csv("payment_contributions_frequency", type=str)
         self.pension_payment_period_dict = csv_reader.read_column_from_csv("pension_payment_period", type=str)
+        self.profession_dict = csv_reader.read_column_from_csv("profession", type=str)
 
     def contract_nr_auxiliary_function(self):
         contract_nr_list = list(self.contract_nr_dict.values())
@@ -70,6 +71,10 @@ class ContractDTO:
         sex = self.sex_dict[self.contract_index()]
         return sex
 
+    def profession(self):
+        profession = self.profession_dict[self.contract_index()]
+        return profession
+
     def is_non_contributory(self):
         is_non_contributory = self.is_non_contributory_dict[self.contract_index()]
         return is_non_contributory
@@ -112,7 +117,6 @@ class ContractDTO:
     tariffName: str = None
     tariffClass: int = None
     tariffThread: str = None
-    profession: str = None
     contractState: str = None
     maximalBenefitPeriodInYears: int = None
     maximalBenefitPeriodInMonths: int = None
