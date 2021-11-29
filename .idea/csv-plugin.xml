@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\CalculationBases\Biometrie\DAV1997I_1O.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\CalculationBases\Biometrie\DAV2004R_1O.csv">
           <value>
             <Attribute>
