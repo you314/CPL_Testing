@@ -19,4 +19,4 @@ class Tariff(ContractDTO):
         return net_premium
 
 
-print(Tariff(contract_nr=1234).net_premium_annuity())
+print("NetPremium for example tariff: " + str(Tariff(contract_nr=1234).net_premium_annuity()) + " (Desired value: 21.51667818974244)")
