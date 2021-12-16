@@ -87,6 +87,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\calculationbases\cost\acquisitioncosts\AcquisitionCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\calculationbases\flagsterms\cflags\BEB_c.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\flags\formulas used.csv">
           <value>
             <Attribute>
