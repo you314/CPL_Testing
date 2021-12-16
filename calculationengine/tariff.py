@@ -13,8 +13,8 @@ class Tariff(ContractDTO):
 
     def net_premium_annuity(self):
         gamma = 0.1
-        net_premium = (1+gamma) * self.flags_vector[1] * self.present_values.aeg(g=self.guarantee_time()) * \
-            self.flags_vector[2] + self.present_values.aegk(g=self.guarantee_time(), k=self.m()) * \
+        net_premium = (1+gamma) * self.flags_vector[1] * self.present_values.aeg(guarantee_time=self.guarantee_time()) * \
+            self.flags_vector[2] + self.present_values.aegk(guarantee_time=self.guarantee_time(), k=self.m()) * \
             self.flags_vector[3] + self.present_values.n_m_a_x(deferment_period=self.deferment_period(), m=self.m(), age=self.actuarial_age(), birth_date=self.birth_year())
         return net_premium
 
