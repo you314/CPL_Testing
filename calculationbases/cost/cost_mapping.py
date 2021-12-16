@@ -1,5 +1,5 @@
-from CPL_Prep import FileReader
-from Contract import ContractDTO
+from helper.cpl_prep import FileReader
+from input.contract import ContractDTO
 from os import path
 
 
