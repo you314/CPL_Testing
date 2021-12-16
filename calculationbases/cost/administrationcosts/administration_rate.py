@@ -20,7 +20,7 @@ class AdministrationRate:
         self.mapping_dictionary = csv_reader.create_mapping_by_key("AdministrationCostGroups")
         self.cost_group = CostMapping(contract_nr=contract_nr).administration_cost_group()
 
-    def get_administration_cost_by_name(self, cost_type):
+    def get_administration_cost_by_name(self, cost_type) -> float:
         """
         Getting the administration cost rate for a cost type, based on cost group
         :param cost_type: Needs to match the cost_type name in the csv

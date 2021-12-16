@@ -1,6 +1,6 @@
 from os import path
 from helper.cpl_prep import FileReader
-from CalculationBases.Costs.CostMapping import CostMapping
+from calculationbases.cost.cost_mapping import CostMapping
 
 
 class AmortizationRate:
@@ -20,7 +20,7 @@ class AmortizationRate:
         self.mapping_dictionary = csv_reader.create_mapping_by_key("AmortizationCostGroups")
         self.cost_group = CostMapping(contract_nr=contract_nr).amortization_cost_group()
 
-    def get_amortization_cost_by_name(self, cost_type):
+    def get_amortization_cost_by_name(self, cost_type) -> float:
         """
         Getting the amortization cost rate for a cost type, based on cost group
         :param cost_type: Needs to match the cost_type name in the csv
