@@ -80,6 +80,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\calculationbases\biometry\LifeTables.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\flags\formulas used.csv">
           <value>
             <Attribute>
