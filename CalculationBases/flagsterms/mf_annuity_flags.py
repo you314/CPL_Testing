@@ -31,7 +31,7 @@ class Flags:
 
     def flags_vector(self, tariff_generation, tariff: str):
         relative_path = "/"
-        csv_filename = "Premium.Flags.csv"
+        csv_filename = "Premium.FLags.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
         flags_dict = csv_reader.read_column_from_csv(self.create_matrix(tariff_generation=tariff_generation, tariff=tariff), type=str)
