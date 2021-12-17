@@ -52,6 +52,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\calculationbases\flagsterms\Premium.FLags.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\calculationbases\flagsterms\formulas used.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\calculationbases\interest\Interest.csv">
           <value>
             <Attribute>
