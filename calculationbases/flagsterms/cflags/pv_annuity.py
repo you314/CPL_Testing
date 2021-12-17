@@ -12,7 +12,7 @@ class PresentValues:
 
     def v(self) -> list[float]:
         """
-        v vector, based on the interest vector
+        v vector, based on the interest_old vector
         :return: v vector
         """
         i = self.Interest.interest_vector(tariff_generation=self.contractDTO.tg())
