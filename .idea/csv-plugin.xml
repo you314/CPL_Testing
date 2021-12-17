@@ -10,7 +10,70 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\CalculationBases\Costs\AcquisitionCosts\AcquisitionCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\CalculationBases\Costs\AdministationCosts\AdministrationCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\CalculationBases\Costs\AmortizationCosts\AmortizationCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\CalculationBases\Costs\TariffName_CostMapping.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\CalculationBases\Costs\Tariff_CostMapping_granular.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\CalculationBases\Costs\UnitCosts\UnitCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\CalculationBases\Interest\Interest.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\Contract.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\FLags\Premium.FLags.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\FLags\formulas used.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
@@ -25,6 +88,20 @@
           </value>
         </entry>
         <entry key="\calculationbases\cost\acquisitioncosts\AcquisitionCostRates.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\calculationbases\flagsterms\cflags\BEB_c.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\flags\formulas used.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
