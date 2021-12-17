@@ -1,5 +1,5 @@
-from CalculationBases.biometry.cpl_bio import BiometryCpl
-from CalculationBases.interest.interest_rate import Interest
+from calculationbases.biometry.cpl_bio import BiometryCpl
+from calculationbases.interest.interest_rate import Interest
 from input.contract import ContractDTO
 
 

@@ -1,7 +1,7 @@
 from math import exp
 from os import path
 from helper.cpl_prep import FileReader
-from CalculationBases.biometry.life_table import LifeTable
+from calculationbases.biometry.life_table import LifeTable
 from input.contract import ContractDTO
 
 

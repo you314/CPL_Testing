@@ -1,6 +1,6 @@
 from os import path
 from helper.cpl_prep import FileReader
-from CalculationBases.cost.cost_mapping import CostMapping
+from calculationbases.cost.cost_mapping import CostMapping
 
 
 class AdministrationRate:
