@@ -1,6 +1,6 @@
 from os import path
 from helper.cpl_prep import FileReader
-from calculationbases.cost.cost_mapping import CostMapping
+from CalculationBases.cost.cost_mapping import CostMapping
 
 
 class AcquisitionRate:
@@ -28,3 +28,4 @@ class AcquisitionRate:
         """
         value = self.mapping_dictionary[self.cost_group][cost_type]
         return float(value)
+

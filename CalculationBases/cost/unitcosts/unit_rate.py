@@ -1,6 +1,6 @@
 from os import path
 from helper.cpl_prep import FileReader
-from calculationbases.cost.cost_mapping import CostMapping
+from CalculationBases.cost.cost_mapping import CostMapping
 
 
 class UnitCost:
