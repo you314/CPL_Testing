@@ -1,6 +1,6 @@
 from os import path
 from helper.cpl_prep import FileReader
-from CalculationBases.Costs.CostMapping import CostMapping
+from calculationbases.cost.cost_mapping import CostMapping
 
 
 class AcquisitionRate:
@@ -20,7 +20,7 @@ class AcquisitionRate:
         self.mapping_dictionary = csv_reader.create_mapping_by_key("AcquisitionCostGroups")
         self.cost_group = CostMapping(contract_nr=contract_nr).acquisition_cost_group()
 
-    def get_acquisition_cost_by_name(self, cost_type):
+    def get_acquisition_cost_by_name(self, cost_type) -> float:
         """
         Getting the acquisitions cost rate for a cost type, based on cost group
         :param cost_type: Needs to match the cost_type name in the csv
@@ -28,3 +28,4 @@ class AcquisitionRate:
         """
         value = self.mapping_dictionary[self.cost_group][cost_type]
         return float(value)
+

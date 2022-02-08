@@ -4,7 +4,8 @@ from os import path
 
 class Flags:
 
-    def create_matrix(self, tariff_generation, tariff: str):  # Todo Change the code to understandable one
+    def create_matrix(self, tariff_generation, tariff: str) -> str:  # Todo Change the code to understandable one
+        # Code needs to be adjusted to cope with a flag input similar to cpl!
         relative_path = "/"
         csv_filename = "formulas used.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
@@ -29,7 +30,7 @@ class Flags:
         matrix_entry = mat[index_tg][index_tariff]
         return matrix_entry
 
-    def flags_vector(self, tariff_generation, tariff: str):
+    def flags_vector(self, tariff_generation, tariff: str) -> list[int]:
         relative_path = "/"
         csv_filename = "Premium.FLags.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename

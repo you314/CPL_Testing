@@ -4,9 +4,9 @@ from os import path
 
 class Interest:
 
-    def interest_vector(self, tariff_generation):  # Todo improve to take one value of interest rate
+    def interest_vector(self, tariff_generation) -> list[float]:  # Todo improve to take one value of interest rate
         """
-        This function selects the required interest vector  that should be used in the calculations based on tariff generation from the LifeTables.CSV
+        Initializes the interest vector used in the calculations based on tariff generation from the LifeTables.CSV
         :param tariff_generation: the interest vector is determined according to tariff generation
         :return: the required interest vector
         """
