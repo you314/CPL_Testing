@@ -1,6 +1,6 @@
-from calculationbases.flagsterms.cflags.pv_annuity import PresentValues
-from input.contract import ContractDTO
-from calculationbases.flagsterms.mf_annuity_flags import Flags
+from CPLTesting.CalculationBases.flagsterms.cflags.pv_annuity import PresentValues
+from CPLTesting.input.contract import ContractDTO
+from CPLTesting.CalculationBases.flagsterms.mf_annuity_flags import Flags
 
 
 class Tariff(ContractDTO):
@@ -9,12 +9,12 @@ class Tariff(ContractDTO):
         super().__init__(contract_nr=contract_nr)
         self.present_values = PresentValues(contract_nr=contract_nr)
         self.flags = Flags()
-        self.flags_vector = self.flags.flags_vector(tariff_generation=self.tg(), tariff=self.tariff())
+        self.flags_vector = self.flags.Gross_Premium_flags_vector(tariff= ContractDTO.tariff(self))
 
-    def net_premium_annuity(self) -> float:
+    def Single_Gross_premium_annuity(self) -> float:
         """
-        Maxi Formula for the net premium
-        :return: net premium
+        Maxi Formula for the gross premium
+        :return: gross premium
         """
         gamma = 0.1
         net_premium = (1+gamma) * self.flags_vector[1] * self.present_values.aeg(guarantee_time=self.guarantee_time()) * \
@@ -23,4 +23,4 @@ class Tariff(ContractDTO):
         return net_premium
 
 
-print("NetPremium for example tariff: " + str(Tariff(contract_nr=1234).net_premium_annuity()) + " (Desired value: 21.51667818974244)")
+print("NetPremium for example tariff: " + str(Tariff(contract_nr=123).Single_Gross_premium_annuity()) + " (Desired value: 21.51667818974244)")

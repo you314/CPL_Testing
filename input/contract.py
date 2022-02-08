@@ -1,4 +1,4 @@
-from helper.cpl_prep import FileReader
+from CPLTesting.helper.cpl_prep import FileReader
 from os import path
 from datetime import date
 from typing import Union
