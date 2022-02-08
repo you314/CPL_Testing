@@ -1,8 +1,8 @@
 from math import exp
 from os import path
-from helper.cpl_prep import FileReader
-from calculationbases.biometry.life_table import LifeTable
-from input.contract import ContractDTO
+from CPLTesting.helper.cpl_prep import FileReader
+from CPLTesting.CalculationBases.biometry.life_table import LifeTable
+from CPLTesting.input.contract import ContractDTO
 
 
 class BiometryCpl:
