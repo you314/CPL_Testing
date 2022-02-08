@@ -9,17 +9,24 @@ general software architecture.
 
 ## Structure
 
-Three files build the core of the calculation:
+The program is structured in packages, resembling the data flow.
 
-1. __Contract.py:__ Builds the contract instance which is relevant for the calculation base classes 
-2. __PresentValues.py:__ Here the present values are calculated incorporating the results from the 
-calculation base methods
-3. __Tariff.py:__ The methods in this file calculate the actuarial values like premiums or prospective reserves.
+1. __input:__ Builds the contract instance which is relevant for the calculation base classes. The input file will be a
+test file, which can be used by cpl as well. 
+2. __calculationbases:__ This package contains many subpackages which provide, biometrical values, costs, interests, 
+flags and terms.
+3. __calculationengine:__ Tariff logic used to calculate actuarial values. It needs to be decided if one engine per 
+tariff class is needed. 
+4. __output:__ This method is empty still, but it will be used to perform the comparison between cpl's and python's
+output. Yielding a comparison file. 
 
-__OPEN:__ It is very likely that the PresentValues class and the tariff class are split up according to tariff groups
-to reflect the huge amount of methods that will be implemented.
+The two remaining packages cannot be fit into the data flow.
 
-### Calculation Bases - Biometry
+- __helper:__ All modules that have no direct link to the actuarial calculations are stored here. Those are customized
+csv readers, or the c_file reader (used to read the cpl output).
+- __tests:__ All classes and functions in this tool should be covered by a unit tests. Those tests can be found here.
+
+### calculationbases - biometry
 
 The biometry package involves two layers. 
 
@@ -29,7 +36,7 @@ In case of several life tables for a single tariff generation the LifeTable clas
 2. The second layer calculates the probabilities based on the previously determined tables. 
 So far the BiometryCpl class only yields probabilities for annuity tariffs.
 
-### Calculation Bases - Costs
+### calculationbases - costs
 
 The implementation of maxi formulas demands a clustered cost logic. For that purpose all tariffs were analysed and their
 costs were clustered in the following way: https://docs.google.com/spreadsheets/d/1sIFjQ8Akmh2DNMp_mZu2motYrF-PQVRZ/edit#gid=484148070.
@@ -39,20 +46,23 @@ Four cost group families exist: "Acquisition Costs", "Amortization Costs", "Admi
 status. The allocation of the cost group is done via the tariff name (e.g. "HA/2004") in CostMapping.py.
 
 Each cost group has its own folder and the definition of the cost rate is always done with the same logic.
-To use the cost in the tariff calculation the "get_xyz_cost_by_name" is used with the cost's name as a parameter.
+The cost rates can be accessed by "get_xyz_cost_by_name" function is used with the cost's name as a parameter.
 
-### Calculation Bases - Interest
+### calculationbases - interest
 
 The interest rate depends on the tariff generation and is returned as a vector. Future implementations which will 
 calculate the Zinsratenzuschlag, that requires time-dependent interest rates can easily be implemented in that
 framework
 
-### Flags
+### calculationbases - flagsterms
 
 Flags are a central element of the maxi formulas. The current implementation follows a two layered approach where (1) 
 the formula to be used is based on the tariff name and (2) the flags are determined based on the formula. 
 
-__Open:__ This approach needs to be revised most probably as the formulas are getting more and bigger. 
+There are several flags used for the maxi formulas. 
+1. mf_annuity_flags is used to determine the flags that are used to switch on functions in the maxi formula.
+2. In cflags the present value terms are coded.
+3. In eflags the cost terms are stored.
 
 ## Tests
 

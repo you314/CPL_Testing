@@ -1,6 +1,6 @@
 from os import path
-from CPL_Prep import FileReader
-from Contract import ContractDTO
+from helper.cpl_prep import FileReader
+from input.contract import ContractDTO
 
 
 class LifeTable(ContractDTO):

@@ -1,6 +1,6 @@
-from CalculationBases.Biometrie.CPL_BIO import BiometryCpl
-from CalculationBases.Interest.InterestRate import Interest
-from Contract import ContractDTO
+from calculationbases.biometry.cpl_bio import BiometryCpl
+from calculationbases.interest.interest_rate import Interest
+from input.contract import ContractDTO
 
 
 class PresentValues(ContractDTO):

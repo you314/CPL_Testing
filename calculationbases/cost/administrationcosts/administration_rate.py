@@ -1,12 +1,12 @@
 from os import path
-from CPL_Prep import FileReader
-from CalculationBases.Costs.CostMapping import CostMapping
+from helper.cpl_prep import FileReader
+from calculationbases.cost.cost_mapping import CostMapping
 
 
 class AdministrationRate:
     """
     Class used to provide the administration cost rate. Its method relies on a csv.
-    AdministrationRates.csv links the unit cost rate to the admin cost group coming from the class CostMapping.py.
+    AdministrationRates.csv links the unit cost rate to the admin cost group coming from the class cost_mapping.py.
     """
 
     def __init__(self, contract_nr):  # ToDo: Logic for CostGroups needs to be included, or be part of the IL

@@ -1,6 +1,6 @@
-from PresentValues import PresentValues
-from Contract import ContractDTO
-from FLags.Flags import Flags
+from calculationbases.flagsterms.cflags.pv_annuity import PresentValues
+from input.contract import ContractDTO
+from calculationbases.flagsterms.mf_annuity_flags import Flags
 
 
 class Tariff(ContractDTO):
