@@ -66,9 +66,8 @@ There are several flags used for the maxi formulas.
 
 ## Tests
 
-__Open:__
-The implementation of unit tests did not yet start. Once established their success will be an acceptance criteria for 
-newly written code.
+Each package will be covered by a unit test. Those tests should assert the results of the function and also verify that 
+all the functions are called with the correct arguments.
 
 # Coding Guidelines (maryam heritage)
 ## IMPORTANT: General Guidelines

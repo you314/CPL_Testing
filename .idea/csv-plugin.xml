@@ -24,13 +24,6 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\Repository Diff: Interest.csv">
-          <value>
-            <Attribute>
-              <option name="separator" value="," />
-            </Attribute>
-          </value>
-        </entry>
         <entry key="\calculationbases\Interest\Interest.csv">
           <value>
             <Attribute>
@@ -67,6 +60,13 @@
           </value>
         </entry>
         <entry key="\calculationbases\interest\Interest.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\input\Contract.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
