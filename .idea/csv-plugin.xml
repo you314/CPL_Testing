@@ -10,7 +10,7 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\CalculationBases\Interest\Interest.csv">
+        <entry key="\calculationbases\interest\Interest.csv">
           <value>
             <Attribute>
               <option name="separator" value=";" />
