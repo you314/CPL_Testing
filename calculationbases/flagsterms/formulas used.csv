@@ -1,4 +1,4 @@
-Tariff;BEB;BJB ;NEB;NJB;Dka;DKb;DKc
+Tariff;BEB;BJB;NEB;NJB;Dka;DKb;DKc
 HA/2004;Formula1;Formula2;Formula3;Formula4;;;
 A/2004;Formula2;Formula3;Formula4;Formula5;;;
 HA/07/2004;Formula3;Formula4;Formula5;Formula6;;;
@@ -208,8 +208,8 @@ LET/98;;;;;;;
 HLET/98;;;;;;;
 LETEB/98;;;;;;;
 LEH/98;;;;;;;
-LEFPRÄSENT/2002;;;;;;;
-TLEFPRÄSENT2002;;;;;;;
+LEFPRï¿½SENT/2002;;;;;;;
+TLEFPRï¿½SENT2002;;;;;;;
 LE/2004;;;;;;;
 HLE/2004;;;;;;;
 TLE/2004;;;;;;;
@@ -223,8 +223,8 @@ LET/2004;;;;;;;
 TLET/2004;;;;;;;
 LEF/2004;;;;;;;
 TLEF/2004;;;;;;;
-LEFPRÄSENT/2004;;;;;;;
-TLEFPRÄSENT2004;;;;;;;
+LEFPRï¿½SENT/2004;;;;;;;
+TLEFPRï¿½SENT2004;;;;;;;
 LEVB/2004;;;;;;;
 PA11/2004;;;;;;;
 PA10/2004;;;;;;;
@@ -240,8 +240,8 @@ TLET/2005;;;;;;;
 LETEB/2005;;;;;;;
 LEF/2005;;;;;;;
 TLEF/2005;;;;;;;
-LEFPRÄSENT/2005;;;;;;;
-TLEFPRÄSENT2005;;;;;;;
+LEFPRï¿½SENT/2005;;;;;;;
+TLEFPRï¿½SENT2005;;;;;;;
 LEVB/2005;;;;;;;
 PA11/2005;;;;;;;
 PA10/2005;;;;;;;
