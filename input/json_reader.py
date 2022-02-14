@@ -93,4 +93,4 @@ class JsonReader:
 
 
 JsonReader = JsonReader()
-print(JsonReader.pension_payment_period())
+print(JsonReader.actuarial_age())
