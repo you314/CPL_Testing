@@ -20,8 +20,8 @@ class Flags:
         csv_filename = "Premium.FLags.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
-        flags_dict = csv_reader.read_column_from_csv(formulaNR, type=int)
-        flags_vector = list(flags_dict)
+        flags_dict = csv_reader.read_column_from_csv(formula_NR, type=int)
+        flags_vector = list(flags_dict.values())
 
         return flags_vector
 
