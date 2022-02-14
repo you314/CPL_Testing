@@ -1,4 +1,4 @@
-from CPLTesting.helper.cpl_prep import FileReader
+from helper.cpl_prep import FileReader
 from os import path
 
 
@@ -15,7 +15,7 @@ class Flags:
         BEB_dict = csv_reader1.read_column_from_csv("BEB", type=str)
         x0 = list(tariff_dict.values())
         index_tariff = x0.index(tariff)
-        formulaNR= BEB_dict[index_tariff]
+        formula_NR= BEB_dict[index_tariff]
         relative_path = "/"
         csv_filename = "Premium.FLags.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
