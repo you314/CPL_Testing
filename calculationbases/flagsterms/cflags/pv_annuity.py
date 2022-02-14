@@ -1,13 +1,15 @@
-from CPLTesting.CalculationBases.biometry.cpl_bio import BiometryCpl
-from CPLTesting.CalculationBases.Interest.interest_rate import Interest
-from CPLTesting.input.contract import ContractDTO
+from calculationbases.biometry.cpl_bio import BiometryCpl
+from calculationbases.interest.interest_rate import Interest
+from input.contract import ContractDTO
+from input.json_reader import JsonReader
 
 
 class PresentValues:
 
-    def __init__(self, contract_nr):
-        self.contractDTO = ContractDTO(contract_nr=contract_nr)
-        self.biometry_cpl = BiometryCpl(contract_nr=contract_nr)
+    def __init__(self):# contract_nr):
+        #self.contractDTO = ContractDTO(contract_nr=contract_nr)
+        self.contractDTO= JsonReader
+        self.biometry_cpl = BiometryCpl()#contract_nr=contract_nr)
         self.Interest = Interest()
 
     def v(self) -> list[float]:

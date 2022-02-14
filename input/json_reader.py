@@ -49,7 +49,7 @@ class JsonReader:
 
     # Needs to be determined how to create m. Maybe CalcDate-BEGINNDAT... For now setting m=0
     def m(self,) -> int:
-        m = 0  # self.m_dict[self.contract_index()]
+        m = 1  # self.m_dict[self.contract_index()]
         return m
 
     def sex(self) -> str:
@@ -93,4 +93,3 @@ class JsonReader:
 
 
 JsonReader = JsonReader()
-print(JsonReader.actuarial_age())

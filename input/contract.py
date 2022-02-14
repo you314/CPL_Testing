@@ -1,4 +1,4 @@
-from CPLTesting.helper.cpl_prep import FileReader
+from helper.cpl_prep import FileReader
 from os import path
 from datetime import date
 from typing import Union
@@ -127,4 +127,4 @@ class ContractDTO:
     pension_payment_period_dict:  int = None
 
 
-print("Available contract numbers: " + str(ContractDTO(contract_nr=123).contract_nr_auxiliary_function()))
+

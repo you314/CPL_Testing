@@ -1,18 +1,21 @@
 from math import exp
 from os import path
-from CPLTesting.helper.cpl_prep import FileReader
-from CPLTesting.CalculationBases.biometry.life_table import LifeTable
-from CPLTesting.input.contract import ContractDTO
+from helper.cpl_prep import FileReader
+from calculationbases.biometry.life_table import LifeTable
+from input.contract import ContractDTO
+from input.json_reader import JsonReader
 
 
 class BiometryCpl:
 
-    def __init__(self, contract_nr):
-        self.contractDTO = ContractDTO(contract_nr=contract_nr)
-        self.life_table = LifeTable(contract_nr=contract_nr)
+    def __init__(self):
+        #self.contractDTO = ContractDTO(contract_nr=contract_nr)
+        self.contractDTO = JsonReader
+        self.life_table = LifeTable()
         self.death_table_name = self.life_table.death_probability_table()
         self.disability_table_name = self.life_table.disability_probability_table()
         self.relative_path = "/"
+
 
     def q_x_vector(self, birth_date: int) -> list[float]:
         """
@@ -24,7 +27,7 @@ class BiometryCpl:
         death_csv_path = path.dirname(__file__) + self.relative_path + death_csv_filename
         death_csv_reader = FileReader(death_csv_path)
         death_age_dict = death_csv_reader.read_column_from_csv("AGE", type=float)
-        if self.contractDTO.sex() == "male":
+        if self.contractDTO.sex() == "M":
             q_x_dict = death_csv_reader.read_column_from_csv("q_xm", type=float)
             trend_dict = death_csv_reader.read_column_from_csv("trend_m", type=float)
         else:

@@ -1,8 +1,8 @@
-from CPLTesting.helper.cpl_prep import FileReader
+from helper.cpl_prep import FileReader
 from os import path
 
 
-class Interest:
+class Interest():
 
     def interest_vector(self, tariff_generation) -> list[float]:  # Todo improve to take one value of interest rate
         """
@@ -15,7 +15,7 @@ class Interest:
         csv_path = path.dirname(__file__) + relative_path + csv_file_name
         csv_reader = FileReader(csv_path)
         tariff_generation_string = str(tariff_generation)
-        interest_vector_dict = csv_reader.read_column_from_csv(tariff_generation_string, type=str)
+        interest_vector_dict = csv_reader.read_column_from_csv(tariff_generation_string, type=float)
         interest_vector = []
         x = len(interest_vector_dict)
         for i in range(0, x):

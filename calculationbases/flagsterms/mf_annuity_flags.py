@@ -24,5 +24,3 @@ class Flags:
         flags_vector = list(flags_dict.values())
 
         return flags_vector
-
-print(Flags().Gross_Premium_flags_vector(tariff="HA/2004"))
