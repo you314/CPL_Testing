@@ -69,14 +69,14 @@ class BiometryCpl:
         """
         qx_vector = self.q_x_vector(birth_date=birth_date)
         if n <= 0:
-            result = 1
+            product = 1.
         elif age >= len(qx_vector) - 1:
-            result = 0
+            product = 0.
         else:
-            result = 1
+            product = 1.
             for i in range(age, age + n):
-                result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
-        return result
+                product *= self.one_year_survival_probability(age=i, birth_date=birth_date)
+        return product
 
     def i_x_vector(self) -> list[float]:
         """
@@ -107,8 +107,7 @@ class BiometryCpl:
         :return: one year disability probability
         """
         ix_vector = self.i_x_vector()
-        ix = ix_vector[age]
-        return ix
+        return ix_vector[age]
 
     def one_year_active_probability(self, age) -> float:
         """
@@ -116,8 +115,18 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year active probability
         """
-        result = 1 - self.one_year_disability_probability(age)
-        return result
+        return 1 - self.one_year_disability_probability(age)
+
+    def n_year_disability_probability(self, deferment_period, age) -> float:
+        """
+        This function initialises the required n years disability probability
+        :param age: the age of the insured person
+        :return: one year active probability
+        """
+        product = 1.
+        for j in range(deferment_period):
+            product *= self.one_year_disability_probability(age=age+j)
+        return product
 
 
 #print(BiometryCpl(contract_nr=1234).one_year_death_probability(age=40, birth_date=1960))
