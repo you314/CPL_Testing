@@ -117,14 +117,15 @@ class BiometryCpl:
         """
         return 1 - self.one_year_disability_probability(age)
 
-    def n_year_disability_probability(self, deferment_period, age) -> float:
+    def n_year_disability_probability(self, n, age) -> float:
         """
         This function initialises the required n years disability probability
+        :param n: the deferment period
         :param age: the age of the insured person
         :return: one year active probability
         """
         product = 1.
-        for j in range(deferment_period):
+        for j in range(n):
             product *= self.one_year_disability_probability(age=age+j)
         return product
 

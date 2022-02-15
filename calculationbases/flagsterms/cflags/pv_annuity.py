@@ -162,7 +162,31 @@ class PresentValues:
             sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
         return sum
 
-    ### ...
+
+    def c6_ax_k(self, ) -> float:
+        return 0    # still needs to be implemented, was blocked
+
+
+    def c7_ngax_k(self, ) -> float:
+        return 0    # still needs to be implemented, was blocked
+
+
+    def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
+        term1 = self.v()[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        sum = 0.
+        for j in (0, max_age-age-deferment_period):
+            sum += self.v()[0] ** j * self.n_p_x(n=j, age=age, birth_date=birth_date)
+
+        correction = self.correction_factor(payment_frequency=12) * self.v()[0] ** deferment_period \
+                     * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        return term1 * sum - correction
+
+
+    def c9_nag_12(self, guarantee_time, deferment_period, age, birth_date) -> float:
+        term1 = self.v()[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        fraction = (1 - self.v()[0] ** guarantee_time) / (12 * (1 - self.v()[0] ** (1/12)))
+        return term1 * fraction
+
 
     def c10_ag_12(self, guarantee_time: int) -> float:
         return (1 - self.v()[0] ** guarantee_time) / (12 - 12 * self.v()[0] ** (1/12))
@@ -249,9 +273,34 @@ class PresentValues:
         sum = 0.
         for j in range(max_age-deferment_period-age+1):
             sum += self.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
-                     * cpl_bio.n_year_disability_probability(deferment_period=j, age=age+deferment_period)
+                     * cpl_bio.n_year_disability_probability(n=j, age=age+deferment_period)
 
         factor = self.v()[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
-                * cpl_bio.n_year_disability_probability(deferment_period=deferment_period, age=age+deferment_period)
+                * cpl_bio.n_year_disability_probability(n=deferment_period, age=age+deferment_period)
         correction = self.correction_factor(payment_frequency=payment_frequency)
         return factor * (sum - correction)
+
+
+    def c19_ax_aik(self,) -> float:
+        return 0    # still needs to be implemented, was blocked
+
+
+    def c20_axn_aik(self, deferment_period, age, birth_date) -> float:
+        sum = 0.
+        for j in range(deferment_period):
+            sum += self.v()[0] ** j * self.n_p_x(n=j, age=age, birth_date=birth_date) \
+                   * cpl_bio.n_year_disability_probability(n=j, age=age)
+        return sum
+
+
+    def c21_ngaxs_k(self, pension_dynamic, payment_frequency, guarantee_time, deferment_period, max_age, age, birth_date) -> float:
+        sum = 0.
+        for k in range(max_age - age - deferment_period - guarantee_time):
+            sum += self.n_p_x(n=k, age=age+deferment_period+guarantee_time, birth_date=birth_date) \
+                   * self.v()[0] ** k * (1 + pension_dynamic) ** k
+
+        term1 = (1 + pension_dynamic) ** guarantee_time * self.v()[0] ** (deferment_period + guarantee_time) \
+                * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        term2 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency)))/(1 + pension_dynamic)
+        correction = self.correction_factor(payment_frequency=payment_frequency) / (1 + pension_dynamic)
+        return term1 * (term2 * sum - correction)
