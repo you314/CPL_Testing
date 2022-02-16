@@ -135,6 +135,7 @@ class PresentValues:
         factor2 = self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) * self.v()[0] ** guarantee_time
         return sum - factor1 * factor2
 
+
     def c3_ag_k(self, guarantee_time: int, payment_contributions_frequency: int) -> float:
         nominator = 1 - self.v()[0] ** guarantee_time
         denominator = payment_contributions_frequency * (1 - self.v()[0] ** (1 / payment_contributions_frequency))
@@ -158,23 +159,35 @@ class PresentValues:
 
     def c5b_axn(self, age: int, birth_date: int, deferment_period: int) -> float:
         sum = 0.
-        for counter in (0, deferment_period):# - 1):
+        for counter in range(0, deferment_period):# - 1):
             sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
         return sum
 
 
-    def c6_ax_k(self, ) -> float:
-        return 0    # still needs to be implemented, was blocked
+    def c6_ax_k(self, payment_frequency, max_age, age, birth_date) -> float:
+        sum = 0.
+        for j in range(max_age - age):
+            sum += self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0] ** j
+
+        correction = self.correction_factor(payment_frequency=payment_frequency)
+        return sum - correction
 
 
-    def c7_ngax_k(self, ) -> float:
-        return 0    # still needs to be implemented, was blocked
+    def c7_ngax_k(self, deferment_period, guarantee_time, payment_frequency, max_age, age, birth_date) -> float:
+        sum = 0.
+        for j in range(deferment_period + guarantee_time, max_age - age):
+            sum += self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0] ** j
+
+        correction = self.correction_factor(payment_frequency=payment_frequency) \
+                     * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
+                     * self.v()[0] ** (deferment_period + guarantee_time)
+        return sum - correction
 
 
     def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
         term1 = self.v()[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
         sum = 0.
-        for j in (0, max_age-age-deferment_period):
+        for j in range(0, max_age-age-deferment_period):
             sum += self.v()[0] ** j * self.n_p_x(n=j, age=age, birth_date=birth_date)
 
         correction = self.correction_factor(payment_frequency=12) * self.v()[0] ** deferment_period \
@@ -295,7 +308,7 @@ class PresentValues:
 
     def c21_ngaxs_k(self, pension_dynamic, payment_frequency, guarantee_time, deferment_period, max_age, age, birth_date) -> float:
         sum = 0.
-        for k in range(max_age - age - deferment_period - guarantee_time):
+        for k in range(max_age-age-deferment_period-guarantee_time):
             sum += self.n_p_x(n=k, age=age+deferment_period+guarantee_time, birth_date=birth_date) \
                    * self.v()[0] ** k * (1 + pension_dynamic) ** k
 
@@ -304,3 +317,65 @@ class PresentValues:
         term2 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency)))/(1 + pension_dynamic)
         correction = self.correction_factor(payment_frequency=payment_frequency) / (1 + pension_dynamic)
         return term1 * (term2 * sum - correction)
+
+
+    def c22_gaxs_k(self, payment_frequency, pension_dynamic, guarantee_time, deferment_period, max_age, age, birth_date) -> float:
+        sum = 0.
+        for j in range(max_age-age-guarantee_time):
+            sum += self.n_p_x(n=j, age=age+guarantee_time, birth_date=birth_date) \
+                   * self.v()[0]**j * (1 + pension_dynamic)**j
+
+        term1 = (1 + pension_dynamic)**guarantee_time * self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) \
+                * self.v()[0]**guarantee_time
+        correction1 = (1 + pension_dynamic * (1 - cpl_bio.n_year_disability_probability(n=deferment_period, age=age))) \
+                      / (1 + pension_dynamic)
+        correction2 = self.correction_factor(payment_frequency=payment_frequency) / (1 + pension_dynamic)
+        return term1 * (correction1 * sum - correction2)
+
+
+    def c23_naxs_k(self, payment_frequency, pension_dynamic, deferment_period, max_age, age, birth_date) -> float:
+        sum = 0.
+        for j in range(max_age-age-deferment_period):
+            sum += self.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
+                   * self.v()[0]**j * (1 + pension_dynamic)**j
+
+        term1 = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0]**deferment_period
+        correction1 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency))) \
+                      / (1 + pension_dynamic)
+        correction2 = self.correction_factor(payment_frequency=payment_frequency) / (1 + pension_dynamic)
+        return term1 * (correction1 * sum - correction2)
+
+
+    def c24_nags_k(self, pension_dynamic, guarantee_time, deferment_period, payment_frequency, age, birth_date, interest_rate) -> float:
+        term1 = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0]**deferment_period \
+                * 1/payment_frequency * (1 - self.v()[0]) / (1 - self.v()[0]**(1/payment_frequency))
+        term2 = (1 - (self.v()[0] * (1+pension_dynamic))**guarantee_time) / (1 - self.v()[0]**(1+pension_dynamic))
+
+        pv = 0.
+        if pension_dynamic != interest_rate:
+            pv = term1 + term2
+        else:
+            pv = term1 + guarantee_time
+        return pv
+
+
+    def c25_ags_k(self, pension_dynamic, guarantee_time, payment_frequency, interest_rate) -> float:
+        term1 = 1/payment_frequency * (1 - self.v()[0]) / (1 - self.v()[0]**(1/payment_frequency))
+        term2 = (1 - (self.v()[0] * (1+pension_dynamic))**guarantee_time) / (1 - self.v()[0]*(1+pension_dynamic))
+
+        pv = 0.
+        if pension_dynamic != interest_rate:
+            pv = term1 + term2
+        else:
+            pv = term1 + guarantee_time
+        return pv
+
+
+    def c26_axs_k(self, payment_frequency, pension_dynamic, max_age, age, birth_date) -> float:
+        sum = 0.
+        for j in range(max_age-age):
+            sum += self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0]**j * (1+pension_dynamic)**j
+
+        correction1 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency))) / (1+pension_dynamic)
+        correction2 = self.correction_factor(payment_frequency=payment_frequency) / (1+pension_dynamic)
+        return correction1 * sum - correction2
