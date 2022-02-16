@@ -4,35 +4,59 @@ from CPLTesting.input.contract import ContractDTO
 
 
 class LifeTable:
+    """
+    *description*
+    """
 
     def __init__(self, contract_nr):
         """
-         Initializes required life tables to be used in calculations based on tariff generation from the LifeTables.CSV
-         :param contract_nr: the life table is determined according to contract_nr
+        Initializes required life tables to be used in calculations based on tariff generation from the LifeTables.csv
+        :param contract_nr: the life table is determined according to contract_nr
         """
         self.contractDTO = ContractDTO(contract_nr=contract_nr)
         relative_path = "/"
         csv_filename = "LifeTables.csv"
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         self.csv_reader = FileReader(csv_path)
-        self.tg_dict = self.csv_reader.read_column_from_csv("tg", type=int)
-        self.tg_list = list(self.tg_dict.values())
+        self.tariff_generation_dict = self.csv_reader.read_column_from_csv("tariff_generation", type=int)
+        self.tariff_generation_list = list(self.tariff_generation_dict.values())
+
+    def probability_table_of(self, table_type) -> str:
+        table_name_dict = []
+        if table_type == 'life':
+            table_name_dict = self.csv_reader.read_column_from_csv("Life_Table_csv_name", type=str)
+        elif table_type == 'disability':
+            table_name_dict = self.csv_reader.read_column_from_csv("Disability_Table_csv_name", type=str)
+        elif table_type == 'disabled_life':
+            table_name_dict = self.csv_reader.read_column_from_csv("_Table_csv_name", type=str)
+        elif table_type == 'disable_reactivation':
+            table_name_dict = self.csv_reader.read_column_from_csv("_Table_csv_name", type=str)
+
+        tariff_generation_index = self.tariff_generation_list.index(self.contractDTO.tariff_generation())
+        return table_name_dict[tariff_generation_index]
+
+    # the above function can replace all four below
+    ###########################################################################################################
 
     def death_probability_table(self) -> str:
         """
         :return: Name of the death (active) probability table
         """
         life_table_name_dict = self.csv_reader.read_column_from_csv("Life_Table_csv_name", type=str)
-        tg_index = self.tg_list.index(self.contractDTO.tg())  # gets the index of the required tariff generation
-        return life_table_name_dict[tg_index]  # gets the required life table based on the index number
+        # gets the index of the required tariff generation
+        tariff_generation_index = self.tariff_generation_list.index(self.contractDTO.tariff_generation())
+        # gets the required life table based on the index number
+        return life_table_name_dict[tariff_generation_index]
 
     def disability_probability_table(self) -> str:
         """
         :return: Name of the disability probability table
         """
         disability_table_name_dict = self.csv_reader.read_column_from_csv("Disability_Table_csv_name", type=str)
-        tg_index = self.tg_list.index(self.contractDTO.tg())  # gets the index of the required tariff generation
-        return disability_table_name_dict[tg_index]  # gets the required life table based on the index number
+        # gets the index of the required tariff generation
+        tariff_generation_index = self.tariff_generation_list.index(self.contractDTO.tariff_generation())
+        # gets the required life table based on the index number
+        return disability_table_name_dict[tariff_generation_index]
 
     def disabled_death_probability_table(self) -> str:
         """
