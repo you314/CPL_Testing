@@ -2,7 +2,7 @@ from helper.cpl_prep import FileReader
 from os import path
 
 
-class Flags:
+class Flags():
     """
     *description*
     """
@@ -25,4 +25,7 @@ class Flags:
         flags_vector = list(flags_dict.values())
         return flags_vector
 
-print(Flags().gross_premium_flags_vector(tariff="HA/2004"))
+
+print(Flags().gross_premium_flags_vector(tariff="ARZ/2004"))
+
+

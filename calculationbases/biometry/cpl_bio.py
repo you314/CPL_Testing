@@ -123,4 +123,4 @@ class BiometryCpl:
         return result
 
 
-#print(BiometryCpl(contract_nr=1234).one_year_death_probability(age=40, birth_date=1960))
+

@@ -93,3 +93,4 @@ class JsonReader:
 
 
 JsonReader = JsonReader()
+print(JsonReader.guarantee_time())

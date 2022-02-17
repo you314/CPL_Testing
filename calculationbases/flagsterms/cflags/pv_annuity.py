@@ -1,6 +1,7 @@
-import CPLTesting.CalculationBases.biometry.cpl_bio as cpl_bio
-from CPLTesting.CalculationBases.Interest.interest_rate import Interest
-from CPLTesting.input.contract import ContractDTO
+import calculationbases.biometry.cpl_bio as cpl_bio
+from calculationbases.interest.interest_rate import Interest
+from input.contract import ContractDTO
+from input.json_reader import JsonReader
 
 
 class PresentValues:
@@ -15,9 +16,9 @@ class PresentValues:
     Is a one-to-one copy of CPL the best way to set up a testing tool? (note by Timon)
     """
 
-    def __init__(self, contract_nr):
-        self.contractDTO = ContractDTO(contract_nr=contract_nr)
-        self.biometry_cpl = cpl_bio.BiometryCpl(contract_nr=contract_nr)
+    def __init__(self):
+        self.contractDTO = JsonReader
+        self.biometry_cpl = cpl_bio.BiometryCpl()
         self.Interest = Interest()
 
     ### general functions ###
@@ -43,13 +44,13 @@ class PresentValues:
         :param n: the period in which the required probability is calculated
         :return: n year death probability
         """
-        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date, sex='male')
+        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date)
 
     def n_p_y(self, n: int, age: int, birth_date: int) -> float:
         """
         Equals n_p_x but for female sex
         """
-        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date, sex='female')
+        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date)
 
     def aeg(self, guarantee_time: int) -> float:
         sum = 0.

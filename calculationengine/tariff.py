@@ -1,70 +1,72 @@
-from CPLTesting.CalculationBases.flagsterms.cflags.pv_annuity import PresentValues
-from CPLTesting.input.contract import ContractDTO
-from CPLTesting.CalculationBases.flagsterms.mf_annuity_flags import Flags
+from calculationbases.flagsterms.cflags.pv_annuity import PresentValues
+from input.json_reader import JsonReader
+from input.contract import ContractDTO
+from calculationbases.flagsterms.mf_annuity_flags import Flags
 
 
-class Tariff(ContractDTO):
-    """
-    *description*
-    """
 
-    def __init__(self, contract_nr: int):  # ToDo Evaluate if inheritance is the right approach here
-        super().__init__(contract_nr=contract_nr)
-        self.present_values = PresentValues(contract_nr=contract_nr)
-        self.flags = Flags()
-        self.flags_vector = self.flags.Gross_Premium_flags_vector(tariff=ContractDTO.tariff(self))
 
-    def single_gross_premium_annuity(self) -> float:
-        """
-        Maxi formula for the gross single premium annuity
-        """
-        gamma = 0.1
-        ### maxi formula needs yet to be adjusted ###
-        single_gross_premuium_annuity = (1+gamma) * self.flags_vector[1] * self.present_values.aeg(guarantee_time=self.guarantee_time()) * \
-            self.flags_vector[2] + self.present_values.aegk(guarantee_time=self.guarantee_time(), k=self.m()) * \
-            self.flags_vector[3] + self.present_values.n_m_a_x(deferment_period=self.deferment_period(), m=self.m(), age=self.actuarial_age(), birth_date=self.birth_year())
+class Tariff():
 
-        return single_gross_premuium_annuity
+        def __init__(self):  # , contract_nr: int):  # ToDo Evaluate if inheritance is the right approach here
+            # super().__init__()  # contract_nr=contract_nr)
+            self.present_values = PresentValues()  # contract_nr=contract_nr)
+            self.flags = Flags()
+            self.contract_Dto = JsonReader
+            # self.flags_vector = self.flags.Gross_Premium_flags_vector(tariff= ContractDTO.tariff(self))
+            self.flags_vector_J = self.flags.gross_premium_flags_vector(tariff=self.contract_Dto.tariff_name())
 
-    def annual_gross_premium_annuity(self) -> float:
-        """
-        Maxi formula for the gross annual premium annuity
-        """
-        gamma = 0.1
-        annual_gross_premuium_annuity = 0
-        return annual_gross_premuium_annuity
+        def Single_Gross_premium_annuity(self) -> float:
+            """
+            Maxi formula for the gross single premium annuity
+            """
+            gamma = 0.1
+            ### maxi formula needs yet to be adjusted ###
+            GP = (1 + gamma) * self.flags_vector_J[1] * self.present_values.aeg(guarantee_time=self.contract_Dto.guarantee_time()) +\
+                 self.flags_vector_J[2] + self.present_values.aegk(guarantee_time=self.contract_Dto.guarantee_time(), k=self.contract_Dto.m()) * \
+                 self.flags_vector_J[3]
+            return GP
 
-    def single_netto_premium_annuity(self) -> float:
-        """
-        Maxi formula for the netto single premium annuity
-        """
-        gamma = 0.1
-        single_netto_premuium_annuity = 0
-        return single_netto_premuium_annuity
 
-    def annual_netto_premium_annuity(self) -> float:
-        """
-        Maxi formula for the netto annual premium annuity
-        """
-        gamma = 0.1
-        annual_netto_premuium_annuity = 0
-        return annual_netto_premuium_annuity
+        def annual_gross_premium_annuity(self) -> float:
+            """
+            Maxi formula for the gross annual premium annuity
+            """
+            gamma = 0.1
+            annual_gross_premuium_annuity = 0
+            return annual_gross_premuium_annuity
 
-    def reserves_annuity(self, reserve_type='a') -> float:
-        """
-        Maxi formula for the capital reserves a, b & c (reserve_type argument)
-        """
-        gamma = 0.1
-        reserves_annuity = 0.
-        if reserve_type == 'a':
-            reserves_annuity = 0
+        def single_netto_premium_annuity(self) -> float:
+            """
+            Maxi formula for the netto single premium annuity
+            """
+            gamma = 0.1
+            single_netto_premuium_annuity = 0
+            return single_netto_premuium_annuity
 
-        elif reserve_type == 'b':
-            reserves_annuity = 0
+        def annual_netto_premium_annuity(self) -> float:
+            """
+            Maxi formula for the netto annual premium annuity
+            """
+            gamma = 0.1
+            annual_netto_premuium_annuity = 0
+            return annual_netto_premuium_annuity
 
-        elif reserve_type == 'c':
-            reserves_annuity = 0
+        def reserves_annuity(self, reserve_type='a') -> float:
+            """
+            Maxi formula for the capital reserves a, b & c (reserve_type argument)
+            """
+            gamma = 0.1
+            reserves_annuity = 0.
+            if reserve_type == 'a':
+                reserves_annuity = 0
 
-        return reserves_annuity
+            elif reserve_type == 'b':
+                reserves_annuity = 0
 
-print("NetPremium for example tariff: " + str(Tariff(contract_nr=123).Single_Gross_premium_annuity()) + " (Desired value: 21.51667818974244)")
+            elif reserve_type == 'c':
+                reserves_annuity = 0
+
+            return reserves_annuity
+
+print("NetPremium for example tariff: " + str(Tariff().Single_Gross_premium_annuity()) + " (Desired value: 21.51667818974244)")
