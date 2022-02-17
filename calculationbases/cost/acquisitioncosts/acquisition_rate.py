@@ -5,7 +5,8 @@ from calculationbases.cost.cost_mapping import CostMapping
 
 class AcquisitionRate:
     """
-    Class used to provide the acquisition cost rate. Its method relies on a csv.
+    Class used to provide the acquisition cost rate.
+    Its method relies on a csv.
     AcquisitionRates.csv links the unit cost rate to the acquisition cost group coming from the class cost_mapping.py.
     """
 
