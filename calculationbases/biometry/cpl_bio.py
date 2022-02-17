@@ -17,7 +17,7 @@ class BiometryCpl:
         self.disability_table_name = self.life_table.disability_probability_table()
         self.relative_path = "/"
 
-    def q_x_vector(self, birth_date, sex='male') -> list[float]:
+    def q_x_vector(self, birth_date: int) -> list[float]:
         """
         Initialises death probability vector with trend factors, which is set to male sex by default
         """
@@ -27,11 +27,11 @@ class BiometryCpl:
         death_age_dict = death_csv_reader.read_column_from_csv("AGE", type=float)
         q_x_dict = 0.
         trend_dict = 0.
-        # if self.contractDTO.sex() == "male":
-        if sex == "male":
+        if self.contractDTO.sex() == "male":
+
             q_x_dict = death_csv_reader.read_column_from_csv("q_xm", type=float)
             trend_dict = death_csv_reader.read_column_from_csv("trend_m", type=float)
-        elif sex == 'female':
+        else:
             q_x_dict = death_csv_reader.read_column_from_csv("q_xf", type=float)
             trend_dict = death_csv_reader.read_column_from_csv("trend_f", type=float)
 
@@ -43,14 +43,14 @@ class BiometryCpl:
             qx_vector.append(qx)
         return qx_vector
 
-    def one_year_death_probability(self, age, birth_date, sex) -> float:
+    def one_year_death_probability(self, age, birth_date) -> float:
         """
         Initialises required one year death probability considering a trend factor
         :param birth_date: the birth year of the insured person
         :param age: the age of the insured person
         :return: one year death probability
         """
-        qx_vector = self.q_x_vector(birth_date=birth_date, sex=sex)
+        qx_vector = self.q_x_vector(birth_date=birth_date)
         return qx_vector[age]
 
     def one_year_survival_probability(self, age, birth_date, sex) -> float:
@@ -60,9 +60,10 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year survival probability
         """
-        return 1 - self.one_year_death_probability(age, birth_date=birth_date, sex=sex)
+        return 1 - self.one_year_death_probability(age, birth_date=birth_date)
 
     def n_year_survival_probability(self, n, age, birth_date, sex) -> float:
+
         """
         This function initialises the required n year death probability with taking in consideration the trend factor
         :param birth_date: the birth year of the insured person
@@ -71,27 +72,18 @@ class BiometryCpl:
         :return: n year death probability
         """
         product = 1.
-        if sex == 'male':
-            qx_vector = self.q_x_vector(birth_date=birth_date)
-            if n <= 0:
-                product = 1.
-            elif age >= len(qx_vector) - 1:
-                product = 0.
-            else:
-                product = 1.
-                for i in range(age, age + n):
-                    product *= self.one_year_survival_probability(age=i, birth_date=birth_date, sex=sex)
 
-        elif sex == 'female':
-            qx_vector = self.q_x_vector(birth_date=birth_date)
-            if n <= 0:
-                product = 1.
-            elif age >= len(qx_vector) - 1:
-                product = 0.
-            else:
-                product = 1.
-                for i in range(age, age + n):
-                    product *= self.one_year_survival_probability(age=i, birth_date=birth_date, sex=sex)
+        qx_vector = self.q_x_vector(birth_date=birth_date)
+        if n <= 0:
+             product = 1.
+        elif age >= len(qx_vector) - 1:
+             product = 0.
+        else:
+             product = 1.
+        for i in range(age, age + n):
+             product *= self.one_year_survival_probability(age=i, birth_date=birth_date, sex=sex)
+
+
 
         return product
 
