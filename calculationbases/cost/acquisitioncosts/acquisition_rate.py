@@ -4,7 +4,7 @@ from calculationbases.cost.cost_mapping import CostMapping
 from input.json_reader import JsonReader
 
 
-class AcquisitionRate:
+class AcquisitionRate():
     """
     Class used to provide the acquisition cost rate.
     Its method relies on a csv.

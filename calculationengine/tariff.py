@@ -16,13 +16,17 @@ class Tariff():
             # self.flags_vector = self.flags.Gross_Premium_flags_vector(tariff= ContractDTO.tariff(self))
             self.flags_vector_J = self.flags.gross_premium_flags_vector(tariff=self.contract_Dto.tariff_name())
 
-        def Single_Gross_premium_annuity(self) -> float:
+        def Gross_premium_annuity(self) -> float:
             """
             Maxi formula for the gross single premium annuity
             """
-            gamma = 0.1
+            gamma = 0.4
             ### maxi formula needs yet to be adjusted ###
-            GP = (1 + gamma) * self.flags_vector_J[1] * self.present_values.aeg(guarantee_time=self.contract_Dto.guarantee_time()) +\
+            GP = (1 + gamma) * self.flags_vector_J[0] * self.present_values.c0_nax_k(deferment_period=self.contract_Dto.deferment_period(),
+                                                                                     age=self.contract_Dto.actuarial_age()
+                                                                                ,birth_date= self.contract_Dto.birth_year(),
+                                                    payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency() )\
+                 +\
                  self.flags_vector_J[2] + self.present_values.aegk(guarantee_time=self.contract_Dto.guarantee_time(), k=self.contract_Dto.m()) * \
                  self.flags_vector_J[3]
             return GP
@@ -69,4 +73,4 @@ class Tariff():
 
             return reserves_annuity
 
-print("NetPremium for example tariff: " + str(Tariff().Single_Gross_premium_annuity()) + " (Desired value: 2.082159965161852)")
+print("NetPremium for example tariff: " + str(1000*Tariff().Gross_premium_annuity()) + " (Desired value: 2.082159965161852)")

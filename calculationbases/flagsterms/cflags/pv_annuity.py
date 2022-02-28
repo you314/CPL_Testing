@@ -368,3 +368,22 @@ class PresentValues:
         term1 = self.n_p_x(n=payment_duration, age=age_male, birth_date=birth_date, sex=sex_male) \
                 * self.n_p_x(n=payment_duration, age=age_female, birth_date=birth_date, sex=sex_female)
         return term1 * product
+
+    def c38a(self,payment_duration,age,birth_date):
+        term1 =1
+        for j in range(payment_duration-1):
+            term1 = self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j]
+        return term1
+
+    def c38b(self,payment_duration,age,birth_date):
+        term1 =1
+        for j in range(payment_duration-1):
+            term1 = self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j]
+        return term1
+
+
+    def c44(self,payment_duration,age,birth_date,deferment_period):
+        term1 =1
+        for j in range(deferment_period-payment_duration-1):
+            term1 = self.n_p_x(n=deferment_period-payment_duration, age=age, birth_date=birth_date) * self.v()[j+payment_duration]
+        return term1

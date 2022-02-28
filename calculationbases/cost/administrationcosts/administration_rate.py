@@ -47,7 +47,7 @@ class AdministrationRate:
         value = self.mapping_dictionary[self.cost_group]["gamma_11"]
         return float(value)
 
-    def gamma_12(self, cost_type) -> float:
+    def gamma_12(self) -> float:
         """
         Getting the administration cost rate for a cost type, based on cost group
         :param cost_type: Needs to match the cost_type name in the csv
