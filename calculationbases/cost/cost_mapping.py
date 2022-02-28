@@ -1,5 +1,6 @@
-from CPLTesting.helper.cpl_prep import FileReader
-from CPLTesting.input.contract import ContractDTO
+from helper.cpl_prep import FileReader
+from input.contract import ContractDTO
+from input.json_reader import JsonReader
 from os import path
 
 
@@ -10,8 +11,8 @@ class CostMapping:
     Tariff_CostMapping_granular.csv adds a suffix to the cost group based on contract specific parameters.
     """
 
-    def __init__(self, contract_nr):
-        self.contractDTO = ContractDTO(contract_nr=contract_nr)
+    def __init__(self):
+        self.contractDTO = JsonReader
         relative_path = "/"
         csv_filename = "TariffName_CostMapping.csv"
         csv_filename_granular = "Tariff_CostMapping_granular.csv"

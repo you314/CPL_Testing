@@ -1,6 +1,6 @@
 from os import path
-from CPLTesting.helper.cpl_prep import FileReader
-from CPLTesting.CalculationBases.cost.cost_mapping import CostMapping
+from helper.cpl_prep import FileReader
+from calculationbases.cost.cost_mapping import CostMapping
 
 
 class AmortizationRate:
@@ -9,7 +9,7 @@ class AmortizationRate:
     AmortizationRates.csv links the unit cost rate to the amortization cost group coming from the class cost_mapping.py.
     """
 
-    def __init__(self, contract_nr):  # ToDo: Logic for CostGroups needs to be included, or be part of the IL
+    def __init__(self):  # ToDo: Logic for CostGroups needs to be included, or be part of the IL
         """
         :param int contract_nr: The mapping is done via the contract number, which provides the tariff name
         """
@@ -18,13 +18,24 @@ class AmortizationRate:
         csv_path = path.dirname(__file__) + relative_path + csv_filename
         csv_reader = FileReader(csv_path)
         self.mapping_dictionary = csv_reader.create_mapping_by_key("AmortizationCostGroups")
-        self.cost_group = CostMapping(contract_nr=contract_nr).amortization_cost_group()
+        self.cost_group = CostMapping().amortization_cost_group()
 
-    def get_amortization_cost_by_name(self, cost_type) -> float:
+    def alpha_gamma(self) -> float:
         """
         Getting the amortization cost rate for a cost type, based on cost group
         :param cost_type: Needs to match the cost_type name in the csv
         :return: Amortization cost rate
         """
-        value = self.mapping_dictionary[self.cost_group][cost_type]
+        value = self.mapping_dictionary[self.cost_group]["alpha_gamma"]
         return float(value)
+
+    def alpha_beta(self) -> float:
+        """
+        Getting the amortization cost rate for a cost type, based on cost group
+        :param cost_type: Needs to match the cost_type name in the csv
+        :return: Amortization cost rate
+        """
+        value = self.mapping_dictionary[self.cost_group]["alpha_beta"]
+        return float(value)
+
+print(AmortizationRate().alpha_beta())
