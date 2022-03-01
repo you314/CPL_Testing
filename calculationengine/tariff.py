@@ -96,4 +96,4 @@ class Tariff():
 
             return reserves_annuity
 
-print("NetPremium for example tariff: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 2.082159965161852)")
+print("Gross Premium for example tariff: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 2.082159965161852)")
