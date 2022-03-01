@@ -132,7 +132,7 @@ class BiometryCpl:
         return result
 
 
-print(BiometryCpl().survival_probability_vector(age=25, birth_date=1996))
+
 
 
 

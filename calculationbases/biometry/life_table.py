@@ -71,4 +71,3 @@ class LifeTable:
         """
         return "TableCBA"
 
-print(LifeTable().death_probability_table())
