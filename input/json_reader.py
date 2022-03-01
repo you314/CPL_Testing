@@ -12,7 +12,7 @@ class JsonReader:
         self.data = json.load(file)
 
     def actuarial_age(self) -> int:
-        age_raw = json.dumps(self.data['contract']['TVERSPERS']['new'][0]['BEITRALTER'])
+        age_raw = json.dumps(self.data['contract']['TLSCHDETAIL']['new'][0]['BEITRALTER'])
         age = int(age_raw.replace("\"", ""))
         return age
 
@@ -39,7 +39,9 @@ class JsonReader:
 
     def deferment_period(self) -> int:
         deferment_period_raw = json.dumps(self.data['contract']['TPENSVEREINBG']['new'][0]['RENTENAUFDAUER'])
-        deferment_period = int(deferment_period_raw.replace("\"", ""))
+        deferment_period1 = int(deferment_period_raw.replace("\"", ""))
+        deferment_period= int(deferment_period1/12)
+
         return deferment_period
 
     def guarantee_time(self) -> int:
@@ -93,4 +95,4 @@ class JsonReader:
 
 
 JsonReader = JsonReader()
-print(JsonReader.tariff_name())
+

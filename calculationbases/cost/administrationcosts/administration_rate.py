@@ -84,4 +84,4 @@ class AdministrationRate:
         return float(value)
 
 
-print(AdministrationRate().gamma_3())
+

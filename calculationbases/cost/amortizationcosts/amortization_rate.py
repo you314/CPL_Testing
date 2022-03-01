@@ -38,4 +38,3 @@ class AmortizationRate:
         value = self.mapping_dictionary[self.cost_group]["alpha_beta"]
         return float(value)
 
-print(AmortizationRate().alpha_beta())

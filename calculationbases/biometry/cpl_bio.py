@@ -81,6 +81,15 @@ class BiometryCpl:
                 result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
         return result
 
+    def n_year_survival_probability_Vetor(self, age, birth_date)-> float:
+
+        nPX_vector = []
+        result=1
+        for k in range(age,121):
+            result *= 1-self.q_x_vector(birth_date=birth_date)[k]
+            nPX_vector.append(result)
+        return nPX_vector
+
     def i_x_vector(self) -> list[float]:
         """
          This function initialises the required disability probability vector
@@ -121,6 +130,10 @@ class BiometryCpl:
         """
         result = 1 - self.one_year_disability_probability(age)
         return result
+
+
+print(BiometryCpl().n_year_survival_probability_Vetor(age=25,birth_date=1996))
+
 
 
 

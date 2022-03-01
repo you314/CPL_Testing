@@ -69,6 +69,6 @@ class AcquisitionRate():
 
 
 
-print(AcquisitionRate().alpha_Z())
+
 
 
