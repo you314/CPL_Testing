@@ -1,6 +1,8 @@
-import CPLTesting.CalculationBases.biometry.cpl_bio as cpl_bio
-from CPLTesting.CalculationBases.Interest.interest_rate import Interest
-from CPLTesting.input.contract import ContractDTO
+import calculationbases.biometry.cpl_bio as cpl_bio
+from calculationbases.interest.interest_rate import Interest
+from input.json_reader import JsonReader
+from calculationbases.cost.acquisitioncosts.acquisition_rate import AcquisitionRate
+from calculationbases.cost.administrationcosts.administration_rate import AdministrationRate
 
 
 class Costs:
@@ -9,15 +11,17 @@ class Costs:
     We hereby copy the current status of CPL.
     """
 
-    def __init__(self, contract_nr):
-        self.contractDTO = ContractDTO(contract_nr=contract_nr)
-        self.biometry_cpl = cpl_bio.BiometryCpl(contract_nr=contract_nr)
+    def __init__(self):
+        self.contractDTO = JsonReader
+        self.biometry_cpl = cpl_bio.BiometryCpl()
         self.Interest = Interest()
+        self.acuisitioncost= AcquisitionRate()
+        self.adminiscost = AdministrationRate()
 
     ### general functions ###
 
     def alpha_z(self) -> float:
-        return 0.
+        return 0
 
     def alpha_1(self) -> float:
         return 0.
@@ -34,13 +38,33 @@ class Costs:
         return 1./12.
 
     def e2a_asqcosta_z(self) -> float:
-        return self.alpha_z()
+        return self.acuisitioncost.alpha_Z()
 
     def e2b_asqcosta_z(self) -> float:
-        return self.alpha_z()
+        return self.acuisitioncost.alpha_Z()
 
     def e3_asqcosta_1(self) -> float:
-        return self.alpha_1()
+        return self.acuisitioncost.alpha_1()
 
     def e4_asqcosta_2(self) -> float:
         return self.alpha_2()
+
+    def e_12(self):
+        value= 1
+        return value
+
+    def e_13(self):
+        value= 1
+        return value
+    def e_30(self,payment_duration, Max_provizionsbezug):
+        value = min(payment_duration, Max_provizionsbezug)
+        return value
+
+    def e_45(self):
+        return self.adminiscost.gamma_11()
+    def e_46(self):
+        return self.adminiscost.gamma_12()
+
+
+
+print(Costs().e2a_asqcosta_z())

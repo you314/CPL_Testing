@@ -1,6 +1,7 @@
-import CPLTesting.CalculationBases.biometry.cpl_bio as cpl_bio
-from CPLTesting.CalculationBases.Interest.interest_rate import Interest
-from CPLTesting.input.contract import ContractDTO
+import calculationbases.biometry.cpl_bio as cpl_bio
+from calculationbases.interest.interest_rate import Interest
+from input.contract import ContractDTO
+from input.json_reader import JsonReader
 
 
 class PresentValues:
@@ -15,9 +16,9 @@ class PresentValues:
     Is a one-to-one copy of CPL the best way to set up a testing tool? (note by Timon)
     """
 
-    def __init__(self, contract_nr):
-        self.contractDTO = ContractDTO(contract_nr=contract_nr)
-        self.biometry_cpl = cpl_bio.BiometryCpl(contract_nr=contract_nr)
+    def __init__(self):
+        self.contractDTO = JsonReader
+        self.biometry_cpl = cpl_bio.BiometryCpl()
         self.Interest = Interest()
 
     ### general functions ###
@@ -43,13 +44,23 @@ class PresentValues:
         :param n: the period in which the required probability is calculated
         :return: n year death probability
         """
-        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date, sex='male')
+        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date)
+
+    def n_p_x_V(self, age: int, birth_date: int) -> float:
+        """
+        This function yields n year death probability
+        :param birth_date: the birth year of the insured person
+        :param age: the age of the insured person
+        :param n: the period in which the required probability is calculated
+        :return: n year death probability
+        """
+        return self.biometry_cpl.n_year_survival_probability_Vetor(age=age, birth_date=birth_date)
 
     def n_p_y(self, n: int, age: int, birth_date: int) -> float:
         """
         Equals n_p_x but for female sex
         """
-        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date, sex='female')
+        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date)
 
     def aeg(self, guarantee_time: int) -> float:
         sum = 0.
@@ -166,19 +177,20 @@ class PresentValues:
     def c6_ax_k(self, payment_frequency, max_age, age, birth_date) -> float:
         sum = 0.
         for j in range(max_age - age):
-            sum += self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0] ** j
+            sum = sum+self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0] ** j
 
         correction = self.correction_factor(payment_frequency=payment_frequency)
         return sum - correction
 
-    def c7_ngax_k(self, deferment_period, guarantee_time, payment_frequency, max_age, age, birth_date) -> float:
+    def c7_ngax_k(self, deferment_period, guarantee_time, payment_frequency, age, birth_date) -> float:
         sum = 0.
-        for j in range(deferment_period + guarantee_time, max_age - age):
-            sum += self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0] ** j
+        survivalvec= self.n_p_x_V( age=age, birth_date=birth_date)
+        for j in range(deferment_period + guarantee_time, 121-age ):
+            sum += survivalvec[j] * self.v()[0] ** j
 
         correction = self.correction_factor(payment_frequency=payment_frequency) \
-                     * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
-                     * self.v()[0] ** (deferment_period + guarantee_time)
+                    * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
+                    * self.v()[0] ** (deferment_period + guarantee_time)
         return sum - correction
 
     def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
@@ -367,3 +379,26 @@ class PresentValues:
         term1 = self.n_p_x(n=payment_duration, age=age_male, birth_date=birth_date, sex=sex_male) \
                 * self.n_p_x(n=payment_duration, age=age_female, birth_date=birth_date, sex=sex_female)
         return term1 * product
+
+    def c38a(self,payment_duration,age,birth_date):
+        term =1
+        for j in range(payment_duration-1):
+            term =term +  self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j]
+        return term
+
+    def c38b(self,payment_duration,age,birth_date):
+        term1 =0
+        for j in range(payment_duration-1):
+            term1 = term1 + self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j]
+        return term1
+
+
+    def c44(self,payment_duration,age,birth_date,deferment_period):
+        term1 =1
+        for j in range(deferment_period-payment_duration-1):
+            term1 = self.n_p_x(n=deferment_period-payment_duration, age=age, birth_date=birth_date) * self.v()[j+payment_duration]
+        return term1
+
+
+print(PresentValues().n_p_x_V(age=40,birth_date=1970))
+print(PresentValues().c7_ngax_k(deferment_period=30,guarantee_time=2,payment_frequency=1,age=40,birth_date=1970))
