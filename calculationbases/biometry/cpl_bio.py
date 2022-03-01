@@ -81,12 +81,12 @@ class BiometryCpl:
                 result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
         return result
 
-    def n_year_survival_probability_Vetor(self, age, birth_date)-> float:
-
-        nPX_vector = []
+    def survival_probability_vector(self, age, birth_date) -> float:
         result=1
-        for k in range(age,121):
-            result *= 1-self.q_x_vector(birth_date=birth_date)[k]
+        nPX_vector = [result]
+        qx_vector = self.q_x_vector(birth_date=birth_date)
+        for k in range(age, 121):
+            result *= (1-qx_vector[k])
             nPX_vector.append(result)
         return nPX_vector
 
@@ -132,7 +132,7 @@ class BiometryCpl:
         return result
 
 
-print(BiometryCpl().n_year_survival_probability_Vetor(age=25,birth_date=1996))
+print(BiometryCpl().survival_probability_vector(age=25, birth_date=1996))
 
 
 
