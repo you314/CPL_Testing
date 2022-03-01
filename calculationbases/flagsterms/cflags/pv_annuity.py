@@ -189,8 +189,8 @@ class PresentValues:
             sum += survivalvec[j] * self.v()[0] ** j
 
         correction = self.correction_factor(payment_frequency=payment_frequency) \
-                    * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
-                    * self.v()[0] ** (deferment_period + guarantee_time)
+                     * survivalvec[deferment_period + guarantee_time] \
+                     * self.v()[0] ** (deferment_period + guarantee_time)
         return sum - correction
 
     def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
