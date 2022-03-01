@@ -67,4 +67,3 @@ class Costs:
 
 
 
-print(Costs().e2a_asqcosta_z())

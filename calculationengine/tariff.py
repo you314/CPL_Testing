@@ -5,6 +5,7 @@ from calculationbases.cost.administrationcosts.administration_rate import Admini
 from calculationbases.cost.amortizationcosts.amortization_rate import AmortizationRate
 from calculationbases.cost.acquisitioncosts.acquisition_rate import AcquisitionRate
 from input.contract import ContractDTO
+import time
 from calculationbases.flagsterms.mf_annuity_flags import Flags
 
 
@@ -32,6 +33,7 @@ class Tariff():
             """
 
             ### maxi formula needs yet to be adjusted ###
+            Start_time= time.time()
             Tc1 =(1 + self.administration.gamma_2())
             Tc2=self.flags_vector_J[4] * self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
             Tc3= self.flags_vector_J[8]* self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
@@ -49,7 +51,8 @@ class Tariff():
             den= (1-self.administration.beta())* Tc4 - self.acqu.alpha_Z()+ self.Cost_flags.e_30(payment_duration=self.contract_Dto.deferment_period(), Max_provizionsbezug=100)+self.acqu.alpha_Z()+ self.Cost_flags.e_30(payment_duration=self.contract_Dto.deferment_period(), Max_provizionsbezug=100)
             Result = num/den
 
-            return Result
+            end_time= time.time()
+            return Result , end_time-Start_time
 
 
         def annual_gross_premium_annuity(self) -> float:

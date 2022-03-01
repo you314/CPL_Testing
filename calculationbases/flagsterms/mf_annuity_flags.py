@@ -23,7 +23,6 @@ class Flags():
         csv_reader = FileReader(csv_path)
         flags_dict = csv_reader.read_column_from_csv(formula_NR, type=int)
         flags_vector = list(flags_dict.values())
-        print(flags_vector[39])
         return flags_vector
 
 

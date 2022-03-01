@@ -400,5 +400,3 @@ class PresentValues:
         return term1
 
 
-print(PresentValues().n_p_x_V(age=40,birth_date=1970))
-print(PresentValues().c7_ngax_k(deferment_period=30,guarantee_time=2,payment_frequency=1,age=40,birth_date=1970))
