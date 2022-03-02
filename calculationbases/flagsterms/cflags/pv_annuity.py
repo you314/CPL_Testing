@@ -157,8 +157,9 @@ class PresentValues:
         return sum - correction
 
     def c3_ag_k(self, guarantee_time: int, payment_contributions_frequency: int) -> float:
-        nominator = 1 - self.v()[0] ** guarantee_time
-        denominator = payment_contributions_frequency * (1 - self.v()[0] ** (1 / payment_contributions_frequency))
+        v = self.v()
+        nominator = 1 - v[0]**guarantee_time
+        denominator = payment_contributions_frequency * (1 - v[0]**(1 / payment_contributions_frequency))
         return nominator / denominator
 
     def c4_nag_k(self, age: int, birth_date: int, deferment_period: int, guarantee_time: int,
