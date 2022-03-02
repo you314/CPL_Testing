@@ -54,7 +54,7 @@ class PresentValues:
         :param n: the period in which the required probability is calculated
         :return: n year death probability
         """
-        return self.biometry_cpl.n_year_survival_probability_Vetor(age=age, birth_date=birth_date)
+        return self.biometry_cpl.survival_probability_vector(age=age, birth_date=birth_date)
 
     def n_p_y(self, n: int, age: int, birth_date: int) -> float:
         """
@@ -189,8 +189,8 @@ class PresentValues:
             sum += survivalvec[j] * self.v()[0] ** j
 
         correction = self.correction_factor(payment_frequency=payment_frequency) \
-                    * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
-                    * self.v()[0] ** (deferment_period + guarantee_time)
+                     * survivalvec[deferment_period + guarantee_time] \
+                     * self.v()[0] ** (deferment_period + guarantee_time)
         return sum - correction
 
     def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
