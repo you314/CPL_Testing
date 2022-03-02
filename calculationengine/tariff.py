@@ -43,7 +43,7 @@ class Tariff():
             Te2b = self.Cost_flags.e2b_asqcosta_z()
             Te12 =1
             Te13 =1
-            Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.deferment_period(),Max_provizionsbezug=100)
+            Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.deferment_period(), max_provizionsbezug=100)
             Te45= self.Cost_flags.e_45()
             Te46 = self.Cost_flags.e_46()
 
