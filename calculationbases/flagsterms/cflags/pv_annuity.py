@@ -122,18 +122,14 @@ class PresentValues:
 
     def c0_nax_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
         sum = 0.
+        v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(deferment_period, self.omega-age-1):
-            sum += survival_vec[j] * self.v()[0] ** j
+            sum += survival_vec[j] * v[0] ** j
 
-        self.correction_factor(payment_frequency=payment_frequency) \
-        * survival_vec[deferment_period + guarantee_time] \
-        * self.v()[0] ** (deferment_period + guarantee_time)
-
-
-        factor1 = self.f(k=payment_contributions_frequency)
-        factor2 = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0] ** deferment_period
-        return sum - factor1 * factor2
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+                     survival_vec[deferment_period] * v[0]**deferment_period
+        return sum - correction
 
     def c1_naxl_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int,
                   pension_payment_period: int) -> float:
@@ -191,13 +187,14 @@ class PresentValues:
 
     def c7_ngax_k(self, deferment_period, guarantee_time, payment_frequency, age, birth_date) -> float:
         sum = 0.
+        v = self.v()
         survival_vec = self.n_p_x_V( age=age, birth_date=birth_date)
         for j in range(deferment_period + guarantee_time, 121-age):
-            sum += survival_vec[j] * self.v()[0] ** j
+            sum += survival_vec[j] * v[0]**j
 
         correction = self.correction_factor(payment_frequency=payment_frequency) \
                      * survival_vec[deferment_period + guarantee_time] \
-                     * self.v()[0] ** (deferment_period + guarantee_time)
+                     * v[0]**(deferment_period + guarantee_time)
         return sum - correction
 
     def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
