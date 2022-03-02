@@ -3,6 +3,7 @@ from calculationbases.interest.interest_rate import Interest
 from input.json_reader import JsonReader
 from calculationbases.cost.acquisitioncosts.acquisition_rate import AcquisitionRate
 from calculationbases.cost.administrationcosts.administration_rate import AdministrationRate
+from calculationbases.flagsterms.cflags.pv_annuity import PresentValues
 
 
 class Costs:
@@ -17,6 +18,7 @@ class Costs:
         self.Interest = Interest()
         self.acuisitioncost= AcquisitionRate()
         self.adminiscost = AdministrationRate()
+        self.pv = PresentValues()
 
     ### general functions ###
 
@@ -59,6 +61,16 @@ class Costs:
     def e_30(self,payment_duration, Max_provizionsbezug):
         value = min(payment_duration, Max_provizionsbezug)
         return value
+
+
+    def e_31a_Rxnt(self,deferment_period,age,birth_date,payment_duration):
+
+        result = self.pv.c51(deferment_period=deferment_period, age=age, birth_date=birth_date) + \
+                 payment_duration * self.pv.c15_nAx(deferment_period=deferment_period, age=age, birth_date=birth_date) \
+                 * (self.pv.v()[0] ** payment_duration) * self.pv.n_p_x_V(age=age,birth_date=birth_date)[payment_duration]
+
+        return result
+
 
     def e_45(self):
         return self.adminiscost.gamma_11()
