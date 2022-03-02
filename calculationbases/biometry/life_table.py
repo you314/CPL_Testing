@@ -70,4 +70,7 @@ class LifeTable:
         :return: Name of the reactivation (disabled) probability table
         """
         return "TableCBA"
+print(LifeTable().death_probability_table())
+
+
 
