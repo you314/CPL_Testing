@@ -125,7 +125,7 @@ class PresentValues:
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(deferment_period, self.omega-age-1):
-            sum += survival_vec[j] * v[0] ** j
+            sum += survival_vec[j] * v[0]**j
 
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
                      survival_vec[deferment_period] * v[0]**deferment_period
@@ -134,15 +134,16 @@ class PresentValues:
     def c1_naxl_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int,
                   pension_payment_period: int) -> float:
         sum = 0.
-        for counter in range(deferment_period, deferment_period + pension_payment_period):# - 1):
-            sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
+        v = self.v()
+        survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
+        for j in range(deferment_period, deferment_period + pension_payment_period - 1):
+            sum += survival_vec[j] * v[0]**j
 
-        factor1 = self.f(k=payment_contributions_frequency)
-        factor2 = self.n_p_x(n=deferment_period + pension_payment_period, age=deferment_period, birth_date=birth_date) * \
-                  self.v()[0] ** deferment_period
-        factor3 = 1 / self.n_p_x(n=deferment_period + pension_payment_period, age=age, birth_date=birth_date)
-        factor4 = self.v()[0] ** pension_payment_period
-        return sum - factor1 * factor2 * (factor3 - factor4)
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+                     v[0]**deferment_period * survival_vec[deferment_period] * \
+                     (1 - v[0]**pension_payment_period * \
+                      self.n_p_x(n=pension_payment_period, age=age+deferment_period, birth_date=birth_date))
+        return sum - correction
 
     def c2_gax_k(self, guarantee_time: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
         sum = 0.
