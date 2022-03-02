@@ -164,10 +164,10 @@ class PresentValues:
 
     def c4_nag_k(self, age: int, birth_date: int, deferment_period: int, guarantee_time: int,
                  payment_contributions_frequency: int) -> float:
-        factor = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0] ** deferment_period
-        nominator = 1 - self.v()[0] ** guarantee_time
-        denominator = payment_contributions_frequency * (1 - self.v()[0] ** (1 / payment_contributions_frequency))
-        return factor * nominator / denominator
+        factor = self.v()[0]**deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        c3_ag_k = self.c3_ag_k(guarantee_time=guarantee_time,
+                               payment_contributions_frequency=payment_contributions_frequency)
+        return factor * c3_ag_k
 
     def c5a_axn(self, age: int, birth_date: int, deferment_period: int) -> float:
         sum = 0.
