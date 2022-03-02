@@ -125,10 +125,10 @@ class PresentValues:
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(deferment_period, self.omega-age-1):
-            sum += survival_vec[j] * v[0]**j
+            sum += v[0]**j * survival_vec[j]
 
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
-                     survival_vec[deferment_period] * v[0]**deferment_period
+                     v[0]**deferment_period * survival_vec[deferment_period]
         return sum - correction
 
     def c1_naxl_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int,
@@ -137,7 +137,7 @@ class PresentValues:
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(deferment_period, deferment_period + pension_payment_period - 1):
-            sum += survival_vec[j] * v[0]**j
+            sum += v[0]**j * survival_vec[j]
 
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
                      v[0]**deferment_period * survival_vec[deferment_period] * \
@@ -147,12 +147,14 @@ class PresentValues:
 
     def c2_gax_k(self, guarantee_time: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
         sum = 0.
-        for counter in range(guarantee_time, 121-age+1):
-            sum = sum + self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
+        v = self.v()
+        survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
+        for j in range(guarantee_time, 121-age+1):
+            sum = sum + v[0]**j * survival_vec[j]
 
-        factor1 = self.f(k=payment_contributions_frequency)
-        factor2 = self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) * self.v()[0] ** guarantee_time
-        return sum - factor1 * factor2
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+                     v[0]**guarantee_time * survival_vec[guarantee_time]
+        return sum - correction
 
     def c3_ag_k(self, guarantee_time: int, payment_contributions_frequency: int) -> float:
         nominator = 1 - self.v()[0] ** guarantee_time

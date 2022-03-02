@@ -56,8 +56,9 @@ class Costs:
     def e_13(self):
         value= 1
         return value
-    def e_30(self,payment_duration, Max_provizionsbezug):
-        value = min(payment_duration, Max_provizionsbezug)
+
+    def e_30(self, payment_duration, max_provizionsbezug):
+        value = min(payment_duration, max_provizionsbezug)
         return value
 
     def e_45(self):
