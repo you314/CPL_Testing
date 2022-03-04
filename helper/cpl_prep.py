@@ -21,9 +21,9 @@ class FileReader:
                 result = next(reader)
             ######################
 
+
         if type is not None:
             return self.map_dict(result, type)
-
     def read_column_from_csv(self, identifier, type=None):
         result = {}
         with open(self.path, newline='') as csv_file:
@@ -32,7 +32,6 @@ class FileReader:
             for x in reader:
                 result[i] = x[identifier]
                 i += 1
-
         if type is not None:
             return self.map_dict(result, type)
 

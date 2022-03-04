@@ -17,7 +17,6 @@ class Costs:
         self.Interest = Interest()
         self.acuisitioncost= AcquisitionRate()
         self.adminiscost = AdministrationRate()
-
     ### general functions ###
 
     def alpha_z(self) -> float:

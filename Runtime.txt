@@ -1,0 +1,46 @@
+In CPL_Testing\calculationbases\biometry\cpl_bio.py, line 83:
+
+Changed:
+		result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
+
+to:
+                result *= 1-qx_vector[i]
+
+to prevent recalculating the qxvector and re-reading the DAV2004R_1O.csv file unnecessarily.
+
+
+Runtime improvement:
+
+
+Before:
+
+         865464 function calls in 0.543 seconds
+
+   Ordered by: internal time
+   List reduced from 89 to 7 due to restriction <7>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   124754    0.171    0.000    0.359    0.000 C:\Users\d92495\PycharmProjects\Python\lib\csv.py:107(__next__)
+   125765    0.109    0.000    0.122    0.000 {built-in method builtins.next}
+   248515    0.049    0.000    0.075    0.000 C:\Users\d92495\PycharmProjects\Python\lib\csv.py:93(fieldnames)
+      994    0.045    0.000    0.495    0.000 C:\Users\d92495\Desktop\CPL_Testing\helper\cpl_prep.py:27(read_column_from_csv)
+     1009    0.044    0.000    0.045    0.000 {built-in method io.open}
+      994    0.028    0.000    0.028    0.000 C:\Users\d92495\Desktop\CPL_Testing\helper\cpl_prep.py:59(<dictcomp>)
+      298    0.021    0.000    0.474    0.002 C:\Users\d92495\Desktop\CPL_Testing\calculationbases\biometry\cpl_bio.py:20(q_x_vector)
+
+After:
+
+         361864 function calls in 0.216 seconds
+
+   Ordered by: internal time
+   List reduced from 87 to 7 due to restriction <7>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+    50954    0.068    0.000    0.142    0.000 C:\Users\d92495\PycharmProjects\Python\lib\csv.py:107(__next__)
+    51365    0.042    0.000    0.047    0.000 {built-in method builtins.next}
+   101515    0.020    0.000    0.030    0.000 C:\Users\d92495\PycharmProjects\Python\lib\csv.py:93(fieldnames)
+      394    0.018    0.000    0.193    0.000 C:\Users\d92495\Desktop\CPL_Testing\helper\cpl_prep.py:27(read_column_from_csv)
+      409    0.017    0.000    0.017    0.000 {built-in method io.open}
+      394    0.011    0.000    0.011    0.000 C:\Users\d92495\Desktop\CPL_Testing\helper\cpl_prep.py:59(<dictcomp>)
+   101708    0.007    0.000    0.007    0.000 {built-in method builtins.len}
+

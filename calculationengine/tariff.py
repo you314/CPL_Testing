@@ -1,3 +1,4 @@
+
 from calculationbases.flagsterms.cflags.pv_annuity import PresentValues
 from calculationbases.flagsterms.eflags.cost_annuity import Costs
 from input.json_reader import JsonReader
@@ -5,14 +6,11 @@ from calculationbases.cost.administrationcosts.administration_rate import Admini
 from calculationbases.cost.amortizationcosts.amortization_rate import AmortizationRate
 from calculationbases.cost.acquisitioncosts.acquisition_rate import AcquisitionRate
 from input.contract import ContractDTO
-import time
 from calculationbases.flagsterms.mf_annuity_flags import Flags
-
-
+import time
 
 
 class Tariff():
-
         def __init__(self):  # , contract_nr: int):  # ToDo Evaluate if inheritance is the right approach here
             # super().__init__()  # contract_nr=contract_nr)
             self.present_values = PresentValues()  # contract_nr=contract_nr)
@@ -34,11 +32,13 @@ class Tariff():
 
             ### maxi formula needs yet to be adjusted ###
             Start_time= time.time()
+            #Idea for time-reducing method when multiple present values calculate the same death probabilities: Here used for c38a and c38b (in Tc4 and Tc5)
+            #npx_pay_dur=self.present_values.n_p_x(n=self.contract_Dto.deferment_period(), age=self.contract_Dto.actuarial_age(), birth_date=self.contract_Dto.birth_year())
             Tc1 =(1 + self.administration.gamma_2())
             Tc2=self.flags_vector_J[4] * self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
             Tc3= self.flags_vector_J[8]* self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc4 =self.flags_vector_J[39]* self.present_values.c38a(payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc5 =self.flags_vector_J[39]* self.present_values.c38b(payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc4 =self.flags_vector_J[39]* self.present_values.c38a(payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())#, npx = npx_pay_dur)
+            Tc5 =self.flags_vector_J[39]* self.present_values.c38b(payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())# , npx = npx_pay_dur)
             Tc6 =self.flags_vector_J[46]* self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
             Te2b = self.Cost_flags.e2b_asqcosta_z()
             Te12 =1
@@ -52,6 +52,7 @@ class Tariff():
             Result = num/den
 
             end_time= time.time()
+
             return Result , end_time-Start_time
 
 
@@ -61,6 +62,7 @@ class Tariff():
             """
             gamma = 0.1
             annual_gross_premuium_annuity = 0
+
             return annual_gross_premuium_annuity
 
         def single_netto_premium_annuity(self) -> float:
@@ -96,4 +98,22 @@ class Tariff():
 
             return reserves_annuity
 
+
 print("Gross Premium for example tariff: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 2.082159965161852)")
+
+'''
+#Helping tool to track time-consuming operations
+def main():
+    import cProfile
+    import pstats
+
+    with cProfile.Profile() as pr:
+        Tariff().Gross_premium_annuity()
+
+    stats= pstats.Stats(pr)
+    stats.sort_stats(pstats.SortKey.TIME)
+    stats.print_stats()
+
+if __name__ == '__main__':
+    main()
+'''

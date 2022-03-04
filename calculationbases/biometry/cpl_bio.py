@@ -23,6 +23,8 @@ class BiometryCpl:
          :param birth_date: the birth year of the insured person
          :return: death probability vector
         """
+
+
         death_csv_filename = self.death_table_name
         death_csv_path = path.dirname(__file__) + self.relative_path + death_csv_filename
         death_csv_reader = FileReader(death_csv_path)
@@ -35,10 +37,14 @@ class BiometryCpl:
             trend_dict = death_csv_reader.read_column_from_csv("trend_w", type=float)
         min_age = list(death_age_dict.keys())[0]
         max_age = list(death_age_dict.keys())[-1]
+        qx_vector=[(q_x_dict[age] * exp(-(birth_date + age - 1999) * trend_dict[age]))
+                   for age in range(min_age, max_age + 1)] # list comprehension instead of appending
+        '''
         qx_vector = []
         for age in range(min_age, max_age + 1):
             qx = q_x_dict[age] * exp(-(birth_date + age - 1999) * trend_dict[age])
             qx_vector.append(qx)
+        '''
         return qx_vector
 
     def one_year_death_probability(self, age, birth_date) -> float:
@@ -48,11 +54,12 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year death probability
         """
-        qx_vector = self.q_x_vector(birth_date=birth_date)
-        qx = qx_vector[age]
+
+        qx = self.q_x_vector(birth_date=birth_date)[age]
         return qx
 
     def one_year_survival_probability(self, age, birth_date) -> float:
+
         """
         Initialises required one year survival probability considering a trend factor
         :param birth_date: the birth year of the insured person
@@ -78,15 +85,17 @@ class BiometryCpl:
         else:
             result = 1
             for i in range(age, age + n):
-                result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
+                result *= 1-qx_vector[i] #q_x_vector not computed again for every year
+                #result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
         return result
 
     def n_year_survival_probability_Vetor(self, age, birth_date)-> float:
-
         nPX_vector = []
         result=1
+        qx_vector = self.q_x_vector(birth_date=birth_date)
         for k in range(age,121):
-            result *= 1-self.q_x_vector(birth_date=birth_date)[k]
+            result *= 1-qx_vector[k] #q_x_vector not computed again for every year
+            #result *= 1- self.q_x_vector(birth_date=birth_date)[k]
             nPX_vector.append(result)
         return nPX_vector
 
@@ -106,10 +115,13 @@ class BiometryCpl:
         i_x_dict = disability_csv_reader.read_column_from_csv(group_name, type=float)
         min_age = list(disability_age_dict.keys())[0]
         max_age = list(disability_age_dict.keys())[-1]
+        ix_vector=[i_x_dict[age] for age in range(min_age, max_age + 1)] #list comprehension instead of appending
+        ''' 
         ix_vector = []
         for age in range(min_age, max_age + 1):
             ix = i_x_dict[age]
             ix_vector.append(ix)
+        '''
         return ix_vector
 
     def one_year_disability_probability(self, age) -> float:
@@ -118,8 +130,10 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year disability probability
         """
-        ix_vector = self.i_x_vector()
-        ix = ix_vector[age]
+
+        #ix_vector = self.i_x_vector()
+        #ix = ix_vector[age]
+        ix = self.i_x_vector()[age]
         return ix
 
     def one_year_active_probability(self, age) -> float:
@@ -128,9 +142,9 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year active probability
         """
-        result = 1 - self.one_year_disability_probability(age)
+        #result = 1 - self.one_year_disability_probability(age)
+        result = 1 - self.i_x_vector()[age]
         return result
-
 
 
 
