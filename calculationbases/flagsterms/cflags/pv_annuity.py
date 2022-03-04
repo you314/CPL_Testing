@@ -114,8 +114,8 @@ class PresentValues:
         return term1 + term2 * term3
 
     def correction_factor(self, payment_frequency) -> float:
-        return (payment_frequency - 1)/(2*payment_frequency) + self.v()[0]*(1 - self.v()[0]/2)*(payment_frequency**2 - 1)\
-               /(6*payment_frequency**2)
+        return (payment_frequency - 1)/(2*payment_frequency) + ((self.v()[0]*(1 - self.v()[0]/2))*((payment_frequency**2 - 1)\
+               /(6*payment_frequency**2)))
 
     ### c flags ###
 
@@ -142,9 +142,10 @@ class PresentValues:
         return sum - factor1 * factor2 * (factor3 - factor4)
 
     def c2_gax_k(self, guarantee_time: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
+        survivalvec = self.n_p_x_V(age=age, birth_date=birth_date)
         sum = 0.
         for counter in range(guarantee_time, 121-age+1):
-            sum = sum + self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
+            sum = sum + survivalvec[counter] * self.v()[0] ** counter
 
         factor1 = self.f(k=payment_contributions_frequency)
         factor2 = self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) * self.v()[0] ** guarantee_time
@@ -385,20 +386,21 @@ class PresentValues:
         Probabilityvec= self.n_p_x_V(age=age,birth_date=birth_date)
         term =1
         for j in range(payment_duration-1):
-            term =term +  Probabilityvec[j] * self.v()[j]
+            term =term +  Probabilityvec[j] * self.v()[j]**j
         return term
 
     def c38b(self,payment_duration,age,birth_date):
         term1 =0
         for j in range(payment_duration-1):
-            term1 = term1 + self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j]
+            term1 = term1 + (self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j])**j
         return term1
 
 
     def c44(self,payment_duration,age,birth_date,deferment_period):
+        survivalvec = self.n_p_x_V(age=age, birth_date=birth_date)
         term1 =1
         for j in range(deferment_period-payment_duration-1):
-            term1 = self.n_p_x(n=deferment_period-payment_duration, age=age, birth_date=birth_date) * self.v()[j+payment_duration]
+            term1 = term1+survivalvec[j] * self.v()[j+payment_duration]
         return term1
 
     def c51(self,deferment_period,age,birth_date):
@@ -408,7 +410,5 @@ class PresentValues:
             sum += (k+1) *survivalvec[k] \
                    * self.biometry_cpl.one_year_death_probability(age=age + k, birth_date=birth_date) * self.v()[0] ** (k + 1)
         return sum
-
-
 
 

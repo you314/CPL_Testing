@@ -21,6 +21,11 @@ class JsonReader:
         tariff_name = tariff_name_raw.replace("\"", "")
         return tariff_name
 
+    def premium_payment_duration(self) -> str:
+        PRZDA_raw = json.dumps(self.data['contract']['TLEBENSCHICHT']['new'][0]['PRZAHLDAUER'])
+        PRZDA = PRZDA_raw.replace("\"", "")
+        return int(int(PRZDA)/12)
+
     def tg(self) -> int:
         tarif_name_list = self.tariff_name().split(sep='/', maxsplit=1)
         tarif_generation = int(tarif_name_list[1])
@@ -94,6 +99,11 @@ class JsonReader:
         return pension_payment_period
 
 
+
+
 JsonReader = JsonReader()
+
+
+
 
 
