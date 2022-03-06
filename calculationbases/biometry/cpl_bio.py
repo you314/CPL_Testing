@@ -16,6 +16,25 @@ class BiometryCpl:
         self.disability_table_name = self.life_table.disability_probability_table()
         self.relative_path = "/"
 
+    def age_shift(self, birth_date: int) -> int:
+        """
+        This function amends the birth year by applying the age shift as per Tätigkeitsplan
+        :param birth_date: Actually the birth year
+        :return: calculatory age as int
+        """
+        actual_birth_year = birth_date
+        age_shift_csv_filename = "AgeShift.csv"
+        age_shift_csv_path = path.dirname(__file__) + self.relative_path + age_shift_csv_filename
+        age_shift_csv_reader = FileReader(age_shift_csv_path)
+        age_shift_dict = age_shift_csv_reader.create_mapping_by_key("Birthyear")
+        age_shift_for_year = age_shift_dict[str(actual_birth_year)]
+        if self.contractDTO.sex() == "M":
+            column_name = "V1M"
+        else:
+            column_name = "V1F"
+        age_shift = int(age_shift_for_year[column_name])
+        print(age_shift)
+        return age_shift
 
     def q_x_vector(self, birth_date: int) -> list[float]:
         """
@@ -132,6 +151,7 @@ class BiometryCpl:
         return result
 
 
+BiometryCpl().age_shift(1950)
 
 
 

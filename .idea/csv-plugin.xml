@@ -31,6 +31,27 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\calculationbases\biometry\AgeShift.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\calculationbases\biometry\DAV1997I_1O.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\calculationbases\biometry\DAV2004R_1O.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\calculationbases\biometry\LifeTables.csv">
           <value>
             <Attribute>
