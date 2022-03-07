@@ -29,7 +29,7 @@ class Tariff():
         def Gross_premium_annuity(self) -> float:
 
             """
-            Maxi formula for the gross single premium annuity
+            Maxi formula for the gross  premium annuity
             """
 
             ### maxi formula needs yet to be adjusted ###
@@ -39,21 +39,24 @@ class Tariff():
             Tc1 =(1 + self.administration.gamma_2())
             Tc2=self.flags_vector_J[4] * self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
             Tc3= self.flags_vector_J[8]* self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc4 =self.flags_vector_J[39]* self.present_values.c38a(payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc5 =self.flags_vector_J[39]* self.present_values.c38b(payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc6 =self.flags_vector_J[46]* self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc4 =self.flags_vector_J[39]* self.present_values.c38a(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc5 =self.flags_vector_J[39]* self.present_values.c38b(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc6 =self.flags_vector_J[46]* self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
             Te2b = self.Cost_flags.e2b_asqcosta_z()
-            Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.deferment_period(),Max_provizionsbezug=100)
+            Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.premium_payment_duration(),Max_provizionsbezug=30)
             Te45= self.Cost_flags.e_45()
             Te46 = self.Cost_flags.e_46()
-            Te30 =self.Cost_flags.e_31a_Rxnt(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year(),payment_duration=self.contract_Dto.deferment_period())
+            Te30 =self.Cost_flags.e_31a_Rxnt(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year(),payment_duration=self.contract_Dto.premium_payment_duration())
+            #T50= 10490.88*(Tc1*(self.present_values.c2_gax_k(guarantee_time=15,age=75,birth_date=1938,payment_contributions_frequency=12)+self.present_values.c3_ag_k(guarantee_time=15,payment_contributions_frequency=12)))/(1-0.015-0.004)
 
-            num = Tc1 * (Tc2+Tc3) + (self.amorat.alpha_gamma() * Tc4) + (Te46 * Tc6) + (Te45 * Tc4)
-            den= (1-self.administration.beta()) * Tc4 - (Te2b * Te15) - 1.05 * Te30
 
-            Result = 1000 * num/den
+
+            num = (Tc1 * (Tc2+Tc3) )+ (Te2b * Tc4) + (Te46 * Tc6) + (Te45 * Tc4)
+            den= ((1-0.06) * Tc4) - (0.04 * Te15) - (1.05 * Te30)
+
+            Result = 3002.76* num/den
             end_time= time.time()
-            return Result,end_time-Start_time
+            return Result ,end_time-Start_time
 
 
         def annual_gross_premium_annuity(self) -> float:
@@ -97,5 +100,5 @@ class Tariff():
 
             return reserves_annuity
 
-print("Gross Premium for example tariff: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1692.00072330306)")
+print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
 
