@@ -12,9 +12,8 @@ from calculationbases.flagsterms.mf_annuity_flags import Flags
 
 class Tariff():
 
-        def __init__(self):  # , contract_nr: int):  # ToDo Evaluate if inheritance is the right approach here
-            # super().__init__()  # contract_nr=contract_nr)
-            self.present_values = PresentValues()  # contract_nr=contract_nr)
+        def __init__(self):
+            self.present_values = PresentValues()
             self.Cost_flags =Costs()
             self.administration = AdministrationRate()
             self.amorat = AmortizationRate()
@@ -31,27 +30,23 @@ class Tariff():
 
             ### maxi formula needs yet to be adjusted ###
             start_time = time.time()
-
-
             Tc1 =(1 + self.administration.gamma_2())
-            Tc2=self.flags_vector_J[4] * self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
-            Tc3= self.flags_vector_J[8]* self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc4 =self.flags_vector_J[39]* self.present_values.c38a(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc5 =self.flags_vector_J[39]* self.present_values.c38b(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc6 =self.flags_vector_J[46]* self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Te2b = self.Cost_flags.e2b_asqcosta_z()
-            Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.premium_payment_duration(),Max_provizionsbezug=30)
-            Te45= self.Cost_flags.e_45()
-            Te46 = self.Cost_flags.e_46()
+            Tc2= self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
+            Tc3= self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc4 = self.present_values.c38a(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            #Tc5 = self.present_values.c38b(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc6 = self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            #Te2b = self.Cost_flags.e2b_asqcosta_z()
+            Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.premium_payment_duration(),max_provizionsbezug=30)
+            #Te45= self.Cost_flags.e_45()
+            #Te46 = self.Cost_flags.e_46()
             Te30 =self.Cost_flags.e_31a_Rxnt(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year(),payment_duration=self.contract_Dto.premium_payment_duration())
             #T50= 10490.88*(Tc1*(self.present_values.c2_gax_k(guarantee_time=15,age=75,birth_date=1938,payment_contributions_frequency=12)+self.present_values.c3_ag_k(guarantee_time=15,payment_contributions_frequency=12)))/(1-0.015-0.004)
 
-
-
-            num = (Tc1 * (Tc2+Tc3) )+ (Te2b * Tc4) + (Te46 * Tc6) + (Te45 * Tc4)
-            den = ((1-0.06) * Tc4) - (0.04 * Te15) - (1.05 * Te30)
-
-            Result = 3002.76 * num/den
+            num = Tc1 * (Tc2+Tc3) + (0.005 * Tc4) + (0.0 * Tc4) + (0.005 * Tc6)
+            den = (1-0.06) * Tc4 - (0.04 * Te15) - (1.05 * Te30)
+            print(Tc2)
+            Result = 5785.8 * num/den
             end_time = time.time()
             return Result, end_time-start_time
 

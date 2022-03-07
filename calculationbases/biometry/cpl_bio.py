@@ -37,7 +37,7 @@ class BiometryCpl:
         max_age = list(death_age_dict.keys())[-1]
         qx_vector = []
         for age in range(min_age, max_age + 1):
-            qx = q_x_dict[age] * exp(-(birth_date + age - 1999) * trend_dict[age])
+            qx = q_x_dict[age] #* exp(-(birth_date + age - 1999) * trend_dict[age])
             qx_vector.append(qx)
         return qx_vector
 
@@ -82,10 +82,10 @@ class BiometryCpl:
         return result
 
     def survival_probability_vector(self, age, birth_date) -> float:
-        result=1
+        result = 1
         nPX_vector = [result]
         qx_vector = self.q_x_vector(birth_date=birth_date)
-        for k in range(age, 121):
+        for k in range(age, 133):
             result *= (1-qx_vector[k])
             nPX_vector.append(result)
         return nPX_vector
