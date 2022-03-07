@@ -85,7 +85,7 @@ class BiometryCpl:
         result = 1
         nPX_vector = [result]
         qx_vector = self.q_x_vector(birth_date=birth_date)
-        for k in range(age, 133):
+        for k in range(age, 121):
             result *= (1-qx_vector[k])
             nPX_vector.append(result)
         return nPX_vector
@@ -130,10 +130,6 @@ class BiometryCpl:
         """
         result = 1 - self.one_year_disability_probability(age)
         return result
-
-
-
-print(BiometryCpl().q_x_vector(1961))
 
 
 

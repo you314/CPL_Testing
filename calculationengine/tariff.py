@@ -45,7 +45,6 @@ class Tariff():
 
             num = Tc1 * (Tc2+Tc3) + (0.005 * Tc4) + (0.0 * Tc4) + (0.005 * Tc6)
             den = (1-0.06) * Tc4 - (0.04 * Te15) - (1.05 * Te30)
-            print(Tc2)
             Result = 5785.8 * num/den
             end_time = time.time()
             return Result, end_time-start_time
