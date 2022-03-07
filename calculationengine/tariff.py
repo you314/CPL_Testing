@@ -23,9 +23,6 @@ class Tariff():
             self.contract_Dto = JsonReader
             self.flags_vector_J = self.flags.gross_premium_flags_vector(tariff=self.contract_Dto.tariff_name())
 
-
-
-
         def Gross_premium_annuity(self) -> float:
 
             """
@@ -33,7 +30,7 @@ class Tariff():
             """
 
             ### maxi formula needs yet to be adjusted ###
-            Start_time= time.time()
+            start_time = time.time()
 
 
             Tc1 =(1 + self.administration.gamma_2())
@@ -52,11 +49,11 @@ class Tariff():
 
 
             num = (Tc1 * (Tc2+Tc3) )+ (Te2b * Tc4) + (Te46 * Tc6) + (Te45 * Tc4)
-            den= ((1-0.06) * Tc4) - (0.04 * Te15) - (1.05 * Te30)
+            den = ((1-0.06) * Tc4) - (0.04 * Te15) - (1.05 * Te30)
 
-            Result = 3002.76* num/den
-            end_time= time.time()
-            return Result ,end_time-Start_time
+            Result = 3002.76 * num/den
+            end_time = time.time()
+            return Result, end_time-start_time
 
 
         def annual_gross_premium_annuity(self) -> float:

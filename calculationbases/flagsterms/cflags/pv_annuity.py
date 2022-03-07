@@ -20,6 +20,7 @@ class PresentValues:
         self.contractDTO = JsonReader
         self.biometry_cpl = cpl_bio.BiometryCpl()
         self.Interest = Interest()
+        self.omega = 121  # maximum age
 
     ### general functions ###
 
@@ -113,55 +114,60 @@ class PresentValues:
         term3 = interest_rate * (1 - interest_rate / 2)
         return term1 + term2 * term3
 
-    def correction_factor(self, payment_frequency) -> float:
-        return (payment_frequency - 1)/(2*payment_frequency) + ((self.v()[0]*(1 - self.v()[0]/2))*((payment_frequency**2 - 1)\
-               /(6*payment_frequency**2)))
+    def correction_factor(self, payment_frequency: int, i: float) -> float:
+        return (payment_frequency - 1)/(2*payment_frequency) + i*(1 - i/2)*(payment_frequency**2 - 1)\
+               / (6*payment_frequency**2)
 
     ### c flags ###
 
     def c0_nax_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
         sum = 0.
-        for counter in range(deferment_period, 121-age+1):
-            sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
+        v = self.v()
+        survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
+        for j in range(deferment_period, self.omega-age-1):
+            sum += v[0]**j * survival_vec[j]
 
-        factor1 = self.f(k=payment_contributions_frequency)
-        factor2 = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0] ** deferment_period
-        return sum - factor1 * factor2
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+                     v[0]**deferment_period * survival_vec[deferment_period]
+        return sum - correction
 
     def c1_naxl_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int,
                   pension_payment_period: int) -> float:
         sum = 0.
-        for counter in range(deferment_period, deferment_period + pension_payment_period):# - 1):
-            sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
+        v = self.v()
+        survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
+        for j in range(deferment_period, deferment_period + pension_payment_period - 1):
+            sum += v[0]**j * survival_vec[j]
 
-        factor1 = self.f(k=payment_contributions_frequency)
-        factor2 = self.n_p_x(n=deferment_period + pension_payment_period, age=deferment_period, birth_date=birth_date) * \
-                  self.v()[0] ** deferment_period
-        factor3 = 1 / self.n_p_x(n=deferment_period + pension_payment_period, age=age, birth_date=birth_date)
-        factor4 = self.v()[0] ** pension_payment_period
-        return sum - factor1 * factor2 * (factor3 - factor4)
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+                     v[0]**deferment_period * survival_vec[deferment_period] * \
+                     (1 - v[0]**pension_payment_period * \
+                      self.n_p_x(n=pension_payment_period, age=age+deferment_period, birth_date=birth_date))
+        return sum - correction
 
     def c2_gax_k(self, guarantee_time: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
-        survivalvec = self.n_p_x_V(age=age, birth_date=birth_date)
         sum = 0.
-        for counter in range(guarantee_time, 121-age+1):
-            sum = sum + survivalvec[counter] * self.v()[0] ** counter
+        v = self.v()
+        survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
+        for j in range(guarantee_time, 121-age+1):
+            sum = sum + v[0]**j * survival_vec[j]
 
-        factor1 = self.f(k=payment_contributions_frequency)
-        factor2 = self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) * self.v()[0] ** guarantee_time
-        return sum - factor1 * factor2
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+                     v[0]**guarantee_time * survival_vec[guarantee_time]
+        return sum - correction
 
     def c3_ag_k(self, guarantee_time: int, payment_contributions_frequency: int) -> float:
-        nominator = 1 - self.v()[0] ** guarantee_time
-        denominator = payment_contributions_frequency * (1 - self.v()[0] ** (1 / payment_contributions_frequency))
+        v = self.v()
+        nominator = 1 - v[0]**guarantee_time
+        denominator = payment_contributions_frequency * (1 - v[0]**(1 / payment_contributions_frequency))
         return nominator / denominator
 
     def c4_nag_k(self, age: int, birth_date: int, deferment_period: int, guarantee_time: int,
                  payment_contributions_frequency: int) -> float:
-        factor = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0] ** deferment_period
-        nominator = 1 - self.v()[0] ** guarantee_time
-        denominator = payment_contributions_frequency * (1 - self.v()[0] ** (1 / payment_contributions_frequency))
-        return factor * nominator / denominator
+        factor = self.v()[0]**deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        c3_ag_k = self.c3_ag_k(guarantee_time=guarantee_time,
+                               payment_contributions_frequency=payment_contributions_frequency)
+        return factor * c3_ag_k
 
     def c5a_axn(self, age: int, birth_date: int, deferment_period: int) -> float:
         sum = 0.
@@ -185,13 +191,14 @@ class PresentValues:
 
     def c7_ngax_k(self, deferment_period, guarantee_time, payment_frequency, age, birth_date) -> float:
         sum = 0.
-        survivalvec= self.n_p_x_V( age=age, birth_date=birth_date)
-        for j in range(deferment_period + guarantee_time, 121-age ):
-            sum += survivalvec[j] * self.v()[0] ** j
+        v = self.v()
+        survival_vec = self.n_p_x_V( age=age, birth_date=birth_date)
+        for j in range(deferment_period + guarantee_time, 121-age):
+            sum += survival_vec[j] * v[0]**j
 
         correction = self.correction_factor(payment_frequency=payment_frequency) \
-                     * survivalvec[deferment_period + guarantee_time] \
-                     * self.v()[0] ** (deferment_period + guarantee_time)
+                     * survival_vec[deferment_period + guarantee_time] \
+                     * v[0]**(deferment_period + guarantee_time)
         return sum - correction
 
     def c8_nax_12(self, deferment_period, max_age, age, birth_date) -> float:
