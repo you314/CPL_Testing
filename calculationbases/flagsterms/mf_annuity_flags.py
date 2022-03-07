@@ -13,7 +13,7 @@ class Flags():
         csv_path1 = path.dirname(__file__) + relative_path1 + csv_filename1
         csv_reader1 = FileReader(csv_path1)
         tariff_dict = csv_reader1.read_column_from_csv("Tariff", type=str)
-        BEB_dict = csv_reader1.read_column_from_csv("BEB", type=str)
+        BEB_dict = csv_reader1.read_column_from_csv("BJB", type=str)
         x0 = list(tariff_dict.values())
         index_tariff = x0.index(tariff)
         formula_NR = BEB_dict[index_tariff]
@@ -24,6 +24,9 @@ class Flags():
         flags_dict = csv_reader.read_column_from_csv(formula_NR, type=int)
         flags_vector = list(flags_dict.values())
         return flags_vector
+
+
+
 
 
 

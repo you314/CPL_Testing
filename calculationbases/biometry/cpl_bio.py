@@ -133,6 +133,10 @@ class BiometryCpl:
 
 
 
+print(BiometryCpl().q_x_vector(1961))
+
+
+
 
 
 
