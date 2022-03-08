@@ -647,7 +647,7 @@
                     "KZINTERNET": "",
                     "ABLAUFGEWINN": "0",
                     "PRFRSTDAT": "0001-01-01",
-                    "RENTSTEIGSATZ": "0",
+                    "RENTSTEIGSATZ": "0.02",
                     "RKFABSCHLAGSVARIANTE": "",
                     "CHECKEDREPORTPIECES": "",
                     "FOERDERSUMME": "0",
