@@ -1,0 +1,897 @@
+{
+    "settings": [
+        {
+            "name": "DD_URL",
+            "value": "jdbc:db2://sbx-frc1-db2core1.syncier.com:50001/DGSYN220:sslConnection=false;currentFunctionPath=BABS,SYSFUN;useJDBC4ColumnNameAndLabelSemantics=2;",
+            "section": "SWITCHES"
+        },
+        {
+            "name": "DD_FLQ",
+            "value": "BABS",
+            "section": "SWITCHES"
+        },
+        {
+            "name": "DD_CREDENTIALS",
+            "value": "YWJzZGVtb0BzeW5jaWVyLmNvbTpDaWQ4Y2hpUXVlaTEyMw",
+            "section": "SWITCHES"
+        }
+    ],
+    "contract": {
+        "TVERTRAG": {
+            "primaryKeys": "VERTR#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10438",
+                    "VERTR#": "da7447a4-6f90-11ec-b57c-72d4eab0a05f",
+                    "FIRMA": "LL",
+                    "DION": "0",
+                    "HSP_EIGEN": "LE",
+                    "POLLFNR": "",
+                    "VERTRART": "E",
+                    "STADIUM": "1",
+                    "BEGDAT": "2022-01-01",
+                    "WIRKBEGDAT": "2022-01-01",
+                    "ABLDAT": "2032-01-01",
+                    "HPTFLLG": "0101",
+                    "WERBERNR": "0000003",
+                    "HAFTAENDDAT": "0001-01-01",
+                    "KZDECKUNG": "N",
+                    "KZWILLENSERKL": "N",
+                    "KZTYPBUEND": "",
+                    "FLOTTENNR": "",
+                    "TARIFBEREICH": "E",
+                    "ZUSTAND": "A",
+                    "HSP_PRODKBEZ": "AGen1",
+                    "KONTOSTATUS": "0",
+                    "STATUSDATUM": "2022-01-01",
+                    "FZSDAT": "0001-01-01",
+                    "KZPRGUTHLISTE": "",
+                    "KZUJZ": "J",
+                    "ZAHLWEISE": "M",
+                    "BEZBISDATUM": "2022-01-01",
+                    "INKASSOART": "E",
+                    "SALDO": "0",
+                    "KZ_DIREKTMAIL_AKT": "N",
+                    "KZ_BEILAGEN": "J",
+                    "FREMDWAEHRUNG": "",
+                    "DARLKAPITAL": "0",
+                    "SUPRABL": "0",
+                    "ORIGDOKADR": "VN",
+                    "DOKANZ": "1",
+                    "DOKANZ_KOPIE": "0",
+                    "KOPIEDOKADR": "",
+                    "KZFAB": "0",
+                    "AUSFGRUND1": "G01",
+                    "AUSFGRUND2": "",
+                    "AUSFGRUND3": "",
+                    "VERTRSTATUS": "",
+                    "KZPRGUTH": "N",
+                    "VERTRSTATUS_DATUM": "2022-01-07",
+                    "GF#": "da7447a5-6f90-11ec-b57c-72d4eab0a05f",
+                    "NACH_VERTR#": "",
+                    "ERS_VERTR#": "",
+                    "HSPP#": "bf94ee6a-51e2-11ec-94d2-0022485bc01d",
+                    "INK_ADR#": "fc52f82f-f36e-11eb-a325-000d3a79039c",
+                    "INK_KK#": "",
+                    "INK_BK#": "",
+                    "ZUSTELL_ADR#": "fc52f82f-f36e-11eb-a325-000d3a79039c",
+                    "HSP_PRODBEZ": "Athora Annuity Generations BLV",
+                    "KZSAMMELEINZ": "N",
+                    "KZTAGGABB": "J",
+                    "VERTRAUSFGRUND": "G01",
+                    "DLG": "",
+                    "SPARTE_EIGEN_FUEHR": "LE",
+                    "KZ_MEHRERE_IP": "",
+                    "INK_GGK#": "",
+                    "ERNEUERART": "",
+                    "FLEARLYINVOICE": "N",
+                    "SALESOFFSHORTTXT": "2004",
+                    "CONTRACTSUBTYPE": "",
+                    "SO#": "f27c2346-5eeb-11ec-ba74-0022485bc01b",
+                    "HSP_GRP": "LE"
+                }
+            ],
+            "old": []
+        },
+        "TGSCHFALL": {
+            "primaryKeys": "GF#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10438",
+                    "GF#": "da7447a5-6f90-11ec-b57c-72d4eab0a05f",
+                    "BEGINN": "2022-01-07",
+                    "AENDERUNG": "0001-01-01",
+                    "FIRMA": "LL",
+                    "GESCHFALL": "V",
+                    "QUELLE": "",
+                    "GSTUEBERNZEIT": "0001-01-01 00:00:00.000000",
+                    "KZLOESCHUNG": "",
+                    "GPSTATUS": "U",
+                    "ERSTELLUSER": "TESTALL",
+                    "SPERRUSER": "",
+                    "SPRACHE": "EUK",
+                    "AENDZP": "",
+                    "ZEITZONE": "",
+                    "FLLOCK": ""
+                },
+                {
+                    "POBJ_HANDLE": "10445",
+                    "GF#": "fc2f91ad-f36e-11eb-a325-000d3a79039c",
+                    "BEGINN": "2019-05-01",
+                    "AENDERUNG": "2021-12-23",
+                    "FIRMA": "X",
+                    "GESCHFALL": "P",
+                    "QUELLE": "SO",
+                    "GSTUEBERNZEIT": "0005-01-01 00:00:00.000000",
+                    "KZLOESCHUNG": "",
+                    "GPSTATUS": "",
+                    "ERSTELLUSER": "TESTALL",
+                    "SPERRUSER": "",
+                    "SPRACHE": "EUK",
+                    "AENDZP": "2022-01-05 10:06:40.812218",
+                    "ZEITZONE": "",
+                    "FLLOCK": ""
+                }
+            ],
+            "old": []
+        },
+        "TVERSVERTRAG": {
+            "primaryKeys": "VERSV#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10515",
+                    "VERSV#": "dcf685b8-6f90-11ec-b57c-72d4eab0a05f",
+                    "SORTIERUNG": "10",
+                    "SPARTE_EIGEN": "LE",
+                    "ZUSTAND": "A",
+                    "BEGINNDAT": "2022-01-01",
+                    "ABLAUFDAT": "2032-01-01",
+                    "WIRKBEGINN": "2022-01-01",
+                    "TARIFDATUM": "0001-01-01",
+                    "LERNEUDAT": "2022-01-01",
+                    "BEDINGUNG": "",
+                    "TARIF": "********",
+                    "SPROZ": "0",
+                    "JPRNETTO": "0",
+                    "JPRBRUTTO": "0",
+                    "EIGENANTEIL": "100",
+                    "DAUERRABATT": "0",
+                    "BUENDELRABATT": "0",
+                    "VERGVRABATT": "0",
+                    "SANZUSCHL": "0",
+                    "RISIKOKLASSE": "",
+                    "KZINDEX": "N",
+                    "VERTZUSTDET": "",
+                    "BEOBENDE": "0001-01-01",
+                    "KZBEARBEITBAR": "J",
+                    "SPP#": "aba61659-511e-11ec-86ba-0022485bc8b5",
+                    "SP_PRODKBEZ": "AAnn1",
+                    "SP_GRP": "LE",
+                    "BEGINNVERLDAT": "0001-01-01",
+                    "BDL_CODE": "XX",
+                    "KZLOHNSUMMABR": "",
+                    "KZVST": "J",
+                    "VERTR#": "da7447a4-6f90-11ec-b57c-72d4eab0a05f",
+                    "VARIANTE": "",
+                    "SP_PRODBEZ": "Athora Annuity Generations BLV",
+                    "INLANDSANTEIL": "100",
+                    "JPRNETTO100": "0",
+                    "ZUSKOSPEZREGEL": "",
+                    "SANKZ": "",
+                    "DECKUNGSGRUPPE": "",
+                    "VVLAUFNR": "0",
+                    "MELDEPFLICHT": "",
+                    "ADDITIONALCOVER": ""
+                }
+            ],
+            "old": []
+        },
+        "TPRODAUS": {
+            "primaryKeys": "PAP#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16290",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "SORTIERUNG5": "913",
+                    "SUMME": "1000",
+                    "SUMARTBEZ": "REN",
+                    "JAHRESTPR_NETTO": "0",
+                    "BAUSTEINTYP": "H",
+                    "ANZEBENE": "2",
+                    "KZSACHART": "P",
+                    "KZWANPAUS": "N",
+                    "FAKTOR": "0",
+                    "PBLAUFNR": "80417",
+                    "INSTANZID": "0",
+                    "ENTSCHAEDWERT": " ",
+                    "VERSV#": "dcf685b8-6f90-11ec-b57c-72d4eab0a05f",
+                    "PSCHABL#": "cc4765e3-5346-11ec-a138-0022485bc54b",
+                    "PRODBAUBEZ": "Tarif ARZ/2005",
+                    "JAHRESTPR_NETTO100": "0",
+                    "UEBERINSTANZID": "0",
+                    "TECHN_PREIS": "0",
+                    "FLWEBHIDDEN": "N",
+                    "JAHRESTPR_NETTO_ZA": "0",
+                    "ADDITIONALCOVER": ""
+                }
+            ],
+            "old": []
+        },
+        "TPAPVORGABENLEBEN": {
+            "primaryKeys": "PAP#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16305",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "PROZ_HTARIF": "0",
+                    "CBX_AUSGEWGUTHABEN": "N",
+                    "CBX_RPRAEMIE": "N",
+                    "CBX_GEWINNEINRECHNUNG": "N",
+                    "CBX_TBG": "N",
+                    "CBX_RZDV": "N",
+                    "RICHTPRAEMIEV": "0",
+                    "ABLEBENSSUMME": "0",
+                    "FONDS_PERFORM": "7",
+                    "ABLAUFGEWINN1": "0",
+                    "ABLAUFGEWINN2": "0",
+                    "ABLAUFGEWINN3": "0",
+                    "ABLAUFGEWINN4": "0",
+                    "PRAEMIEPOLDRUCK": "0",
+                    "JAHRESRENTE": "0",
+                    "JAHRESRENTEGEWINN": "0",
+                    "GEWINNGUTHABEN": "0",
+                    "LEISTUNGVERBLEIB": "0",
+                    "LEISTUNGVERBLEIBGEWINN": "0",
+                    "VERGEWINNANTEIL": "0",
+                    "RKWZEROPERF": "0",
+                    "PFLEGESTUFE": "0",
+                    "KOSTGARANTIE": ""
+                }
+            ],
+            "old": []
+        },
+        "TBEZUGSRECHT": {
+            "primaryKeys": "BEZRE#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19259",
+                    "BEZRE#": "0e6ae444-6f91-11ec-b57c-72d4eab0a05f",
+                    "BEZRECHT_RISIKO": "A",
+                    "BEZRECHTART": "",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "KZUNWIDERRUFLICH": "N",
+                    "EINGDAT": "0001-01-01",
+                    "BEZRECHT_RANGF": "0"
+                },
+                {
+                    "POBJ_HANDLE": "19260",
+                    "BEZRE#": "0e6b0b55-6f91-11ec-b57c-72d4eab0a05f",
+                    "BEZRECHT_RISIKO": "E",
+                    "BEZRECHTART": "VN",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "KZUNWIDERRUFLICH": "N",
+                    "EINGDAT": "0001-01-01",
+                    "BEZRECHT_RANGF": "0"
+                }
+            ],
+            "old": []
+        },
+        "TLEBENSCHICHT": {
+            "primaryKeys": "LSCH#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16292",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f",
+                    "SUMMEBFR": "0",
+                    "LEISTUNGSDAUER": "0",
+                    "PRZAHLDAUER": "264",
+                    "VERSDAUER": "9999",
+                    "TARLEIST": "0",
+                    "TARLEISTBFR": "0",
+                    "PRSUMME_BRUTTO": "0",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "ZUSTAND": "A",
+                    "VERTZUSTDET": "",
+                    "LSCHSTODAT": "0001-01-01"
+                }
+            ],
+            "old": []
+        },
+        "TLSCHDETAIL": {
+            "primaryKeys": "LSCHDET#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16294",
+                    "LSCHDET#": "e31fabe6-6f90-11ec-b57c-72d4eab0a05f",
+                    "SORTIERUNG": "1",
+                    "TECHBEGINN": "2022-01-01",
+                    "TARBEZEICHNUNG": "ARZ/2004",
+                    "JAHRESTPR_NETTO": "0",
+                    "SBEITRPRAEMIE": "0",
+                    "SBEITRRESERVE": "0",
+                    "GEWBETEILART": "10",
+                    "AUSGEWINNDATUM": "2022-01-07",
+                    "AUSGEWGUTHABEN": "0",
+                    "GEWBUCHUNGSBETRAG": "0",
+                    "GEWBUCHUNGSART": "",
+                    "GEWANTEIL1": "0",
+                    "BASIS_ZINSGEW": "0",
+                    "BASIS_ZUSGEW": "0",
+                    "BASIS_RISGEW": "0",
+                    "SCHLUSSGEW": "0",
+                    "GEWHILFSGROESSE": "0",
+                    "GEWINNBERECHDAT": "0001-01-01",
+                    "SBGEWINN": "0",
+                    "SBGARANTWERT": "0",
+                    "BEGDATUMGWBET": "0001-01-01",
+                    "SBEITROAK": "0",
+                    "SUBEI": "0",
+                    "GEWZUTEILUNG_VJ": "0",
+                    "ZINSGEWHILFSGR": "0",
+                    "RISGEWHILFSGR": "0",
+                    "KZUNISEX": "",
+                    "SUMME": "0",
+                    "SUMMEBFR": "0",
+                    "TARLEIST": "0",
+                    "TARLEISTBFR": "0",
+                    "PRSUMME_BRUTTO": "0",
+                    "SPARPRAEMIE": "0",
+                    "RISIKOPRAEMIE": "0",
+                    "ABKOSTPR": "0",
+                    "ABEINMKOSTPR": "0",
+                    "VWKOSTPR": "0",
+                    "SSPARPRAEMIE": "0",
+                    "SRISIKOPRAEMIE": "0",
+                    "SABKOSTPR": "0",
+                    "SVWKOSTPR": "0",
+                    "EINTRALTER": "0",
+                    "BEITRALTER": "54",
+                    "RISIKOGRUPPE": "",
+                    "ZUSCHLKLASSE": "",
+                    "EINTRALTER_MVP": "0",
+                    "BEITRALTER_MVP": "0",
+                    "RISIKOGRUPPE_MVP": "",
+                    "ZUSCHLKLASSE_MVP": "",
+                    "RENTEN_JRNETTO": "0",
+                    "AUSGRENTE": "0",
+                    "VTAR#": "9ae3812c-5376-11ec-a138-0022485bc54b",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f",
+                    "WAITING_PERIOD": "0"
+                }
+            ],
+            "old": []
+        },
+        "TLEBKOSTSCHICHT": {
+            "primaryKeys": "LKS#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19522",
+                    "LKS#": "2736da67-6f91-11ec-b57c-72d4eab0a05f",
+                    "KOSTBELASTBEG": "0001-01-01",
+                    "KOSTBELASTENDE": "0001-01-01",
+                    "BWS_KOSTBELAST": "0",
+                    "LSCHDET#": "e31fabe6-6f90-11ec-b57c-72d4eab0a05f",
+                    "KOSTTILG": "E",
+                    "ALPHAKOSTENSATZ": "0",
+                    "SORTIERUNG": "0"
+                },
+                {
+                    "POBJ_HANDLE": "19523",
+                    "LKS#": "2736da68-6f91-11ec-b57c-72d4eab0a05f",
+                    "KOSTBELASTBEG": "0001-01-01",
+                    "KOSTBELASTENDE": "0001-01-01",
+                    "BWS_KOSTBELAST": "0",
+                    "LSCHDET#": "e31fabe6-6f90-11ec-b57c-72d4eab0a05f",
+                    "KOSTTILG": "L",
+                    "ALPHAKOSTENSATZ": "0",
+                    "SORTIERUNG": "0"
+                }
+            ],
+            "old": []
+        },
+        "TLSCHZUSATZ": {
+            "primaryKeys": "LSZUS#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16296",
+                    "LSZUS#": "e31fd2f7-6f90-11ec-b57c-72d4eab0a05f",
+                    "ZUSBEZEICHNUNG": "LEIBO",
+                    "ZUSTYP": "G",
+                    "ZUSWERT": "0",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f"
+                },
+                {
+                    "POBJ_HANDLE": "16299",
+                    "LSZUS#": "e32466d8-6f90-11ec-b57c-72d4eab0a05f",
+                    "ZUSBEZEICHNUNG": "FAKTO",
+                    "ZUSTYP": "A",
+                    "ZUSWERT": "1,0000",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f"
+                },
+                {
+                    "POBJ_HANDLE": "16300",
+                    "LSZUS#": "e3248de9-6f90-11ec-b57c-72d4eab0a05f",
+                    "ZUSBEZEICHNUNG": "FIRET",
+                    "ZUSTYP": "D",
+                    "ZUSWERT": "0001-01-01",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f"
+                },
+                {
+                    "POBJ_HANDLE": "16301",
+                    "LSZUS#": "e3248dea-6f90-11ec-b57c-72d4eab0a05f",
+                    "ZUSBEZEICHNUNG": "ANPRO",
+                    "ZUSTYP": "B",
+                    "ZUSWERT": "0",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f"
+                },
+                {
+                    "POBJ_HANDLE": "16302",
+                    "LSZUS#": "e3248deb-6f90-11ec-b57c-72d4eab0a05f",
+                    "ZUSBEZEICHNUNG": "BERME",
+                    "ZUSTYP": "X",
+                    "ZUSWERT": "1",
+                    "LSCH#": "e31fabe5-6f90-11ec-b57c-72d4eab0a05f"
+                }
+            ],
+            "old": []
+        },
+        "TPENSVEREINBG": {
+            "primaryKeys": "PV#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16307",
+                    "PV#": "e32ddcbd-6f90-11ec-b57c-72d4eab0a05f",
+                    "RENTEN_JRNETTO": "1000",
+                    "PENSANTR": "0001-01-01",
+                    "RENTENAUFDAUER": "264",
+                    "RENTENBEGINN": "0001-01-01",
+                    "RENTENART": "L",
+                    "RENTENTYP": "A",
+                    "RENTENDAUER": "9999",
+                    "KZVORSCHUSS": "N",
+                    "ZAHLWEISE": "M",
+                    "AUSGRENTE": "0",
+                    "REVERGARZEIT": "0",
+                    "RUECKGEWDAUER": "0",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "GEWBETEILART": ""
+                }
+            ],
+            "old": []
+        },
+        "TPROVBEMGR": {
+            "primaryKeys": "PBG#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "16309",
+                    "PBG#": "e32e03ce-6f90-11ec-b57c-72d4eab0a05f",
+                    "BWS1_MATH": "0",
+                    "BWS1_ANGEW": "0",
+                    "BWS2_MATH": "0",
+                    "BWS2_ANGEW": "0",
+                    "FJPR_MATH": "0",
+                    "FJPR_ANGEW": "0",
+                    "BWS1DK_MATH": "0",
+                    "BWS1DK_ANGEW": "0",
+                    "BWS2DK_MATH": "0",
+                    "BWS2DK_ANGEW": "0",
+                    "BWSFP_MATH": "0",
+                    "BWSFP_ANGEW": "0",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f"
+                }
+            ],
+            "old": []
+        },
+        "TVERSPERS": {
+            "primaryKeys": "PAP#;NP#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19129",
+                    "PAP#": "e31f84d4-6f90-11ec-b57c-72d4eab0a05f",
+                    "NP#": "fc2f91ab-f36e-11eb-a325-000d3a79039c",
+                    "RISIKOGRUPPE": "",
+                    "EINTRALTER": "0",
+                    "KZHAUPTVP": "J",
+                    "KZUNTERSUCHUNG": "N",
+                    "LEISTUNGSSTAFFEL": "0",
+                    "RUECKSTELLDAUER": "0",
+                    "KZABLEHNUNG": "N",
+                    "KZERHSPERR": "N",
+                    "KZRISPRRCKGEWAEHR": "N",
+                    "KZWERKTAETIG": "",
+                    "RUEFAKTOR": "0",
+                    "BEITRALTER": "72",
+                    "LSTAFFELBETR": "0",
+                    "LSTAFFELBEGINN": "0001-01-01",
+                    "LSTAFFELENDE": "0001-01-01",
+                    "LEBENSTATUS": "",
+                    "SVANSTALT": "",
+                    "FAMROLLE": "",
+                    "ZUSCHLKLASSE": "0",
+                    "VP_GEBDAT": "0001-01-01",
+                    "VP_ARBVERH": "3",
+                    "VP_STERBEDATUM": "0001-01-01",
+                    "BERUFSRISIKOGRUPPE": "",
+                    "RAUCHERSTATUS": "",
+                    "KOERPERGROESSE": "0",
+                    "KOERPERGEWICHT": "0",
+                    "FAMANAMNESE": "",
+                    "RISIKO_ID": "",
+                    "KONFESSION": "",
+                    "PHYSWORKSHARE": "0"
+                }
+            ],
+            "old": []
+        },
+        "TZUSKOSTEN": {
+            "primaryKeys": "ZK#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19519",
+                    "ZK#": "2731f866-6f91-11ec-b57c-72d4eab0a05f",
+                    "ZUSKART": "VERGW",
+                    "ZUSKBETR": "0",
+                    "PROZENT": "0",
+                    "BEFRGRUND": "",
+                    "VERSV#": "dcf685b8-6f90-11ec-b57c-72d4eab0a05f",
+                    "POSTLANDSCHL": "D",
+                    "SORTIERUNG": "0",
+                    "KZVONNETTOPR": "N",
+                    "BEMGRPROZ": "100",
+                    "BDL_CODE": ""
+                }
+            ],
+            "old": []
+        },
+        "TVERTRZUS": {
+            "primaryKeys": "VZUS#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10508",
+                    "VZUS#": "dcd80137-6f90-11ec-b57c-72d4eab0a05f",
+                    "LBESWDAT": "0001-01-01",
+                    "KUENDSTITAG": "0001-01-01",
+                    "ERKLABGABDAT": "0001-01-01",
+                    "DEPOTNR": "",
+                    "POLNR_VORSYS": "",
+                    "POLNR_VORSYSINT": "",
+                    "VORSYS": "",
+                    "VERGEB_FA": "",
+                    "VERG_KNAME": "",
+                    "CCC_EINGZP": "0001-01-01 00:00:00.000000",
+                    "CCC_EINGMED": "",
+                    "ZG_USERID": "",
+                    "AS_ZGZP": "0001-01-01 00:00:00.000000",
+                    "AS_ERLZP": "0001-01-01 00:00:00.000000",
+                    "LOKTECHNAME": "",
+                    "TEAMEINGDAT": "0001-01-01",
+                    "GA_BETREUER": "",
+                    "ANTRAGSPOLDAT": "0001-01-01",
+                    "PRAEMDEP#": "",
+                    "WIRTBER_ADR#": "",
+                    "KREDIT_BK#": "",
+                    "VERTR#": "da7447a4-6f90-11ec-b57c-72d4eab0a05f",
+                    "VRG#": "",
+                    "DGK#": "",
+                    "AS_RGGRUND": "",
+                    "FACHGRUPPE": "",
+                    "ZG_TEAM": "",
+                    "BEARBUSERID": "",
+                    "KZVERTEILBAR": "",
+                    "STO_DATUM": "0001-01-01",
+                    "VERTZUSTDET": "",
+                    "VERGBEZROLLE": "",
+                    "VERTRDOKADR": "",
+                    "FOLGEDOKADR": "",
+                    "SCHADDOKADR": "",
+                    "KZVERZOFFPRAEM": "",
+                    "KZRUECKREP": "",
+                    "SUMBEZPR": "0",
+                    "FREMDVERMITTLER": "",
+                    "KZBRUTTO": "",
+                    "KZVORABWTG": "",
+                    "LOKTECHNAME_PERM": "",
+                    "KZBESROUTGR": "",
+                    "KZROUTKRITSCHAD": "",
+                    "VERG_GENERATION": "0",
+                    "RAHMENVERTRNAME": "",
+                    "ANTRABLGRUND": "",
+                    "VORSCHLAGSNR": "",
+                    "EINVOICECHANNEL": "",
+                    "EINV_KO#": "",
+                    "FREMDPOLNR": "",
+                    "INK_PC#": ""
+                }
+            ],
+            "old": []
+        },
+        "TVNEHMER": {
+            "primaryKeys": "VERTR#;PERS#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10450",
+                    "VERTR#": "da7447a4-6f90-11ec-b57c-72d4eab0a05f",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "KZHAUPTVN": "J",
+                    "VNEHMERDETBEZ": ""
+                }
+            ],
+            "old": []
+        },
+        "TVERTR_VORGABEN": {
+            "primaryKeys": "VERTR#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10440",
+                    "VERTR#": "da7447a4-6f90-11ec-b57c-72d4eab0a05f",
+                    "ABFRAGESTICHTAG": "2022-02-01",
+                    "ABLAUFLEISTUNGSSUMME": "0",
+                    "BRUTTOFOLGEPRAEMIE": "0",
+                    "RENTENHERM": "0",
+                    "RENTENHERMGAR": "0",
+                    "HR_DAUER": "0",
+                    "CBX_TAKEOVERZUAB": "N",
+                    "ABLEBSUMVG": "0",
+                    "COMPTYP": "ZRS",
+                    "BERECHTIGUNG": "1",
+                    "INQRESULT": "",
+                    "OPT_HSPP#": "",
+                    "GESAMT_PPF": "0",
+                    "CBX_RAUCHER1": "N",
+                    "CBX_RAUCHER2": "N",
+                    "KZBILANZ": "",
+                    "SCHADENART": "",
+                    "BEGINNDAT": "0001-01-01",
+                    "CBX_CALCULATE": "Y",
+                    "VAHIST": "",
+                    "KZINTERNET": "",
+                    "ABLAUFGEWINN": "0",
+                    "PRFRSTDAT": "0001-01-01",
+                    "RENTSTEIGSATZ": "0",
+                    "RKFABSCHLAGSVARIANTE": "",
+                    "CHECKEDREPORTPIECES": "",
+                    "FOERDERSUMME": "0",
+                    "FOERDERDATUM": "0001-01-01",
+                    "WEITERLEITUNG": "N"
+                }
+            ],
+            "old": []
+        },
+        "TNATPERS": {
+            "primaryKeys": "NP#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10445",
+                    "NP#": "fc2f91ab-f36e-11eb-a325-000d3a79039c",
+                    "VORNAME": "Oliver",
+                    "FAMNAME": "Lakinger",
+                    "AKADGRAD": "",
+                    "NAMZUSATZ": "",
+                    "ANRTITEL": "",
+                    "GESCHLECHT": "F",
+                    "FAMSTAND": "V",
+                    "FAMSTAND_SEIT": "0001-01-01",
+                    "GEBURTSDATUM": "1961-08-05",
+                    "STERBEDATUM": "0001-01-01",
+                    "KZVERSTORBEN": "N",
+                    "SOZIALVERSNR": "",
+                    "INTERESSE1": "",
+                    "INTERESSE2": "",
+                    "INTERESSE3": "",
+                    "STAATSBSCHAFT": "A",
+                    "SOZVERSANSPRUCH": "",
+                    "GRBU_FAMNAME": "LAKINGER",
+                    "GRBU_VORNAME": "OLIVER",
+                    "KZMA": "",
+                    "HHROLLE": "V",
+                    "KZPERSOENLICH": "S",
+                    "ANLAGETYP": "",
+                    "NIEDERLASSUNG": "",
+                    "AUFENTHALTSDATUM": "0001-01-01",
+                    "HEIMATORT": "",
+                    "GEBNAME": "",
+                    "HH#": "fc3006de-f36e-11eb-a325-000d3a79039c",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "STEUERIDENTNR": "",
+                    "KONFESSION": "",
+                    "ADELSBEZ": "",
+                    "ADELSTITEL": "",
+                    "RENTENNR": "",
+                    "INTERESSE_EINGABE": "",
+                    "GEBURTSLAND": "",
+                    "ZWNAME": "",
+                    "GRBU_ZWNAME": "",
+                    "KRK_SVANSTALT": "",
+                    "UNF_SVANSTALT": "",
+                    "PV_SVANSTALT": "",
+                    "PLACEOFBIRTH": "",
+                    "NATIONALITY_2": "",
+                    "NATIONALITY_3": "",
+                    "CNTRYSUBDIVOFBIRTH": ""
+                }
+            ]
+        },
+        "TPERSON": {
+            "primaryKeys": "PERS#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10445",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "GF#": "fc2f91ad-f36e-11eb-a325-000d3a79039c",
+                    "INK_ADR#": "",
+                    "INK_KK#": "",
+                    "INK_BK#": "",
+                    "JAHRESPR": "681349.08",
+                    "ANZVERTR": "27",
+                    "JAHRESLEI": "0",
+                    "ANZSCH": "0",
+                    "KZVN": "J",
+                    "KZPERS": "N",
+                    "BETREUER": "0000003",
+                    "GESCHFELD": "P",
+                    "KZ_KEST": "J",
+                    "KZ_DEVINL": "J",
+                    "SEKTOR": "",
+                    "KUNDENNR": "",
+                    "BRIEFANR": "",
+                    "KZIDENTGWG": "",
+                    "KUNDENNR_DISP": "",
+                    "NAMENSERW_MIG": "",
+                    "MANDANTENWAEHRUNG": "EUR",
+                    "PREFLANGUAGE": "DAU",
+                    "KZVORSTABZ": "",
+                    "VATDEDUCTIONRATE": "0",
+                    "PERSVERS_TS": "2021-12-09 13:01:54.840000",
+                    "OPTOUTCOMM": "",
+                    "OPTOUTCOMMREASON": ""
+                }
+            ]
+        },
+        "TADRESSE": {
+            "primaryKeys": "ADR#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "10496",
+                    "ADR#": "fc52f82f-f36e-11eb-a325-000d3a79039c",
+                    "HAUSNR": "3",
+                    "HAUSNRZUS": "",
+                    "STIEGE": "2",
+                    "TUERNR": "1",
+                    "POSTFACH": "",
+                    "POSTLANDSCHL": "A",
+                    "POSTLEITZAHL": "1140",
+                    "GEMEINDEKZAHL": "",
+                    "ORTSCHAFT": "Wien",
+                    "ORTSTEIL": "",
+                    "KZORTSTEILBED": "",
+                    "STRASSE": "Linzer Strasse",
+                    "BEDEUTUNG": "HW",
+                    "WOHNART": "",
+                    "VERSANDVERMERK": "P",
+                    "KZADRZUS": "",
+                    "GRBU_ORTSCHAFT": "WIEN",
+                    "KZPOST": "",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "ADRZUS": "",
+                    "BDL_CODE": "XX",
+                    "KZGEPRADR": "",
+                    "STRASSE_TYP": "",
+                    "BEZIRK": "",
+                    "KZADRUNBEK": "N",
+                    "KZADRUNSTRUKT": "N",
+                    "FLOOR": "",
+                    "POSTOFFICE": ""
+                }
+            ]
+        },
+        "TPRAEMDEPOT": {
+            "primaryKeys": "PRAEMDEP#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19633",
+                    "PRAEMDEP#": "9460a0a5-3330-11ec-8f06-faa55bc878ba",
+                    "FIRMA": "X",
+                    "PRAEMDEPNR": "",
+                    "EROEFFDAT": "0001-01-01",
+                    "SCHLDATUM": "0001-01-01",
+                    "KTOTYP": "W",
+                    "PDADRESSAT": "KD",
+                    "USERID": "U0011",
+                    "SALDO": "0",
+                    "FREMDWAEHRUNG": "",
+                    "ZAHLSCHEIN_ANZ": "0",
+                    "ADR#": "fc52f82f-f36e-11eb-a325-000d3a79039c",
+                    "INK_ADR#": "fc52f82f-f36e-11eb-a325-000d3a79039c"
+                }
+            ]
+        },
+        "TSEPA_MANDAT": {
+            "primaryKeys": "SEPAM#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19647",
+                    "SEPAM#": "d59c21cc-58ef-11ec-b6f7-fe896d6feca9",
+                    "FIRMA": "LL",
+                    "MANDATSREF": "LL010000000000000000000000000000001",
+                    "MANDATSTYP": "V",
+                    "MANDATSSTATUS": "A",
+                    "MANDATSSTATUSDAT": "2021-12-08",
+                    "MANDATSVEREINBDAT": "2021-12-08",
+                    "KZEINZUGERF": "N",
+                    "KONTOBEZ": "V",
+                    "BK#": "65f60755-0efd-11ec-a7c2-000d3a79039c",
+                    "ORDBEGR": "LL800000079",
+                    "MANDATSNAECHSTPR": "2024-12-08",
+                    "ERSTERFREF": ""
+                }
+            ]
+        },
+        "TFIRMENZUORD": {
+            "primaryKeys": "FZUO#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19543",
+                    "FZUO#": "c626c99e-6179-11ec-a89d-000d3a78cd8e",
+                    "FIRMA": "LL",
+                    "DSKLAUSEL": "KEINE",
+                    "DSKLAUSEL_GILTAB": "2021-12-20",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "KZSTEUERIDVERW": ""
+                }
+            ]
+        },
+        "TKOMM": {
+            "primaryKeys": "KO#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19532",
+                    "KO#": "e5ceda3f-005d-11ec-a5ef-000d3a79039c",
+                    "KOMMART": "E",
+                    "KENNUNG": "oliver@mail.de",
+                    "KOMMQUELLE": "",
+                    "KOMMPRIOR": "",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "KZPRIDIE": "P",
+                    "KOMMANM": "",
+                    "KZKOMMDATVALID": "",
+                    "KZWERBE_ERL": "",
+                    "FLCOMMRESTR": ""
+                },
+                {
+                    "POBJ_HANDLE": "19534",
+                    "KO#": "1cbf23f1-f36f-11eb-a325-000d3a79039c",
+                    "KOMMART": "H",
+                    "KENNUNG": "+436601879902",
+                    "KOMMQUELLE": "",
+                    "KOMMPRIOR": "B",
+                    "PERS#": "fc2f91ac-f36e-11eb-a325-000d3a79039c",
+                    "KZPRIDIE": "D",
+                    "KOMMANM": "",
+                    "KZKOMMDATVALID": "",
+                    "KZWERBE_ERL": "",
+                    "FLCOMMRESTR": ""
+                }
+            ]
+        },
+        "TBERUF": {
+            "primaryKeys": "BF#",
+            "new": [
+                {
+                    "POBJ_HANDLE": "19126",
+                    "BF#": "15b16a50-f36f-11eb-a325-000d3a79039c",
+                    "BERUF": "700",
+                    "ARBVERH": "3",
+                    "ARBVERH_STATUS": "A",
+                    "BETRIEBSART": "",
+                    "BRANCHENSCHL": "95",
+                    "NP#": "fc2f91ab-f36e-11eb-a325-000d3a79039c",
+                    "BERUFEINGABE": "",
+                    "TAETIGKEITSPROFIL": "",
+                    "KZHAUPTBERUF": "",
+                    "AUSUEB_AB": "0001-01-01",
+                    "AUSUEB_BIS": "0001-01-01"
+                }
+            ]
+        }
+    }
+}

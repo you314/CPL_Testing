@@ -66,10 +66,9 @@ class Costs:
 
     def e_31a_Rxnt(self,deferment_period,age,birth_date,payment_duration):
 
-        result = self.pv.c51(deferment_period=deferment_period, age=age, birth_date=birth_date) + \
-                 payment_duration * self.pv.c15_nAx(deferment_period=deferment_period, age=age, birth_date=birth_date) \
+        result = self.pv.c51(deferment_period=payment_duration, age=age, birth_date=birth_date) + \
+                 payment_duration * self.pv.c15_nAx(deferment_period=deferment_period-payment_duration, age=age+payment_duration, birth_date=birth_date) \
                  * (self.pv.v()[0] ** payment_duration) * self.pv.n_p_x_V(age=age,birth_date=birth_date)[payment_duration]
-
         return result
 
 
