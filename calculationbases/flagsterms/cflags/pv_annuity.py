@@ -141,7 +141,7 @@ class PresentValues:
         sum = 0.
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(deferment_period, deferment_period + pension_payment_period - 1):
+        for j in range(deferment_period, deferment_period + pension_payment_period):
             sum += v[0]**j * survival_vec[j]
 
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency) * \
@@ -154,7 +154,7 @@ class PresentValues:
         sum = 0.
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(guarantee_time, 133-age+1):
+        for j in range(guarantee_time, self.omega-age+1):
             sum = sum + v[0]**j * survival_vec[j]
 
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency) * \
@@ -199,7 +199,7 @@ class PresentValues:
         v = self.v()
         survival_vec = self.n_p_x_V(age=age+deferment_period+guarantee_time, birth_date=birth_date)
         survival_vec1 = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(133-deferment_period - guarantee_time-age):
+        for j in range(self.omega - deferment_period - guarantee_time-age):
             sum += survival_vec[j] * v[0]**j
         factor = survival_vec1[deferment_period + guarantee_time] * v[0]**(deferment_period + guarantee_time)
         correction = self.correction_factor(payment_frequency=payment_frequency) \
@@ -398,7 +398,7 @@ class PresentValues:
     def c38a(self,payment_duration,age,birth_date):
         Probabilityvec= self.n_p_x_V(age=age,birth_date=birth_date)
         term = 0
-        for j in range(payment_duration-1):
+        for j in range(payment_duration):
             term += Probabilityvec[j] * self.v()[0]**j
         return term
 

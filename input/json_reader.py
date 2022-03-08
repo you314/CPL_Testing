@@ -6,7 +6,7 @@ class JsonReader:
 
     def __init__(self):
         relative_path = "/"
-        filename = "TestContract_pv.json"
+        filename = "TestContract_ARZ05.json"
         file_path = path.dirname(__file__) + relative_path + filename
         file = open(file_path, 'r')
         self.data = json.load(file)
