@@ -15,7 +15,7 @@ class BiometryCpl:
         self.death_table_name = self.life_table.death_probability_table()
         self.disability_table_name = self.life_table.disability_probability_table()
         self.relative_path = "/"
-
+        self.omega = 133
 
     def q_x_vector(self, birth_date: int) -> list[float]:
         """
@@ -81,11 +81,11 @@ class BiometryCpl:
                 result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
         return result
 
-    def survival_probability_vector(self, age, birth_date) -> float:
+    def survival_probability_vector(self, age, birth_date) -> list[float]:
         result = 1
         nPX_vector = [result]
         qx_vector = self.q_x_vector(birth_date=birth_date)
-        for k in range(age, 133):
+        for k in range(age, self.omega):
             result *= (1-qx_vector[k])
             nPX_vector.append(result)
         return nPX_vector
@@ -130,10 +130,3 @@ class BiometryCpl:
         """
         result = 1 - self.one_year_disability_probability(age)
         return result
-
-
-
-
-
-
-
