@@ -20,7 +20,7 @@ class PresentValues:
         self.contractDTO = JsonReader
         self.biometry_cpl = cpl_bio.BiometryCpl()
         self.Interest = Interest()
-        self.omega = 121  # maximum age
+        self.omega = 133  # maximum age
 
     ### general functions ###
 
@@ -114,7 +114,9 @@ class PresentValues:
         term3 = interest_rate * (1 - interest_rate / 2)
         return term1 + term2 * term3
 
-    def correction_factor(self, payment_frequency: int, i=0.0275) -> float:
+    def correction_factor(self, payment_frequency: int) -> float:
+        v = self.v()
+        i = 1 / v[0]-1
         return (payment_frequency - 1)/(2*payment_frequency) + i*(1 - i/2)*(payment_frequency**2 - 1)\
                / (6*payment_frequency**2)
 
@@ -123,13 +125,16 @@ class PresentValues:
     def c0_nax_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
         sum = 0.
         v = self.v()
-        survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(deferment_period, self.omega-age-1):
+        survival_vec = self.n_p_x_V(age=age+deferment_period, birth_date=birth_date)
+        survival_vec1 = self.n_p_x_V(age=age, birth_date=birth_date)
+        print(survival_vec)
+        print(survival_vec1)
+        print(self.omega-age-deferment_period)
+        for j in range(self.omega-age-deferment_period):  #range(deferment_period, self.omega-age-1)
             sum += v[0]**j * survival_vec[j]
-
-        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
-                     v[0]**deferment_period * survival_vec[deferment_period]
-        return sum - correction
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency)
+        factor = v[0] ** deferment_period * survival_vec1[deferment_period]
+        return factor * (sum - correction)
 
     def c1_naxl_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int,
                   pension_payment_period: int) -> float:
@@ -139,7 +144,7 @@ class PresentValues:
         for j in range(deferment_period, deferment_period + pension_payment_period - 1):
             sum += v[0]**j * survival_vec[j]
 
-        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency) * \
                      v[0]**deferment_period * survival_vec[deferment_period] * \
                      (1 - v[0]**pension_payment_period * \
                       self.n_p_x(n=pension_payment_period, age=age+deferment_period, birth_date=birth_date))
@@ -149,10 +154,10 @@ class PresentValues:
         sum = 0.
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(guarantee_time, 121-age+1):
+        for j in range(guarantee_time, 133-age+1):
             sum = sum + v[0]**j * survival_vec[j]
 
-        correction = self.correction_factor(payment_frequency=payment_contributions_frequency, i=1/v[0]-1) * \
+        correction = self.correction_factor(payment_frequency=payment_contributions_frequency) * \
                      v[0]**guarantee_time * survival_vec[guarantee_time]
         return sum - correction
 
@@ -194,7 +199,7 @@ class PresentValues:
         v = self.v()
         survival_vec = self.n_p_x_V(age=age+deferment_period+guarantee_time, birth_date=birth_date)
         survival_vec1 = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(121-deferment_period - guarantee_time-age):
+        for j in range(133-deferment_period - guarantee_time-age):
             sum += survival_vec[j] * v[0]**j
         factor = survival_vec1[deferment_period + guarantee_time] * v[0]**(deferment_period + guarantee_time)
         correction = self.correction_factor(payment_frequency=payment_frequency) \
@@ -417,8 +422,10 @@ class PresentValues:
         survivalvec = self.n_p_x_V(age=age, birth_date=birth_date)
         sum = 0.
         for k in range(deferment_period):
-            sum += (k+1) *survivalvec[k] \
-                   * self.biometry_cpl.one_year_death_probability(age=age + k, birth_date=birth_date) * self.v()[0] ** (k + 1)
+
+            sum += (k+1) * survivalvec[k] \
+                    * self.biometry_cpl.one_year_death_probability(age=age+k, birth_date=birth_date) \
+                    * self.v()[0] ** (k+1)
         return sum
 
 
