@@ -43,8 +43,8 @@ class Tariff():
             #
             num = Tc1 * (Tc2+Tc3) + (0.005 * Tc4) + (0.0 * Tc4) + (0.005 * Tc6)
             den = (1-0.06) * Tc4 - (0.04 * Te15) - (1.05 * Te30)
-            #Result = 3002.76 * num/den
-            Result = 5785.8 * num / den
+            Result = 3002.76 * num/den
+            #Result = 5785.8 * num / den
             end_time = time.time()
             return Result, end_time-start_time
 
@@ -134,33 +134,32 @@ class Tariff():
             return c0, c1, c2, c3, c4, c5a, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c21, c38a, e31a, end_time - start_time
 
 
-c0, c1, c2, c3, c4, c5a, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c21, c38a, e31a, timing = Tariff().barwert_testing()
+#c0, c1, c2, c3, c4, c5a, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c21, c38a, e31a, timing = Tariff().barwert_testing()
 
-print("c0 for tariff pv example: " + str(c0) + " (Desired value: 15.394247)")
-print("c1 for tariff pv example: " + str(c1) + " (Desired value: 8.842316)")
-print("c2 for tariff pv example: " + str(c2) + " (Desired value: 26.141518)")
-print("c3 for tariff pv example: " + str(c3) + " (Desired value: 4.681005346)")
-print("c4 for tariff pv example: " + str(c4) + " (Desired value: 2.70532)")
-print("c5a for tariff pv example: " + str(c5a) + " (Desired value: 15.622082)")
-print("c6 for tariff pv example: " + str(c6) + " (Desired value: 30.82098735)")
-print("c7 for tariff pv example: " + str(c7) + " (Desired value: 12.69427175)")
-print("c8 for tariff pv example: " + str(c8) + " (Desired value: 15.394247)")
-print("c9 for tariff pv example: " + str(c9) + " (Desired value: 2.7053073653485)")
-print("c10 for tariff pv example: " + str(c10) + " (Desired value: 4.681005346)")
-print("c11 for tariff pv example: " + str(c11) + " (Desired value: 12.69427175)")
-print("c12 for tariff pv example: " + str(c12) + " (Desired value: 30.82098735)")
-print("c38a for tariff pv example: " + str(c38a) + " (Desired value: 15.622082)")
-print("e31a for tariff pv example: " + str(e31a) + " (Desired value: 0.051903383)")
-print("c13 for tariff pv example: " + str(c13) + " (Desired value: 26.14147528)")
-print("c14 for tariff pv example: " + str(c14) + " (Desired value: ??? (cpl: 1.9485))")
-# print("c15 for tariff pv example: " + str(c15) + " (Desired value: 0.00395838)")
-print("c16 for tariff pv example: " + str(c16) + " (Desired value: ??? (cpl: 0.023942))")
-print("c17 for tariff pv example: " + str(c17) + " (Desired value: ??? (cpl: 0.023942))")
-print("c18 for tariff pv example: Disabilities not yet implemented")
-print("c19 for tariff pv example: Disabilities not yet implemented")
-print("c20 for tariff pv example: Disabilities not yet implemented")
-print("c21 for tariff pv example: " + str(c21) + " (Desired value: ??? (cpl: 20.64899))")
-print("Runtime: " + str(timing) + " seconds")
-callable(AdministrationRate)
-#print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
+# print("c0 for tariff pv example: " + str(c0) + " (Desired value: 15.394247)")
+# print("c1 for tariff pv example: " + str(c1) + " (Desired value: 8.842316)")
+# print("c2 for tariff pv example: " + str(c2) + " (Desired value: 26.141518)")
+# print("c3 for tariff pv example: " + str(c3) + " (Desired value: 4.681005346)")
+# print("c4 for tariff pv example: " + str(c4) + " (Desired value: 2.70532)")
+# print("c5a for tariff pv example: " + str(c5a) + " (Desired value: 15.622082)")
+# print("c6 for tariff pv example: " + str(c6) + " (Desired value: 30.82098735)")
+# print("c7 for tariff pv example: " + str(c7) + " (Desired value: 12.69427175)")
+# print("c8 for tariff pv example: " + str(c8) + " (Desired value: 15.394247)")
+# print("c9 for tariff pv example: " + str(c9) + " (Desired value: 2.7053073653485)")
+# print("c10 for tariff pv example: " + str(c10) + " (Desired value: 4.681005346)")
+# print("c11 for tariff pv example: " + str(c11) + " (Desired value: 12.69427175)")
+# print("c12 for tariff pv example: " + str(c12) + " (Desired value: 30.82098735)")
+# print("c38a for tariff pv example: " + str(c38a) + " (Desired value: 15.622082)")
+# print("e31a for tariff pv example: " + str(e31a) + " (Desired value: 0.051903383)")
+# print("c13 for tariff pv example: " + str(c13) + " (Desired value: 26.14147528)")
+# print("c14 for tariff pv example: " + str(c14) + " (Desired value: ??? (cpl: 1.9485))")
+# # print("c15 for tariff pv example: " + str(c15) + " (Desired value: 0.00395838)")
+# print("c16 for tariff pv example: " + str(c16) + " (Desired value: ??? (cpl: 0.023942))")
+# print("c17 for tariff pv example: " + str(c17) + " (Desired value: ??? (cpl: 0.023942))")
+# print("c18 for tariff pv example: Disabilities not yet implemented")
+# print("c19 for tariff pv example: Disabilities not yet implemented")
+# print("c20 for tariff pv example: Disabilities not yet implemented")
+# print("c21 for tariff pv example: " + str(c21) + " (Desired value: ??? (cpl: 20.64899))")
+# print("Runtime: " + str(timing) + " seconds")
+print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
 

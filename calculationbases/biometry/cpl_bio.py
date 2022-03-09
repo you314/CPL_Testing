@@ -2,20 +2,56 @@ from math import exp
 from os import path
 from helper.cpl_prep import FileReader
 from calculationbases.biometry.life_table import LifeTable
-from input.contract import ContractDTO
 from input.json_reader import JsonReader
 
 
 class BiometryCpl:
 
     def __init__(self):
-        #self.contractDTO = ContractDTO(contract_nr=contract_nr)
         self.contractDTO = JsonReader
+        self.tariff_generation = self.contractDTO.tg()
+        self.birth_year = self.contractDTO.birth_year()
         self.life_table = LifeTable()
         self.death_table_name = self.life_table.death_probability_table()
         self.disability_table_name = self.life_table.disability_probability_table()
         self.relative_path = "/"
         self.omega = 133
+
+    def age_shift(self) -> int:
+        """
+        This function amends the birth year by applying the age shift as per Tätigkeitsplan
+        :return: calculatory age as int
+        """
+        actual_birth_year = self.birth_year
+        age_shift_csv_filename = "AgeShift.csv"
+        age_shift_csv_path = path.dirname(__file__) + self.relative_path + age_shift_csv_filename
+        age_shift_csv_reader = FileReader(age_shift_csv_path)
+        age_shift_dict = age_shift_csv_reader.create_mapping_by_key("Birthyear")
+        age_shift_for_year = age_shift_dict[str(actual_birth_year)]
+        if self.contractDTO.sex() == "M":
+            column_name = "A04_A_M"
+        else:
+            column_name = "A04_A_F"
+        age_shift = int(age_shift_for_year[column_name])
+        return age_shift
+
+    def modification(self) -> int:
+        """
+        This function calculates the shift of the table based on the tariff generation
+        :return: amount of rows, the table needs to be shifted
+        """
+        tariff_generation = self.tariff_generation
+        modification_csv_filename = "Modifikation.csv"
+        modification_csv_path = path.dirname(__file__) + self.relative_path + modification_csv_filename
+        modification_csv_reader = FileReader(modification_csv_path)
+        modification_dict = modification_csv_reader.create_mapping_by_key("Generation")
+        modification_years = modification_dict[str(tariff_generation)]
+        if self.contractDTO.sex() == "M":
+            column_name = "Mod_M"
+        else:
+            column_name = "Mod_F"
+        modification_shift = int(modification_years[column_name])
+        return modification_shift
 
     def q_x_vector(self, birth_date: int) -> list[float]:
         """
@@ -24,6 +60,7 @@ class BiometryCpl:
          :return: death probability vector
         """
         death_csv_filename = self.death_table_name
+        modification = self.modification()
         death_csv_path = path.dirname(__file__) + self.relative_path + death_csv_filename
         death_csv_reader = FileReader(death_csv_path)
         death_age_dict = death_csv_reader.read_column_from_csv("AGE", type=float)
@@ -36,8 +73,11 @@ class BiometryCpl:
         min_age = list(death_age_dict.keys())[0]
         max_age = list(death_age_dict.keys())[-1]
         qx_vector = []
-        for age in range(min_age, max_age + 1):
-            qx = q_x_dict[age] #* exp(-(birth_date + age - 1999) * trend_dict[age])
+        for age in range(min_age, modification):
+            qx = q_x_dict[0]
+            qx_vector.append(qx)
+        for age in range(min_age+modification, max_age + 1):
+            qx = q_x_dict[age-modification] #* exp(-(birth_date + age - 1999) * trend_dict[age])
             qx_vector.append(qx)
         return qx_vector
 
@@ -130,3 +170,7 @@ class BiometryCpl:
         """
         result = 1 - self.one_year_disability_probability(age)
         return result
+
+
+bc = BiometryCpl()
+bc.modification()
