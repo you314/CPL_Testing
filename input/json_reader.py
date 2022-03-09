@@ -6,7 +6,7 @@ class JsonReader:
 
     def __init__(self):
         relative_path = "/"
-        filename = "TestContract_ARZ04.json"
+        filename = "TestContract_pv.json"
         file_path = path.dirname(__file__) + relative_path + filename
         file = open(file_path, 'r')
         self.data = json.load(file)
@@ -15,6 +15,16 @@ class JsonReader:
         age_raw = json.dumps(self.data['contract']['TLSCHDETAIL']['new'][0]['BEITRALTER'])
         age = int(age_raw.replace("\"", ""))
         return age
+
+    def actuarial_age_2(self) -> int:
+        start_date_raw = json.dumps(self.data['contract']['TVERTRAG']['new'][0]['BEGDAT'])
+        birth_date_raw = json.dumps(self.data['contract']['TNATPERS']['new'][0]['GEBURTSDATUM'])
+        start_date = start_date_raw.replace("\"", "")
+        birth_date = birth_date_raw.replace("\"", "")
+        start_date_list = start_date.split(sep='-')
+        birth_date_list = birth_date.split(sep='-')
+        age_2 = int(start_date_list[0]) - int(birth_date_list[0])
+        return age_2
 
     def tariff_name(self) -> str:
         tariff_name_raw = json.dumps(self.data['contract']['TLSCHDETAIL']['new'][0]['TARBEZEICHNUNG'])
