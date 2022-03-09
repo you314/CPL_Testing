@@ -101,7 +101,8 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year survival probability
         """
-        result = 1 - self.one_year_death_probability(age, birth_date=birth_date)
+        qx_vector = self.q_x_vector(birth_date=birth_date)
+        result = 1 - qx_vector[age]
         return result
 
     def n_year_survival_probability(self, n, age, birth_date) -> float:
@@ -120,7 +121,7 @@ class BiometryCpl:
         else:
             result = 1
             for i in range(age, age + n):
-                result *= self.one_year_survival_probability(age=i, birth_date=birth_date)
+                result *= 1 - qx_vector[i]
         return result
 
     def survival_probability_vector(self, age, birth_date) -> list[float]:
