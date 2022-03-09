@@ -94,7 +94,7 @@ class Tariff():
             ### Barwert-Testing###
             start_time = time.time()
             deferment_period = self.contract_Dto.deferment_period()
-            age=self.Biometry.age_shifted()
+            age = self.Biometry.age_shifted()
             birth_date = self.contract_Dto.birth_year()
             payment_contributions_frequency = self.contract_Dto.payment_contributions_frequency()
             guarantee_time = self.contract_Dto.guarantee_time()
@@ -164,5 +164,5 @@ print("c19 for tariff pv example: Disabilities not yet implemented")
 print("c20 for tariff pv example: Disabilities not yet implemented")
 print("c21 for tariff pv example: " + str(c21) + " (Desired value: ??? (cpl: 20.64899))")
 print("Runtime: " + str(timing) + " seconds")
-print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
+#print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
 
