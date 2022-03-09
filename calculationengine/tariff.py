@@ -1,5 +1,6 @@
 from calculationbases.flagsterms.cflags.pv_annuity import PresentValues
 from calculationbases.flagsterms.eflags.cost_annuity import Costs
+from calculationbases.biometry.cpl_bio import BiometryCpl
 from input.json_reader import JsonReader
 from calculationbases.cost.administrationcosts.administration_rate import AdministrationRate
 from calculationbases.cost.amortizationcosts.amortization_rate import AmortizationRate
@@ -14,6 +15,7 @@ class Tariff():
 
         def __init__(self):
             self.present_values = PresentValues()
+            self.Biometry = BiometryCpl()
             self.Cost_flags = Costs()
             self.administration = AdministrationRate()
             self.amorat = AmortizationRate()
@@ -22,6 +24,7 @@ class Tariff():
             self.contract_Dto = JsonReader
             self.flags_vector_J = self.flags.gross_premium_flags_vector(tariff=self.contract_Dto.tariff_name())
 
+
         def Gross_premium_annuity(self) -> float:
             """
             Maxi formula for the gross  premium annuity
@@ -29,16 +32,16 @@ class Tariff():
             ### maxi formula needs yet to be adjusted ###
             start_time = time.time()
             Tc1 =(1 + self.administration.gamma_2())
-            Tc2= self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
-            Tc3= self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc4 = self.present_values.c38a(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc2= self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.Biometry.age_shifted(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
+            Tc3= self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.Biometry.age_shifted(),birth_date=self.contract_Dto.birth_year())
+            Tc4 = self.present_values.c38a(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.Biometry.age_shifted(),birth_date=self.contract_Dto.birth_year())
             # #Tc5 = self.present_values.c38b(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
-            Tc6 = self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.premium_payment_duration(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year())
+            Tc6 = self.present_values.c44(deferment_period=self.contract_Dto.deferment_period(),payment_duration=self.contract_Dto.premium_payment_duration(),age=self.Biometry.age_shifted(),birth_date=self.contract_Dto.birth_year())
             Te2b = self.Cost_flags.e2b_asqcosta_z()
             Te15= self.Cost_flags.e_30(payment_duration=self.contract_Dto.premium_payment_duration(),max_provizionsbezug=30)
             # #Te45= self.Cost_flags.e_45()
             # #Te46 = self.Cost_flags.e_46()
-            Te30 =self.Cost_flags.e_31a_Rxnt(deferment_period=self.contract_Dto.deferment_period(),age=self.contract_Dto.actuarial_age(),birth_date=self.contract_Dto.birth_year(),payment_duration=self.contract_Dto.premium_payment_duration())
+            Te30 =self.Cost_flags.e_31a_Rxnt(deferment_period=self.contract_Dto.deferment_period(),age=self.Biometry.age_shifted(),birth_date=self.contract_Dto.birth_year(),payment_duration=self.contract_Dto.premium_payment_duration())
             # #T50= 10490.88*(Tc1*(self.present_values.c2_gax_k(guarantee_time=15,age=75,birth_date=1938,payment_contributions_frequency=12)+self.present_values.c3_ag_k(guarantee_time=15,payment_contributions_frequency=12)))/(1-0.015-0.004)
             #
             num = Tc1 * (Tc2+Tc3) + (0.005 * Tc4) + (0.0 * Tc4) + (0.005 * Tc6)
@@ -91,7 +94,7 @@ class Tariff():
             ### Barwert-Testing###
             start_time = time.time()
             deferment_period = self.contract_Dto.deferment_period()
-            age = self.contract_Dto.actuarial_age()
+            age=self.Biometry.age_shifted()
             birth_date = self.contract_Dto.birth_year()
             payment_contributions_frequency = self.contract_Dto.payment_contributions_frequency()
             guarantee_time = self.contract_Dto.guarantee_time()
@@ -134,32 +137,32 @@ class Tariff():
             return c0, c1, c2, c3, c4, c5a, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c21, c38a, e31a, end_time - start_time
 
 
-#c0, c1, c2, c3, c4, c5a, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c21, c38a, e31a, timing = Tariff().barwert_testing()
+c0, c1, c2, c3, c4, c5a, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15, c16, c17, c21, c38a, e31a, timing = Tariff().barwert_testing()
 
-# print("c0 for tariff pv example: " + str(c0) + " (Desired value: 15.394247)")
-# print("c1 for tariff pv example: " + str(c1) + " (Desired value: 8.842316)")
-# print("c2 for tariff pv example: " + str(c2) + " (Desired value: 26.141518)")
-# print("c3 for tariff pv example: " + str(c3) + " (Desired value: 4.681005346)")
-# print("c4 for tariff pv example: " + str(c4) + " (Desired value: 2.70532)")
-# print("c5a for tariff pv example: " + str(c5a) + " (Desired value: 15.622082)")
-# print("c6 for tariff pv example: " + str(c6) + " (Desired value: 30.82098735)")
-# print("c7 for tariff pv example: " + str(c7) + " (Desired value: 12.69427175)")
-# print("c8 for tariff pv example: " + str(c8) + " (Desired value: 15.394247)")
-# print("c9 for tariff pv example: " + str(c9) + " (Desired value: 2.7053073653485)")
-# print("c10 for tariff pv example: " + str(c10) + " (Desired value: 4.681005346)")
-# print("c11 for tariff pv example: " + str(c11) + " (Desired value: 12.69427175)")
-# print("c12 for tariff pv example: " + str(c12) + " (Desired value: 30.82098735)")
-# print("c38a for tariff pv example: " + str(c38a) + " (Desired value: 15.622082)")
-# print("e31a for tariff pv example: " + str(e31a) + " (Desired value: 0.051903383)")
-# print("c13 for tariff pv example: " + str(c13) + " (Desired value: 26.14147528)")
-# print("c14 for tariff pv example: " + str(c14) + " (Desired value: ??? (cpl: 1.9485))")
-# # print("c15 for tariff pv example: " + str(c15) + " (Desired value: 0.00395838)")
-# print("c16 for tariff pv example: " + str(c16) + " (Desired value: ??? (cpl: 0.023942))")
-# print("c17 for tariff pv example: " + str(c17) + " (Desired value: ??? (cpl: 0.023942))")
-# print("c18 for tariff pv example: Disabilities not yet implemented")
-# print("c19 for tariff pv example: Disabilities not yet implemented")
-# print("c20 for tariff pv example: Disabilities not yet implemented")
-# print("c21 for tariff pv example: " + str(c21) + " (Desired value: ??? (cpl: 20.64899))")
-# print("Runtime: " + str(timing) + " seconds")
+print("c0 for tariff pv example: " + str(c0) + " (Desired value: 15.394247)")
+print("c1 for tariff pv example: " + str(c1) + " (Desired value: 8.842316)")
+print("c2 for tariff pv example: " + str(c2) + " (Desired value: 26.141518)")
+print("c3 for tariff pv example: " + str(c3) + " (Desired value: 4.681005346)")
+print("c4 for tariff pv example: " + str(c4) + " (Desired value: 2.70532)")
+print("c5a for tariff pv example: " + str(c5a) + " (Desired value: 15.622082)")
+print("c6 for tariff pv example: " + str(c6) + " (Desired value: 30.82098735)")
+print("c7 for tariff pv example: " + str(c7) + " (Desired value: 12.69427175)")
+print("c8 for tariff pv example: " + str(c8) + " (Desired value: 15.394247)")
+print("c9 for tariff pv example: " + str(c9) + " (Desired value: 2.7053073653485)")
+print("c10 for tariff pv example: " + str(c10) + " (Desired value: 4.681005346)")
+print("c11 for tariff pv example: " + str(c11) + " (Desired value: 12.69427175)")
+print("c12 for tariff pv example: " + str(c12) + " (Desired value: 30.82098735)")
+print("c38a for tariff pv example: " + str(c38a) + " (Desired value: 15.622082)")
+print("e31a for tariff pv example: " + str(e31a) + " (Desired value: 0.051903383)")
+print("c13 for tariff pv example: " + str(c13) + " (Desired value: 26.14147528)")
+print("c14 for tariff pv example: " + str(c14) + " (Desired value: ??? (cpl: 1.9485))")
+print("c15 for tariff pv example: " + str(c15) + " (Desired value: 0.00395838)")
+print("c16 for tariff pv example: " + str(c16) + " (Desired value: ??? (cpl: 0.023942))")
+print("c17 for tariff pv example: " + str(c17) + " (Desired value: ??? (cpl: 0.023942))")
+print("c18 for tariff pv example: Disabilities not yet implemented")
+print("c19 for tariff pv example: Disabilities not yet implemented")
+print("c20 for tariff pv example: Disabilities not yet implemented")
+print("c21 for tariff pv example: " + str(c21) + " (Desired value: ??? (cpl: 20.64899))")
+print("Runtime: " + str(timing) + " seconds")
 print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
 

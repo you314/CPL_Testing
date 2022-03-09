@@ -15,13 +15,15 @@ class BiometryCpl:
         self.death_table_name = self.life_table.death_probability_table()
         self.disability_table_name = self.life_table.disability_probability_table()
         self.relative_path = "/"
+        self.actuarial_age = self.contractDTO.actuarial_age_2()
         self.omega = 133
 
-    def age_shift(self) -> int:
+    def age_shifted(self) -> int:  # TODO: implement a switch to turn of the AgeShift in case trend function is used
         """
         This function amends the birth year by applying the age shift as per Tätigkeitsplan
         :return: calculatory age as int
         """
+        actuarial_age = self.actuarial_age
         actual_birth_year = self.birth_year
         age_shift_csv_filename = "AgeShift.csv"
         age_shift_csv_path = path.dirname(__file__) + self.relative_path + age_shift_csv_filename
@@ -33,7 +35,7 @@ class BiometryCpl:
         else:
             column_name = "A04_A_F"
         age_shift = int(age_shift_for_year[column_name])
-        return age_shift
+        return actuarial_age + age_shift
 
     def modification(self) -> int:
         """
@@ -170,7 +172,3 @@ class BiometryCpl:
         """
         result = 1 - self.one_year_disability_probability(age)
         return result
-
-
-bc = BiometryCpl()
-bc.modification()
