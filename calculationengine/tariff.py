@@ -9,9 +9,7 @@ import time
 from calculationbases.flagsterms.mf_annuity_flags import Flags
 
 
-
-
-class Tariff():
+class Tariff:
 
         def __init__(self):
             self.present_values = PresentValues()
@@ -24,14 +22,13 @@ class Tariff():
             self.contract_Dto = JsonReader
             self.flags_vector_J = self.flags.gross_premium_flags_vector(tariff=self.contract_Dto.tariff_name())
 
-
-        def Gross_premium_annuity(self) -> float:
+        def Gross_premium_annuity(self) -> tuple[float]:
             """
             Maxi formula for the gross  premium annuity
             """
             ### maxi formula needs yet to be adjusted ###
             start_time = time.time()
-            Tc1 =(1 + self.administration.gamma_2())
+            Tc1 = (1 + self.administration.gamma_2())
             Tc2= self.present_values.c4_nag_k(deferment_period=self.contract_Dto.deferment_period(),age=self.Biometry.age_shifted(),birth_date= self.contract_Dto.birth_year(),payment_contributions_frequency=self.contract_Dto.payment_contributions_frequency(),guarantee_time=self.contract_Dto.guarantee_time())
             Tc3= self.present_values.c7_ngax_k(deferment_period=self.contract_Dto.deferment_period(),guarantee_time=self.contract_Dto.guarantee_time(),payment_frequency=self.contract_Dto.payment_contributions_frequency(),age=self.Biometry.age_shifted(),birth_date=self.contract_Dto.birth_year())
             Tc4 = self.present_values.c38a(payment_duration=self.contract_Dto.premium_payment_duration(),age=self.Biometry.age_shifted(),birth_date=self.contract_Dto.birth_year())
@@ -90,7 +87,7 @@ class Tariff():
                 reserves_annuity = 0
             return reserves_annuity
 
-        def barwert_testing(self) -> float:
+        def barwert_testing(self):
             ### Barwert-Testing###
             start_time = time.time()
             deferment_period = self.contract_Dto.deferment_period()
@@ -164,5 +161,6 @@ print("c19 for tariff pv example: Disabilities not yet implemented")
 print("c20 for tariff pv example: Disabilities not yet implemented")
 print("c21 for tariff pv example: " + str(c21) + " (Desired value: ??? (cpl: 20.64899))")
 print("Runtime: " + str(timing) + " seconds")
+#
 #print("Gross Premium for example for tariff ARZ/2004: " + str(Tariff().Gross_premium_annuity()) + " (Desired value: 1926.1143368887392)")
 

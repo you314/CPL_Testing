@@ -83,29 +83,7 @@ class BiometryCpl:
             qx_vector.append(qx)
         return qx_vector
 
-    def one_year_death_probability(self, age, birth_date) -> float:
-        """
-        Initialises required one year death probability considering a trend factor
-        :param birth_date: the birth year of the insured person
-        :param age: the age of the insured person
-        :return: one year death probability
-        """
-        qx_vector = self.q_x_vector(birth_date=birth_date)
-        qx = qx_vector[age]
-        return qx
-
-    def one_year_survival_probability(self, age, birth_date) -> float:
-        """
-        Initialises required one year survival probability considering a trend factor
-        :param birth_date: the birth year of the insured person
-        :param age: the age of the insured person
-        :return: one year survival probability
-        """
-        qx_vector = self.q_x_vector(birth_date=birth_date)
-        result = 1 - qx_vector[age]
-        return result
-
-    def n_year_survival_probability(self, n, age, birth_date) -> float:
+    def n_p_x(self, n: int, age: int, birth_date: int) -> float:
         """
         This function initialises the required n year death probability with taking in consideration the trend factor
         :param birth_date: the birth year of the insured person
@@ -171,5 +149,6 @@ class BiometryCpl:
         :param age: the age of the insured person
         :return: one year active probability
         """
-        result = 1 - self.one_year_disability_probability(age)
+        ix_vector = self.i_x_vector()
+        result = 1 - ix_vector[age]
         return result

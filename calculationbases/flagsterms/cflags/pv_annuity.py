@@ -1,6 +1,5 @@
 import calculationbases.biometry.cpl_bio as cpl_bio
 from calculationbases.interest.interest_rate import Interest
-from input.contract import ContractDTO
 from input.json_reader import JsonReader
 
 
@@ -20,7 +19,7 @@ class PresentValues:
         self.contractDTO = JsonReader
         self.biometry_cpl = cpl_bio.BiometryCpl()
         self.Interest = Interest()
-        self.omega = 133  # maximum age
+        self.omega = 133
 
     ### general functions ###
 
@@ -30,21 +29,8 @@ class PresentValues:
         :return: v vector
         """
         i = self.Interest.interest_vector(tariff_generation=self.contractDTO.tg())
-        v_vector = []
-        for j in range(0, len(i)):
-            v = 1 / (1 + i[j])
-            v_vector.append(v)
+        v_vector = [(1 / (1 + i[j])) for j in range(0, len(i))]
         return v_vector
-
-    def n_p_x(self, n: int, age: int, birth_date: int) -> float:
-        """
-        This function yields n year death probability
-        :param birth_date: the birth year of the insured person
-        :param age: the age of the insured person
-        :param n: the period in which the required probability is calculated
-        :return: n year death probability
-        """
-        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date)
 
     def n_p_x_V(self, age: int, birth_date: int) -> list[float]:
         """
@@ -56,16 +42,10 @@ class PresentValues:
         """
         return self.biometry_cpl.survival_probability_vector(age=age, birth_date=birth_date)
 
-    def n_p_y(self, n: int, age: int, birth_date: int) -> float:
-        """
-        Equals n_p_x but for female sex
-        """
-        return self.biometry_cpl.n_year_survival_probability(n=n, age=age, birth_date=birth_date)
-
     def aeg(self, guarantee_time: int) -> float:
         sum = 0.
         v = self.v()
-        for j in range(0, guarantee_time+1):
+        for j in range(guarantee_time+1):
             product = 1.
             for k in range(0, j+1):
                 product *= v[k]
@@ -79,7 +59,6 @@ class PresentValues:
             product = 1.
             for h in range(0, j+1):
                 product *= v[h]
-
             product *= (1 - v[j]) / (1 - v[j] ** (1 / k))
             sum += product
         return 1 / k * sum
@@ -92,14 +71,14 @@ class PresentValues:
             outer_product *= v[j]
         ######################################
 
-        outer_probability = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        outer_probability = self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
         sum = 0.
         for count in range(0, m+1):
             inner_product = 1.
             for k in range(deferment_period, deferment_period + count+1):
                 inner_product *= v[k]
 
-            inner_probability = self.n_p_x(n=count, age=age + deferment_period, birth_date=birth_date)
+            inner_probability = self.biometry_cpl.n_p_x(n=count, age=age + deferment_period, birth_date=birth_date)
             sum += inner_product * inner_probability
 
         return outer_probability * sum
@@ -114,39 +93,38 @@ class PresentValues:
     ### c flags ###
 
     def c0_nax_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
-        sum = 0.
+        summand = 0.
         v = self.v()
         survival_vec = self.n_p_x_V(age=age+deferment_period, birth_date=birth_date)
         survival_vec1 = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(self.omega-age-deferment_period):
-            sum += v[0]**j * survival_vec[j]
+            summand += v[0]**j * survival_vec[j]
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency)
         factor = v[0] ** deferment_period * survival_vec1[deferment_period]
-        return factor * (sum - correction)
+        return factor * (summand - correction)
 
     def c1_naxl_k(self, deferment_period: int, age: int, birth_date: int, payment_contributions_frequency: int,
                   pension_payment_period: int) -> float:
-        sum = 0.
+        summand = 0.
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(deferment_period, deferment_period + pension_payment_period):
-            sum += v[0]**j * survival_vec[j]
+            summand += v[0]**j * survival_vec[j]
 
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency) * \
                      v[0]**deferment_period * survival_vec[deferment_period] * (1 - v[0]**pension_payment_period * \
-                     self.n_p_x(n=pension_payment_period, age=age+deferment_period, birth_date=birth_date))
-        return sum - correction
+                     self.biometry_cpl.n_p_x(n=pension_payment_period, age=age+deferment_period, birth_date=birth_date))
+        return summand - correction
 
     def c2_gax_k(self, guarantee_time: int, age: int, birth_date: int, payment_contributions_frequency: int) -> float:
-        sum = 0.
+        summand = 0.
         v = self.v()
         survival_vec = self.n_p_x_V(age=age, birth_date=birth_date)
         for j in range(guarantee_time, self.omega-age+1):
-            sum = sum + v[0]**j * survival_vec[j]
-
+            summand += v[0]**j * survival_vec[j]
         correction = self.correction_factor(payment_frequency=payment_contributions_frequency) * \
                      v[0]**guarantee_time * survival_vec[guarantee_time]
-        return sum - correction
+        return summand - correction
 
     def c3_ag_k(self, guarantee_time: int, payment_contributions_frequency: int) -> float:
         v = self.v()
@@ -156,29 +134,32 @@ class PresentValues:
 
     def c4_nag_k(self, age: int, birth_date: int, deferment_period: int, guarantee_time: int,
                  payment_contributions_frequency: int) -> float:
-        factor = self.v()[0]**deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        factor = self.v()[0]**deferment_period * self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
         c3_ag_k = self.c3_ag_k(guarantee_time=guarantee_time,
                                payment_contributions_frequency=payment_contributions_frequency)
         return factor * c3_ag_k
 
     def c5a_axn(self, age: int, birth_date: int, deferment_period: int) -> float:
-        sum = 0.
-        for counter in range(0, deferment_period):# - 1):
-            sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
-        return sum
+        v = self.v()
+        summand = 0.
+        for counter in range(deferment_period):
+            summand += self.biometry_cpl.n_p_x(n=counter, age=age, birth_date=birth_date) * v[0] ** counter
+        return summand
 
     def c5b_axn(self, age: int, birth_date: int, deferment_period: int) -> float:
-        sum = 0.
-        for counter in range(0, deferment_period):# - 1):
-            sum += self.n_p_x(n=counter, age=age, birth_date=birth_date) * self.v()[0] ** counter
-        return sum
+        v = self.v()
+        summand = 0.
+        for counter in range(deferment_period):
+            summand += self.biometry_cpl.n_p_x(n=counter, age=age, birth_date=birth_date) * v[0] ** counter
+        return summand
 
     def c6_ax_k(self, payment_frequency, age, birth_date) -> float:
-        sum = 0.
+        v = self.v()
+        summand = 0.
         for j in range(self.omega - age):
-            sum = sum+self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0] ** j
+            summand += self.biometry_cpl.n_p_x(n=j, age=age, birth_date=birth_date) * v[0] ** j
         correction = self.correction_factor(payment_frequency=payment_frequency)
-        return sum - correction
+        return summand - correction
 
     def c7_ngax_k(self, deferment_period, guarantee_time, payment_frequency, age, birth_date) -> float:
         sum = 0.
@@ -198,27 +179,29 @@ class PresentValues:
         v = self.v()
         survival_vec = self.n_p_x_V(age=age + deferment_period, birth_date=birth_date)
         survival_vec1 = self.n_p_x_V(age=age, birth_date=birth_date)
-        for j in range(self.omega - age - deferment_period):  # range(deferment_period, self.omega-age-1)
+        for j in range(self.omega - age - deferment_period):
             sum += v[0] ** j * survival_vec[j]
         correction = self.correction_factor(payment_frequency=12)
         factor = v[0] ** deferment_period * survival_vec1[deferment_period]
         return factor * (sum - correction)
 
     def c9_nag_12(self, guarantee_time, deferment_period, age, birth_date) -> float:
-        term1 = self.v()[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
-        fraction = (1 - self.v()[0] ** guarantee_time) / (12 * (1 - self.v()[0] ** (1/12)))
+        v = self.v()
+        term1 = v[0] ** deferment_period * self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        fraction = (1 - v[0] ** guarantee_time) / (12 * (1 - v[0] ** (1/12)))
         return term1 * fraction
 
     def c10_ag_12(self, guarantee_time: int) -> float:
-        return (1 - self.v()[0] ** guarantee_time) / (12 - 12 * self.v()[0] ** (1/12))
+        v = self.v()
+        return (1 - v[0] ** guarantee_time) / (12 - 12 * v[0] ** (1/12))
 
     def c11_ngax_12(self, deferment_period, guarantee_time, age, birth_date) -> float:
         sum = 0.
         v = self.v()
         for k in range(deferment_period + guarantee_time, self.omega - age +1):
-            sum += self.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
+            sum += self.biometry_cpl.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
         correction = self.correction_factor(payment_frequency = 12) \
-                     * self.n_p_x(n=deferment_period + guarantee_time, age=age, birth_date=birth_date) \
+                     * self.biometry_cpl.n_p_x(n=deferment_period + guarantee_time, age=age, birth_date=birth_date) \
                      * v[0] ** (deferment_period + guarantee_time)
         return sum - correction
 
@@ -226,7 +209,7 @@ class PresentValues:
         sum = 0.
         v = self.v()
         for k in range(0, self.omega - age +1):
-            sum += self.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
+            sum += self.biometry_cpl.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
         correction = self.correction_factor(payment_frequency=12)
         return sum - correction
 
@@ -234,9 +217,9 @@ class PresentValues:
         sum = 0.
         v = self.v()
         for k in range(guarantee_time, self.omega - age + 1):
-            sum += self.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
+            sum += self.biometry_cpl.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
         correction = self.correction_factor(payment_frequency=12) \
-                     * self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) \
+                     * self.biometry_cpl.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) \
                      * v[0] ** guarantee_time
         return sum - correction
 
@@ -244,52 +227,52 @@ class PresentValues:
         sum = 0.
         v = self.v()
         for k in range(agreed_duration):
-            sum += self.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
+            sum += self.biometry_cpl.n_p_x(n=k, age=age, birth_date=birth_date) * v[0] ** k
         correction = self.correction_factor(payment_frequency=12) \
-                     * (1 - self.n_p_x(n=agreed_duration, age=age, birth_date=birth_date)
+                     * (1 - self.biometry_cpl.n_p_x(n=agreed_duration, age=age, birth_date=birth_date)
                      * v[0] ** agreed_duration)
         return sum - correction
 
     def c15_nAx(self, deferment_period, age, birth_date) -> float:
         survivalvec = self.n_p_x_V(age=age, birth_date=birth_date)
         sum = 0.
+        qx = self.biometry_cpl.q_x_vector(birth_date=birth_date)
         v = self.v()
         for k in range(deferment_period):
-            sum += survivalvec[k]\
-                   * self.biometry_cpl.one_year_death_probability(age=age+k, birth_date=birth_date) * v[0] ** (k+1)
+            sum += survivalvec[k] * qx[age+k] * v[0] ** (k+1)
         return sum
 
     def c16_e0Ax_k(self, e, age, birth_date, payment_frequency) -> float:
         sum = 0.
         correction = 0.
+        qx = self.biometry_cpl.q_x_vector(birth_date=birth_date)
         v = self.v()
         for j in range(e):
-            p_times_q = self.n_p_x(n=j, age=age, birth_date=birth_date) \
-             * self.biometry_cpl.one_year_death_probability(age=age+j, birth_date=birth_date)
+            p_times_q = self.biometry_cpl.n_p_x(n=j, age=age, birth_date=birth_date) \
+                        * qx[age + j]
             sum += (e-j) * v[0] ** (j+1) * p_times_q
             correction += v[0] ** (j+1) * p_times_q
-
         return sum - (payment_frequency-1)/(2*payment_frequency) * correction
 
     def c17_enAx_k(self, e, deferment_period, age, birth_date, payment_frequency) -> float:
         sum = 0.
         correction = 0.
+        qx = self.biometry_cpl.q_x_vector(birth_date=birth_date)
         v = self.v()
         for j in range(e):
-            p_times_q = self.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
-             * self.biometry_cpl.one_year_death_probability(age=age+deferment_period+j, birth_date=birth_date)
+            p_times_q = self.biometry_cpl.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
+             * qx[age + deferment_period + j]
             sum += (e-j) * v[0] ** (j+1) * p_times_q
             correction += v[0] ** (j+1) * p_times_q
-        defer_to_n = v[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+        defer_to_n = v[0] ** deferment_period * self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
         return defer_to_n * sum - (payment_frequency-1)/(2*payment_frequency) * defer_to_n * correction
 
     def c18_nax_aak(self, deferment_period, max_age, age, birth_date, payment_frequency) -> float:
         sum = 0.
         for j in range(max_age-deferment_period-age+1):
-            sum += self.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
+            sum += self.biometry_cpl.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
                      * self.biometry_cpl.n_year_disability_probability(n=j, age=age+deferment_period)
-
-        factor = self.v()[0] ** deferment_period * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
+        factor = self.v()[0] ** deferment_period * self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date) \
                 * self.biometry_cpl.n_year_disability_probability(n=deferment_period, age=age+deferment_period)
         correction = self.correction_factor(payment_frequency=payment_frequency)
         return factor * (sum - correction)
@@ -301,7 +284,7 @@ class PresentValues:
         sum = 0.
         v = self.v()
         for j in range(deferment_period):
-            sum += v[0] ** j * self.n_p_x(n=j, age=age, birth_date=birth_date) \
+            sum += v[0] ** j * self.biometry_cpl.n_p_x(n=j, age=age, birth_date=birth_date) \
                    * cpl_bio.n_year_disability_probability(n=j, age=age)
         return sum
 
@@ -309,11 +292,11 @@ class PresentValues:
         sum = 0.
         v = self.v()
         for k in range(self.omega-age-deferment_period-guarantee_time):
-            sum += self.n_p_x(n=k, age=age+deferment_period+guarantee_time, birth_date=birth_date) \
+            sum += self.biometry_cpl.n_p_x(n=k, age=age+deferment_period+guarantee_time, birth_date=birth_date) \
                    * v[0] ** k * (1 + pension_dynamic) ** k
 
         term1 = (1 + pension_dynamic) ** guarantee_time * v[0] ** (deferment_period + guarantee_time) \
-                * self.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
+                * self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date)
         term2 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency)))/(1 + pension_dynamic)
         correction = self.correction_factor(payment_frequency=payment_frequency) / (1 + pension_dynamic)
         return term1 * (term2 * sum - correction)
@@ -322,10 +305,10 @@ class PresentValues:
         sum = 0.
         v = self.v()
         for j in range(max_age-age-guarantee_time):
-            sum += self.n_p_x(n=j, age=age+guarantee_time, birth_date=birth_date) \
+            sum += self.biometry_cpl.n_p_x(n=j, age=age+guarantee_time, birth_date=birth_date) \
                    * v[0]**j * (1 + pension_dynamic)**j
 
-        term1 = (1 + pension_dynamic)**guarantee_time * self.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) \
+        term1 = (1 + pension_dynamic)**guarantee_time * self.biometry_cpl.n_p_x(n=guarantee_time, age=age, birth_date=birth_date) \
                 * v[0]**guarantee_time
         correction1 = (1 + pension_dynamic * (1 - cpl_bio.n_year_disability_probability(n=deferment_period, age=age))) \
                       / (1 + pension_dynamic)
@@ -335,21 +318,19 @@ class PresentValues:
     def c23_naxs_k(self, payment_frequency, pension_dynamic, deferment_period, max_age, age, birth_date) -> float:
         sum = 0.
         for j in range(max_age-age-deferment_period):
-            sum += self.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
+            sum += self.biometry_cpl.n_p_x(n=j, age=age+deferment_period, birth_date=birth_date) \
                    * self.v()[0]**j * (1 + pension_dynamic)**j
 
-        term1 = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0]**deferment_period
+        term1 = self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0]**deferment_period
         correction1 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency))) \
                       / (1 + pension_dynamic)
         correction2 = self.correction_factor(payment_frequency=payment_frequency) / (1 + pension_dynamic)
         return term1 * (correction1 * sum - correction2)
 
     def c24_nags_k(self, pension_dynamic, guarantee_time, deferment_period, payment_frequency, age, birth_date, interest_rate) -> float:
-        term1 = self.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0]**deferment_period \
+        term1 = self.biometry_cpl.n_p_x(n=deferment_period, age=age, birth_date=birth_date) * self.v()[0]**deferment_period \
                 * 1/payment_frequency * (1 - self.v()[0]) / (1 - self.v()[0]**(1/payment_frequency))
         term2 = (1 - (self.v()[0] * (1+pension_dynamic))**guarantee_time) / (1 - self.v()[0]**(1+pension_dynamic))
-
-        pv = 0.
         if pension_dynamic != interest_rate:
             pv = term1 + term2
         else:
@@ -370,7 +351,7 @@ class PresentValues:
     def c26_axs_k(self, payment_frequency, pension_dynamic, max_age, age, birth_date) -> float:
         sum = 0.
         for j in range(max_age-age):
-            sum += self.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0]**j * (1+pension_dynamic)**j
+            sum += self.biometry_cpl.n_p_x(n=j, age=age, birth_date=birth_date) * self.v()[0]**j * (1+pension_dynamic)**j
 
         correction1 = (1 + pension_dynamic * (1 - self.correction_factor(payment_frequency=payment_frequency))) / (1+pension_dynamic)
         correction2 = self.correction_factor(payment_frequency=payment_frequency) / (1+pension_dynamic)
@@ -381,8 +362,8 @@ class PresentValues:
         for j in range(payment_duration):
             product *= self.v()[j]
 
-        term1 = self.n_p_x(n=payment_duration, age=age_male, birth_date=birth_date, sex=sex_male) \
-                * self.n_p_x(n=payment_duration, age=age_female, birth_date=birth_date, sex=sex_female)
+        term1 = self.biometry_cpl.n_p_x(n=payment_duration, age=age_male, birth_date=birth_date, sex=sex_male) \
+                * self.biometry_cpl.n_p_x(n=payment_duration, age=age_female, birth_date=birth_date, sex=sex_female)
         return term1 * product
 
     def c38a(self, payment_duration, age, birth_date):
@@ -395,7 +376,7 @@ class PresentValues:
     def c38b(self, payment_duration, age, birth_date):
         term1 = 0
         for j in range(payment_duration-1):
-            term1 = term1 + (self.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j])**j
+            term1 = term1 + (self.biometry_cpl.n_p_x(n=payment_duration, age=age, birth_date=birth_date) * self.v()[j])**j
         return term1
 
     def c44(self, payment_duration, age, birth_date, deferment_period):
@@ -410,9 +391,8 @@ class PresentValues:
     def c51(self, deferment_period, age, birth_date):
         survivalvec = self.n_p_x_V(age=age, birth_date=birth_date)
         sum = 0.
+        v = self.v()
+        qx = self.biometry_cpl.q_x_vector(birth_date=birth_date)
         for k in range(deferment_period):
-
-            sum += (k+1) * survivalvec[k] \
-                    * self.biometry_cpl.one_year_death_probability(age=age+k, birth_date=birth_date) \
-                    * self.v()[0] ** (k+1)
+            sum += (k+1) * survivalvec[k] * qx[age+k] * v[0] ** (k+1)
         return sum
